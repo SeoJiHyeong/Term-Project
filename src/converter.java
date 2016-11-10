@@ -9,98 +9,157 @@ public class converter {
 	static String input = "";
 	static String output= "";
 	static String option= "";
+	static int file_count = 0;
+	static int option_count = 0;
+	static int output_count = 0;
 	static List list_file = new ArrayList();
 	static List list_options = new ArrayList();
+	static List list_output = new ArrayList();
+	private static ArrayList<ArrayList<String>> mGroupList = new ArrayList<ArrayList<String>>();;
+	private static ArrayList<String> mChildList = null;
 	public static void main(String args[]){
-		if(!check_argument(args)) return;
-		
-		System.out.print("File List : ");
-		for(int i = 0; i < list_file.size();i++){
-			System.out.print(list_file.get(i)+ "  ");
-		}
-		System.out.println("");
-		System.out.print("Option List : ");
-		for(int i = 0 ;i < list_options.size();i++){
-			System.out.print(list_options.get(i) + "  ");
-		}
-		System.out.println("");
-		if(!output.equals("")) System.out.println("Output Name : "+output);
-		System.out.println("==============");
-		System.out.println("SUCCESS");
-		System.out.println("==============");
+		if(!new_check_grammar(args)) return;
+		System.out.println("success");
 	}
 	
-	public static boolean check_argument(String[] args){
-		if(args.length==0){
-			help_message();
-			return true;
-		}
-		else{
-			if(check_grammar(args)) return true;
-		}
+	
+	public static boolean new_check_grammar(String[] args){
+		int[] index_md = new int[args.length];
+		int[] index_output = new int[args.length];
+		int[] index_output_option = new int[args.length];
+		int[] index_option = new int[args.length];
 		
-		return false;
-	}
-	public static boolean check_grammar(String[] args){
-		boolean isOutputOptions = false;
-		int indexOutputOptions = -1;
-		int[] check_index = new int[args.length];
 		
-		for(int i = 0 ; i < args.length ; i ++){
-			check_index[i]=0;
+		for(int i = 0 ; i < args.length; i++){
+			index_md[i]=0;
+			index_output[i]=0;
+			index_output_option[i]=0;
+			index_option[i]=0;
 		}
 		for(int i = 0; i < args.length; i++){
 			if(args[i].equals("-o")){
-				indexOutputOptions = i;
-				check_index[i]=1;
-				isOutputOptions = true;
-				break;
-			}
-		}
-		if(isOutputOptions){
-			for(int i = 0 ; i < args.length; i++){
-				if(check_index[i]==0 && (check_option(args[i]) && i==indexOutputOptions+1 || check_md(args[i]) && i==indexOutputOptions+1 || indexOutputOptions==args.length-1) || args.length==1){
-					System.out.println("Output should be next to -o option");
-					return false;
+				index_output_option[i]=1;
+				if(i!=args.length-1 && !check_md(args[i+1]) && !check_option(args[i+1])){
+					index_output[i+1]=1;
+				}
+				else{
+					System.out.println("output option error");
 				}
 			}
-			output = args[indexOutputOptions+1];
-			check_index[indexOutputOptions+1]=1;
-			
-		}
-		boolean isHelpOption = false;
-		for(int i = 0; i < args.length;i++){
-			if(check_index[i]==0 && check_help_option(args[i])){
-				isHelpOption = true;
+			else if(check_md(args[i])) {
+				index_md[i]=1;
+				
 			}
-			else if(check_index[i]==0&&args[i].substring(0, 1).equals("-") &&!check_option(args[i]) || isHelpOption){
-				System.out.println("Invalid Options");
-				return false;
-			}
-			else if(check_index[i]==0 && args[i].substring(0, 1).equals("-")){
-				list_options.add(args[i]);
-				check_index[i]=1;
+			else if(check_option(args[i])) {
+				index_option[i]=1;
 				
 			}
 		}
-		for(int i = 0 ; i < args.length;i++){
-			
-			if(check_index[i]==0 && check_file(args[i])){
-				list_file.add(args[i]);
-				check_index[i]=1;
-			}
-			else if(check_index[i]==0){
-				System.out.println("File is not exist or not MarkDown File : " + args[i]);
-				return false;
-			}
+		for(int i=0; i < args.length;i++){
+			System.out.print(args[i]+"\t");
 		}
-		if(list_file.size()==0){
-			System.out.println("Markdown File is should be input");
+		System.out.println("");
+		
+		
+		if(!check_file(args[0])) {
+			System.out.println("FILE ERROR");
 			return false;
 		}
-		if(isHelpOption) help_message();
-		return true;
+		int x = 0;
+		int opt = 1;
+		int out = 0;
+		int out_f = 0;
 		
+		while(true){
+			if(check_file(args[x])){
+				opt=0;
+				out=0;
+				out_f=0;
+			}
+			else{
+				System.out.println("File ERROR");
+				return false;
+			}
+			x++;
+			if(x<args.length-1){
+				if(check_md(args[x])) continue;
+				if(check_option(args[x])) {
+					opt=1;
+					x++;
+				}
+				if(x < args.length-1 && args[x].equals("-o")){
+					x++;
+					out = 1;
+					if(x < args.length-1 && check_md(args[x]) || check_option(args[x]) || args.equals("-h") || args.equals("--help") || args.equals("-o")){
+						System.out.println("Output ERROR");
+						return false;
+					}
+					else{
+						x++;
+						out_f = 1;
+					}
+				}
+				if(opt==0 && check_option(args[x])){
+					opt=1;
+					x++;
+				}
+				else if(check_md(args[x])) continue;
+				else{
+					System.out.println("ERROR");
+					return false;
+				}
+				
+			}
+			else break;
+			
+		}
+		
+		
+		int cc = 0;
+		int pp = 0;
+		for(int i=0; i < args.length;i++){
+			if(index_md[i]==1){
+				if(check_file(args[i])){
+					if(cc!=0){
+						mGroupList.add(mChildList);
+					}
+					
+					mChildList = new ArrayList<String>();
+					mChildList.add(args[i]);
+					cc++;
+					
+				}
+				else{
+					System.out.println("File is not exist");
+				}
+			}
+			else if(index_output_option[i]==1){
+				mChildList.add(args[i]);
+				
+			}
+			else if(index_output[i]==1){
+				mChildList.add(args[i]);
+				
+			}
+			else if(index_option[i]==1){
+				mChildList.add(args[i]);
+				
+			}
+		}
+		
+		mGroupList.add(mChildList);
+		for(int i = 0 ; i < mGroupList.size();i++){
+			int aa = mGroupList.get(i).size();
+			for(int j = 0; j < aa;j++){
+				System.out.print(mGroupList.get(i).get(j) + "\t");
+			}
+			System.out.println("");
+		}
+		return true;
+	}
+	public static boolean sum(int a, int b, int c, int d){
+		if(a+b+c+d >=2) return false;
+		return true;
 	}
 	public static void help_message(){
 		System.out.println("java converter [-options] md_File [-options] output");
