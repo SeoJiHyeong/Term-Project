@@ -13,6 +13,18 @@ public class converter {
 	static List list_options = new ArrayList();
 	public static void main(String args[]){
 		if(!check_argument(args)) return;
+		
+		System.out.print("File List : ");
+		for(int i = 0; i < list_file.size();i++){
+			System.out.print(list_file.get(i)+ "  ");
+		}
+		System.out.println("");
+		System.out.print("Option List : ");
+		for(int i = 0 ;i < list_options.size();i++){
+			System.out.print(list_options.get(i) + "  ");
+		}
+		System.out.println("");
+		if(!output.equals("")) System.out.println("Output Name : "+output);
 		System.out.println("==============");
 		System.out.println("SUCCESS");
 		System.out.println("==============");
@@ -54,23 +66,28 @@ public class converter {
 			}
 			output = args[indexOutputOptions+1];
 			check_index[indexOutputOptions+1]=1;
-			System.out.println(args[indexOutputOptions] +" " +args[indexOutputOptions+1]);
+			
 		}
+		boolean isHelpOption = false;
 		for(int i = 0; i < args.length;i++){
-			if(check_index[i]==0&&args[i].substring(0, 1).equals("-") &&!check_option(args[i])){
+			if(check_index[i]==0 && check_help_option(args[i])){
+				isHelpOption = true;
+			}
+			else if(check_index[i]==0&&args[i].substring(0, 1).equals("-") &&!check_option(args[i]) || isHelpOption){
 				System.out.println("Invalid Options");
 				return false;
 			}
 			else if(check_index[i]==0 && args[i].substring(0, 1).equals("-")){
 				list_options.add(args[i]);
 				check_index[i]=1;
-				System.out.println("Options : " + args[i]);
+				
 			}
 		}
 		for(int i = 0 ; i < args.length;i++){
+			
 			if(check_index[i]==0 && check_file(args[i])){
 				list_file.add(args[i]);
-				System.out.println("File : " + args[i]);
+				check_index[i]=1;
 			}
 			else if(check_index[i]==0){
 				System.out.println("File is not exist or not MarkDown File : " + args[i]);
@@ -81,6 +98,7 @@ public class converter {
 			System.out.println("Markdown File is should be input");
 			return false;
 		}
+		if(isHelpOption) help_message();
 		return true;
 		
 	}
@@ -93,7 +111,10 @@ public class converter {
 		System.out.println("\t-o\t\tNaming Output name");
 		System.out.println("\t-h(--help)\tHelp");
 	}
-	
+	public static boolean check_help_option(String c){
+		if(c.equals("-h") || c.equals("--help")) return true;
+		return false;
+	}
 	public static boolean check_option(String c){
 		if(c.equals("-f")||c.equals("-s")||c.equals("-p")) return true;
 		return false;
