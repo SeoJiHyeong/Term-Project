@@ -29,6 +29,14 @@ public class converter {
 		int[] index_output_option = new int[args.length];
 		int[] index_option = new int[args.length];
 		
+		if(args.length==0){
+			help_message();
+			return true;
+		}
+		else if(args.length==1 && (args[0].equals("-h")||args[0].equals("--help"))){
+			help_message();
+			return true;
+		}
 		
 		for(int i = 0 ; i < args.length; i++){
 			index_md[i]=0;
@@ -162,7 +170,7 @@ public class converter {
 		return true;
 	}
 	public static void help_message(){
-		System.out.println("java converter [-options] md_File [-options] output");
+		System.out.println("java converter md_File1 [-options] md_File1 [-options] ...");
 		System.out.println("Options : ");
 		System.out.println("\t-f\t\tFancy Style");
 		System.out.println("\t-s\t\tSlide Style");
