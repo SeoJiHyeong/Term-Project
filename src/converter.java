@@ -63,10 +63,7 @@ public class converter {
 				
 			}
 		}
-		for(int i=0; i < args.length;i++){
-			System.out.print(args[i]+"\t");
-		}
-		System.out.println("");
+		
 		
 		
 		if(!check_file(args[0])) {
@@ -79,6 +76,9 @@ public class converter {
 		int out_f = 0;
 		
 		while(true){
+			if(x>=args.length){
+				break;
+			}
 			if(check_file(args[x])){
 				opt=0;
 				out=0;
@@ -89,7 +89,7 @@ public class converter {
 				return false;
 			}
 			x++;
-			if(x<args.length-1){
+			if(x<=args.length-1){
 				if(check_md(args[x])) continue;
 				if(check_option(args[x])) {
 					opt=1;
@@ -106,6 +106,9 @@ public class converter {
 						x++;
 						out_f = 1;
 					}
+				}
+				if(x>=args.length){
+					break;
 				}
 				if(opt==0 && check_option(args[x])){
 					opt=1;
@@ -157,6 +160,7 @@ public class converter {
 		
 		mGroupList.add(mChildList);
 		for(int i = 0 ; i < mGroupList.size();i++){
+			System.out.print(i+" command line : ");
 			int aa = mGroupList.get(i).size();
 			for(int j = 0; j < aa;j++){
 				System.out.print(mGroupList.get(i).get(j) + "\t");
