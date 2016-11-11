@@ -174,7 +174,7 @@ public class converter {
 		return true;
 	}
 	public static void help_message(){
-		System.out.println("java converter md_File1 [-options] md_File1 [-options] ...");
+		System.out.println("java converter md_File1 [-options] md_File2 [-options] ...");
 		System.out.println("Options : ");
 		System.out.println("\t-f\t\tFancy Style");
 		System.out.println("\t-s\t\tSlide Style");
