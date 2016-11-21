@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="jar" name="Markdown converter" basedir=".">
+    <property name="source.dir" location="src"/>
+    <property name="build.dir" location="bin"/>
+    <property name="doc.dir" location="doc"/>
+    <property name="final.name" value="Markdown_converter"/>
+    <target name="init" description="o Initializes some properties">
+        <mkdir dir = "${build.dir}"/>
+    </target>
+    
+    <target name="compile" description="o Compile the code" depends="init">
+        <javac srcdir="${source.dir}" destdir="${build.dir}"/>
+    </target>
+    
+    <target name="jar" description="o Create the jar" depends="compile">
+        <jar jarfile="${final.name}.jar" basedir="${build.dir}">
+        </jar>
+    </target>
+    <target name="clean" description="o Clean up the generated directories">
+        <delete dir="${build.dir}">
+        </delete>
+    </target>
+</project>
