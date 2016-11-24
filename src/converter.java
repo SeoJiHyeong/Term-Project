@@ -1,4 +1,3 @@
-package project;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -26,6 +25,7 @@ public class converter {
 	private static ArrayList<String> mChildList = null;
 	public static void main(String args[]){
 		if(!new_check_grammar(args)) return;
+		Tidy tidy = new Tidy();
 		/*
 		MDParser parser = new MDparser();
 
