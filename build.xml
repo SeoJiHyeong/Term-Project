@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project default="jar" name="Markdown converter" basedir=".">
@@ -33,6 +32,3 @@
     </target>
     
 </project>
-=======
-
->>>>>>> origin/master
