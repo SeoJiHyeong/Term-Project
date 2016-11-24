@@ -14,17 +14,21 @@
     <target name="compile" description="o Compile the code" depends="init">
         <javac srcdir="${source.dir}" destdir="${build.dir}">
             <classpath>
-                <pathelement path="lib/jtidy-r938.jar"/>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
             </classpath>
         </javac>
     </target>
     
     <target name="jar" description="o Create the jar" depends="compile">
         <jar jarfile="${final.name}.jar" basedir="${build.dir}">
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
         </jar>
     </target>
     <target name="clean" description="o Clean up the generated directories">
-        <delete dir="${build.dir}">
+        <delete dir="${build.dir}" file="${final.name}.jar">
         </delete>
     </target>
+    
 </project>

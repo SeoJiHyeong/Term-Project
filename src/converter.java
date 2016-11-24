@@ -1,8 +1,17 @@
+package project;
+
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.tidy.Tidy;
+
 public class converter {
 	static String input = "";
 	static String output= "";
@@ -17,7 +26,19 @@ public class converter {
 	private static ArrayList<String> mChildList = null;
 	public static void main(String args[]){
 		if(!new_check_grammar(args)) return;
-		System.out.println("success");
+		/*
+		MDParser parser = new MDparser();
+
+		BufferedReader br = new BufferedReader(new FileReader("hihi.txt"));
+		      while(true) {
+		         String line = br.readLine();   
+		         if(line==null) break;
+		         parser.sendLine(line);
+		      }
+	    br.close();
+		  */    
+		      
+	      
 	}
 	
 	
