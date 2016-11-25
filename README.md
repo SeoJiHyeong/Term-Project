@@ -1,4 +1,4 @@
-﻿Usage: java -cp .:../lib/* converter md_File1 [-options] [md_File2] [-options]
+Usage: java -cp Markdown_converter.jar converter md_File1 [-options] [md_File2] [-options]
 
 
 
