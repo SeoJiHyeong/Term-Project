@@ -9,6 +9,7 @@
     
     <target name="init" description="o Initializes some properties">
         <mkdir dir = "${build.dir}"/>
+        <mkdir dir = "${doc.dir}"/>
     </target>
     
     <target name="compile" description="o Compile the code" depends="init">
@@ -27,8 +28,8 @@
         </jar>
     </target>
     <target name="clean" description="o Clean up the generated directories">
-        <delete dir="${build.dir}" file="${final.name}.jar">
-        </delete>
+        <delete dir="${build.dir}" file="${final.name}.jar"/>
+        <delete dir="${doc.dir}"/>
     </target>
     
 </project>
