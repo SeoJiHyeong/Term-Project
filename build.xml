@@ -38,7 +38,7 @@
         </javac>
     </target>
     
-    <target name="jar" description="o Create the jar" depends="compile">
+    <target name="jar" description="o Create the jar" depends="coverage-report">
         <jar jarfile="${final.name}.jar" basedir="${build.dir}">
             <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
         </jar>
@@ -98,6 +98,7 @@
         <delete dir="${doc.dir}"/>
         <delete dir="${test.dir}"/>
         <delete dir="${report.dir}"/>
+        <delete file="jacoco.exec"/>
     </target>
     
 </project>

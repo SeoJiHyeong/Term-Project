@@ -3,6 +3,7 @@ import static org.junit.Assert.* ;
 
 public class SimpleTest
 {
+    
 	@Test
 	public void testSimple1() {
 		Simple s = new Simple() ;
@@ -15,10 +16,4 @@ public class SimpleTest
 		assertTrue(s.exec(1) == 1) ;
 	}
 
-	public static void main(String [] args) {
-		SimpleTest s = new SimpleTest() ;
-
-		s.testSimple1() ;
-		s.testSimple2() ;
-	}
 }
