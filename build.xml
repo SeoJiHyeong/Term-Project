@@ -20,15 +20,15 @@
         <mkdir dir = "${report.dir}"/>
     </target>
     
-    <target name="compile" description="o Compile the code" depends="init">
-        <javac srcdir="${source.dir}" destdir="${build.dir}">
+    <target name="compile" description="o Compile the code" depends="init" >
+        <javac srcdir="${source.dir}" destdir="${build.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}">
                     <include name="**/*.jar"/>
                 </fileset>
             </classpath>
         </javac>
-        <javac srcdir="${testSource.dir}" destdir="${test.dir}">
+        <javac srcdir="${testSource.dir}" destdir="${test.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}">
                     <include name="**/*.jar"/>
