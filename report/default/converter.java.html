@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>converter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Simple</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">converter.java</span></div><h1>converter.java</h1><pre class="source lang-java linenums">
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.tidy.Tidy;
+
+<span class="nc" id="L15">public class converter {</span>
+<span class="nc" id="L16">	static String input = &quot;&quot;;</span>
+<span class="nc" id="L17">	static String output= &quot;&quot;;</span>
+<span class="nc" id="L18">	static String option= &quot;&quot;;</span>
+<span class="nc" id="L19">	static int file_count = 0;</span>
+<span class="nc" id="L20">	static int option_count = 0;</span>
+<span class="nc" id="L21">	static int output_count = 0;</span>
+<span class="nc" id="L22">	static List list_file = new ArrayList();</span>
+<span class="nc" id="L23">	static List list_options = new ArrayList();</span>
+<span class="nc" id="L24">	static List list_output = new ArrayList();</span>
+	
+	
+<span class="nc" id="L27">	private static ArrayList&lt;ArrayList&lt;String&gt;&gt; mGroupList = new ArrayList&lt;ArrayList&lt;String&gt;&gt;();;</span>
+<span class="nc" id="L28">	private static ArrayList&lt;String&gt; mChildList = null;</span>
+	public static void main(String args[]){
+		
+<span class="nc bnc" id="L31" title="All 2 branches missed.">		if(!new_check_grammar(args)) return;</span>
+		
+		/*
+		Tidy tidy = new Tidy();
+		
+		
+		
+		Document do = new Document();
+
+		BufferedReader br = new BufferedReader(new FileReader(input));
+		      while(true) {
+		         String line = br.readLine();   
+		         if(line==null) break;
+		         do.addDocument(line);
+		      }
+	    br.close();
+		  */    
+		      
+	      
+<span class="nc" id="L50">	}</span>
+	
+	
+	public static boolean new_check_grammar(String[] args){
+<span class="nc" id="L54">		int[] index_md = new int[args.length];</span>
+<span class="nc" id="L55">		int[] index_output = new int[args.length];</span>
+<span class="nc" id="L56">		int[] index_output_option = new int[args.length];</span>
+<span class="nc" id="L57">		int[] index_option = new int[args.length];</span>
+		
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		if(args.length==0){</span>
+<span class="nc" id="L60">			help_message();</span>
+<span class="nc" id="L61">			return true;</span>
+		}
+<span class="nc bnc" id="L63" title="All 6 branches missed.">		else if(args.length==1 &amp;&amp; (args[0].equals(&quot;-h&quot;)||args[0].equals(&quot;--help&quot;))){</span>
+<span class="nc" id="L64">			help_message();</span>
+<span class="nc" id="L65">			return true;</span>
+		}
+		
+<span class="nc bnc" id="L68" title="All 2 branches missed.">		for(int i = 0 ; i &lt; args.length; i++){</span>
+<span class="nc" id="L69">			index_md[i]=0;</span>
+<span class="nc" id="L70">			index_output[i]=0;</span>
+<span class="nc" id="L71">			index_output_option[i]=0;</span>
+<span class="nc" id="L72">			index_option[i]=0;</span>
+		}
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		for(int i = 0; i &lt; args.length; i++){</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">			if(args[i].equals(&quot;-o&quot;)){</span>
+<span class="nc" id="L76">				index_output_option[i]=1;</span>
+<span class="nc bnc" id="L77" title="All 6 branches missed.">				if(i!=args.length-1 &amp;&amp; !check_md(args[i+1]) &amp;&amp; !check_option(args[i+1])){</span>
+<span class="nc" id="L78">					index_output[i+1]=1;</span>
+				}
+				else{
+<span class="nc" id="L81">					System.out.println(&quot;output option error&quot;);</span>
+				}
+			}
+<span class="nc bnc" id="L84" title="All 2 branches missed.">			else if(check_md(args[i])) {</span>
+<span class="nc" id="L85">				index_md[i]=1;</span>
+				
+			}
+<span class="nc bnc" id="L88" title="All 2 branches missed.">			else if(check_option(args[i])) {</span>
+<span class="nc" id="L89">				index_option[i]=1;</span>
+				
+			}
+		}
+		
+		
+		
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		if(!check_file(args[0])) {</span>
+<span class="nc" id="L97">			System.out.println(&quot;FILE ERROR&quot;);</span>
+<span class="nc" id="L98">			return false;</span>
+		}
+<span class="nc" id="L100">		int x = 0;</span>
+<span class="nc" id="L101">		int opt = 1;</span>
+<span class="nc" id="L102">		int out = 0;</span>
+<span class="nc" id="L103">		int out_f = 0;</span>
+		
+		while(true){
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			if(x&gt;=args.length){</span>
+<span class="nc" id="L107">				break;</span>
+			}
+<span class="nc bnc" id="L109" title="All 2 branches missed.">			if(check_file(args[x])){</span>
+<span class="nc" id="L110">				opt=0;</span>
+<span class="nc" id="L111">				out=0;</span>
+<span class="nc" id="L112">				out_f=0;</span>
+			}
+			else{
+<span class="nc" id="L115">				System.out.println(&quot;File ERROR&quot;);</span>
+<span class="nc" id="L116">				return false;</span>
+			}
+<span class="nc" id="L118">			x++;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">			if(x&lt;=args.length-1){</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">				if(check_md(args[x])) continue;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">				if(check_option(args[x])) {</span>
+<span class="nc" id="L122">					opt=1;</span>
+<span class="nc" id="L123">					x++;</span>
+				}
+<span class="nc bnc" id="L125" title="All 4 branches missed.">				if(x &lt; args.length-1 &amp;&amp; args[x].equals(&quot;-o&quot;)){</span>
+<span class="nc" id="L126">					x++;</span>
+<span class="nc" id="L127">					out = 1;</span>
+<span class="nc bnc" id="L128" title="All 12 branches missed.">					if(x &lt; args.length-1 &amp;&amp; check_md(args[x]) || check_option(args[x]) || args.equals(&quot;-h&quot;) || args.equals(&quot;--help&quot;) || args.equals(&quot;-o&quot;)){</span>
+<span class="nc" id="L129">						System.out.println(&quot;Output ERROR&quot;);</span>
+<span class="nc" id="L130">						return false;</span>
+					}
+					else{
+<span class="nc" id="L133">						x++;</span>
+<span class="nc" id="L134">						out_f = 1;</span>
+					}
+				}
+<span class="nc bnc" id="L137" title="All 2 branches missed.">				if(x&gt;=args.length){</span>
+<span class="nc" id="L138">					break;</span>
+				}
+<span class="nc bnc" id="L140" title="All 4 branches missed.">				if(opt==0 &amp;&amp; check_option(args[x])){</span>
+<span class="nc" id="L141">					opt=1;</span>
+<span class="nc" id="L142">					x++;</span>
+				}
+<span class="nc bnc" id="L144" title="All 2 branches missed.">				else if(check_md(args[x])) continue;</span>
+				else{
+<span class="nc" id="L146">					System.out.println(&quot;ERROR&quot;);</span>
+<span class="nc" id="L147">					return false;</span>
+				}
+				
+			}
+			else break;
+			
+		}
+		
+		
+<span class="nc" id="L156">		int cc = 0;</span>
+<span class="nc" id="L157">		int pp = 0;</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		for(int i=0; i &lt; args.length;i++){</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">			if(index_md[i]==1){</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">				if(check_file(args[i])){</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">					if(cc!=0){</span>
+<span class="nc" id="L162">						mGroupList.add(mChildList);</span>
+					}
+					
+<span class="nc" id="L165">					mChildList = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L166">					mChildList.add(args[i]);</span>
+<span class="nc" id="L167">					cc++;</span>
+					
+				}
+				else{
+<span class="nc" id="L171">					System.out.println(&quot;File is not exist&quot;);</span>
+				}
+			}
+<span class="nc bnc" id="L174" title="All 2 branches missed.">			else if(index_output_option[i]==1){</span>
+<span class="nc" id="L175">				mChildList.add(args[i]);</span>
+				
+			}
+<span class="nc bnc" id="L178" title="All 2 branches missed.">			else if(index_output[i]==1){</span>
+<span class="nc" id="L179">				mChildList.add(args[i]);</span>
+				
+			}
+<span class="nc bnc" id="L182" title="All 2 branches missed.">			else if(index_option[i]==1){</span>
+<span class="nc" id="L183">				mChildList.add(args[i]);</span>
+				
+			}
+		}
+		
+<span class="nc" id="L188">		mGroupList.add(mChildList);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">		for(int i = 0 ; i &lt; mGroupList.size();i++){</span>
+<span class="nc" id="L190">			System.out.print(i+&quot; command line : &quot;);</span>
+<span class="nc" id="L191">			int aa = mGroupList.get(i).size();</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">			for(int j = 0; j &lt; aa;j++){</span>
+<span class="nc" id="L193">				System.out.print(mGroupList.get(i).get(j) + &quot;\t&quot;);</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">				if(j==0){</span>
+					
+<span class="nc" id="L196">					input = mGroupList.get(i).get(j);</span>
+				}
+<span class="nc bnc" id="L198" title="All 2 branches missed.">				else if(j==1){</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">					if(mGroupList.get(i).get(j).equals(&quot;-o&quot;)){</span>
+<span class="nc" id="L200">						output = mGroupList.get(i).get(j+1);</span>
+					}
+					else{
+<span class="nc" id="L203">						option = mGroupList.get(i).get(j);</span>
+					}
+				}
+<span class="nc bnc" id="L206" title="All 2 branches missed.">				else if(j==2){</span>
+					
+<span class="nc bnc" id="L208" title="All 2 branches missed.">					if(mGroupList.get(i).get(j).equals(&quot;-o&quot;)){</span>
+<span class="nc" id="L209">						output = mGroupList.get(i).get(j+1);</span>
+					}
+					else{
+<span class="nc" id="L212">						option = mGroupList.get(i).get(j);</span>
+					}
+				}
+<span class="nc bnc" id="L215" title="All 2 branches missed.">				else if(j==3){</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">					if(output.equals(&quot;&quot;)){</span>
+<span class="nc" id="L217">						output = mGroupList.get(i).get(j);</span>
+					}
+<span class="nc bnc" id="L219" title="All 2 branches missed.">					else if(mGroupList.get(i).get(j).substring(0, 1).equals(&quot;-&quot;))</span>
+<span class="nc" id="L220">						option = mGroupList.get(i).get(j);</span>
+				}
+					
+				
+			}
+<span class="nc" id="L225">			System.out.println(&quot;&quot;);</span>
+		}
+<span class="nc" id="L227">		return true;</span>
+	}
+	public static boolean sum(int a, int b, int c, int d){
+<span class="nc bnc" id="L230" title="All 2 branches missed.">		if(a+b+c+d &gt;=2) return false;</span>
+<span class="nc" id="L231">		return true;</span>
+	}
+	public static void help_message(){
+<span class="nc" id="L234">		System.out.println(&quot;java converter md_File1 [-options] md_File2 [-options] ...&quot;);</span>
+<span class="nc" id="L235">		System.out.println(&quot;Options : &quot;);</span>
+<span class="nc" id="L236">		System.out.println(&quot;\t-f\t\tFancy Style&quot;);</span>
+<span class="nc" id="L237">		System.out.println(&quot;\t-s\t\tSlide Style&quot;);</span>
+<span class="nc" id="L238">		System.out.println(&quot;\t-p\t\tPlain Style(Default)&quot;);</span>
+<span class="nc" id="L239">		System.out.println(&quot;\t-o\t\tNaming Output name&quot;);</span>
+<span class="nc" id="L240">		System.out.println(&quot;\t-h(--help)\tHelp&quot;);</span>
+<span class="nc" id="L241">	}</span>
+	public static boolean check_help_option(String c){
+<span class="nc bnc" id="L243" title="All 4 branches missed.">		if(c.equals(&quot;-h&quot;) || c.equals(&quot;--help&quot;)) return true;</span>
+<span class="nc" id="L244">		return false;</span>
+	}
+	public static boolean check_option(String c){
+<span class="nc bnc" id="L247" title="All 6 branches missed.">		if(c.equals(&quot;-f&quot;)||c.equals(&quot;-s&quot;)||c.equals(&quot;-p&quot;)) return true;</span>
+<span class="nc" id="L248">		return false;</span>
+	}
+	public static boolean check_file(String c){
+<span class="nc bnc" id="L251" title="All 4 branches missed.">		return check_md(c) &amp;&amp; check_file_exist(c);</span>
+	}
+	public static boolean check_md(String c){
+<span class="nc bnc" id="L254" title="All 6 branches missed.">		if(c.length()&gt;3&amp;&amp;!c.substring(0, 1).equals(&quot;-&quot;) &amp;&amp; c.substring(c.length()-3, c.length()).equals(&quot;.md&quot;)) return true;</span>
+<span class="nc" id="L255">		return false;</span>
+	}
+	public static boolean check_file_exist(String c){
+		try{
+<span class="nc" id="L259">			FileReader fstream = new FileReader(c);</span>
+<span class="nc" id="L260">			return true;</span>
+			
+<span class="nc" id="L262">		}catch(FileNotFoundException e){</span>
+<span class="nc" id="L263">			return false;</span>
+		}
+		
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
