@@ -1,3 +1,4 @@
+import java.util.Iterator;
 
 public class Header extends Node {
 	public String[][] syntax ={{"h1","#"},{"h2","##"},{"h3","###"},
@@ -8,6 +9,9 @@ public class Header extends Node {
 		notice = "Header";
 	}
 //	String[] content;
-	
-	
+	public void accept(MDElementVisitor v) {
+		v.visit(this);
+	}
 }
+	
+
