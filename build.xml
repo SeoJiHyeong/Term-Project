@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project default="jar" name="Markdown converter" basedir=".">
-    <property name="source.dir" location="src"/>
+    <property name="source.dir" location="src/main"/>
     <property name="build.dir" location="bin"/>
     <property name="doc.dir" location="doc"/>
     <property name="lib.dir" location="lib"/>
+    <property name="testSource.dir" location="src/test"/>
+    <property name="test.dir" location="test"/>
     <property name="final.name" value="Markdown_converter"/>
     
     <target name="init" description="o Initializes some properties">
@@ -20,12 +22,23 @@
                 </fileset>
             </classpath>
         </javac>
+        <javac srcdir="${testSource.dir}" destdir="${test.dir}">
+            <classpath>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <classpath path="${build.dir}"/>
+        </javac>
     </target>
     
     <target name="jar" description="o Create the jar" depends="compile">
         <jar jarfile="${final.name}.jar" basedir="${build.dir}">
             <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
         </jar>
+    </target>
+    <target name="test" depends="jar">
+        <junit showoutput="ture" printsummary="on"
     </target>
     <target name="clean" description="o Clean up the generated directories">
         <delete dir="${build.dir}" file="${final.name}.jar"/>
