@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project default="jar" name="Markdown converter" basedir=".">
+<project default="jar" name="Markdown converter" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
     <property name="source.dir" location="src/main"/>
     <property name="build.dir" location="bin"/>
     <property name="doc.dir" location="doc"/>
@@ -8,10 +8,16 @@
     <property name="testSource.dir" location="src/test"/>
     <property name="test.dir" location="test"/>
     <property name="final.name" value="Markdown_converter"/>
+    <property name="report.dir" location="report"/>
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="${lib.dir}/jacocoant.jar"/>
+    </taskdef>
     
     <target name="init" description="o Initializes some properties">
         <mkdir dir = "${build.dir}"/>
         <mkdir dir = "${doc.dir}"/>
+        <mkdir dir = "${test.dir}"/>
+        <mkdir dir = "${report.dir}"/>
     </target>
     
     <target name="compile" description="o Compile the code" depends="init">
@@ -37,12 +43,61 @@
             <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
         </jar>
     </target>
-    <target name="test" depends="jar">
-        <junit showoutput="ture" printsummary="on"
+    <target name="test" description="o Test the class" depends="compile">
+        <junit showoutput="ture" printsummary="on" enabletestlistenerevents="true" fork="true">
+            <classpath path="${build.dir}"/>
+            <classpath path="${test.dir}"/>
+            <classpath path="${lib.dir}/junit-4.12.jar"/>
+            <classpath path="${lib.dir}/hamcrest-core-1.3.jar"/>
+            <formatter type="plain" usefile="false" />
+            <batchtest>
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+    <target name="coverage-test" depends="compile">
+        <jacoco:coverage>
+            <junit showoutput="true" printsummary="on" enabletestlistenerevents="true" fork="true">
+                <classpath path="${build.dir}"/>
+                <classpath path="${test.dir}"/>
+                <classpath path="${lib.dir}/junit-4.12.jar"/>
+                <classpath path="${lib.dir}/hamcrest-core-1.3.jar"/>
+                <formatter type="plain" usefile="false" />
+                
+                <batchtest>
+                    <fileset dir="${test.dir}">
+                        <include name="**/*Test*"/>
+                    </fileset>
+                </batchtest>
+            </junit>
+        </jacoco:coverage>
+    </target>
+    <target name="coverage-report" depends="coverage-test">
+        <jacoco:report>
+            <executiondata>
+                <file file="jacoco.exec" />
+            </executiondata>
+            
+            <structure name="Simple">
+                <classfiles>
+                    <fileset dir="${build.dir}" />
+                </classfiles>
+                <sourcefiles>
+                    <fileset dir="${source.dir}" />
+                </sourcefiles>
+            </structure>
+            
+            <html destdir="${report.dir}" />
+        </jacoco:report>
+        
     </target>
     <target name="clean" description="o Clean up the generated directories">
         <delete dir="${build.dir}" file="${final.name}.jar"/>
         <delete dir="${doc.dir}"/>
+        <delete dir="${test.dir}"/>
+        <delete dir="${report.dir}"/>
     </target>
     
 </project>
