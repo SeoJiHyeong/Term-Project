@@ -13,12 +13,7 @@ public abstract class Node implements MDElement {
             {"",""}};*/
 	//public String syntax[][] = {("something" , "gg"),("hi","ddd"),("dd","hello")};
 	public void accept(MDElementVisitor v){
-			v.visit(this);
-	    	Iterator it = tokenList.iterator();
-	    	while(it.hasNext()){ 
-	    		Token next = (Token)it.next();
-	    		next.accept(v);
-	    	}
+	
 	}
 	
 	public String notifyNode(){

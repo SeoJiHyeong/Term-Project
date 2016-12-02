@@ -28,12 +28,10 @@ public class PlainVisitor implements MDElementVisitor {
 	}
 	
 	
-	
-	public void visit(Node n){
-
-		
-	}
-	
+	public void addNode(){
+		Header test = new Header();
+		nodeList.add(test);
+		}
 
 	
 	public void visit(Block n){}
@@ -42,7 +40,7 @@ public class PlainVisitor implements MDElementVisitor {
 	public void visit(Code n){}
 	public void visit(Image n){}
 	
-	public void visit(Link n){ 
+	public void visit(Link n){ //아직 cover해야할 case 굉장히 많음
 		int phase = 0;
 		int i;
 		for(i=0;i<line.length();i++){
@@ -78,7 +76,7 @@ public class PlainVisitor implements MDElementVisitor {
 		}
 	}
 	
-	public void visit(Header n){ 
+	public void visit(Header n){ //수정해야함 한줄이 그냥 plain이고 다음줄이 --- 나 ====인 부분 cover해야함
 		int i;
 		for(i=n.syntax.length-1;i>=0;i--){
 			target = line.substring(0, n.syntax[i][0].length());

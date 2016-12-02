@@ -8,4 +8,9 @@ public class MDParser{
 		document.addDocument(s);
 	}
 	
+	public void main(){
+		String line ="###hello";	
+		sendLine(line);
+			
+	}
 }
