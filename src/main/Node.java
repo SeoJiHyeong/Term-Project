@@ -4,6 +4,7 @@ import java.util.Iterator;
 public abstract class Node implements MDElement {
  	private ArrayList tokenList = new ArrayList();
  	ArrayList<String> content = new ArrayList();
+ 	String notice;
  	String line;
 	//private ArrayList nodes = new ArrayList();
     public String[][] syntax;
@@ -20,10 +21,14 @@ public abstract class Node implements MDElement {
 	    	}
 	}
 	
+	public String notifyNode(){
+		return notice;
+	}
+	
 	public void setLine(String s){
 		line = s;
 	}
-	public void setContent(String s){
+	public void addContent(String s){
 		content.add(s);
 	}
 	public String getLine(){
