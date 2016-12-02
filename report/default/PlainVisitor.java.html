@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ko"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlainVisitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Simple</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">PlainVisitor.java</span></div><h1>PlainVisitor.java</h1><pre class="source lang-java linenums">import java.util.Iterator;
+import java.util.ArrayList;
+
+<span class="nc" id="L4">public class PlainVisitor implements MDElementVisitor {</span>
+	String line, target;
+<span class="nc" id="L6"> 	private ArrayList&lt;Document&gt; documentList = new ArrayList&lt;Document&gt;();</span>
+<span class="nc" id="L7"> 	private ArrayList temp = new ArrayList();</span>
+<span class="nc" id="L8">	private ArrayList&lt;Node&gt; nodeList = new ArrayList&lt;Node&gt;();</span>
+<span class="nc" id="L9">	private ArrayList multipleLineCase = new ArrayList();</span>
+<span class="nc" id="L10">	private ArrayList nodeSyntax = new ArrayList();</span>
+	
+	
+	public void visit(Token t){
+		int i;
+		//line = node;
+<span class="nc" id="L16">		Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc" id="L17">		tokenize(temp.getLine(), temp);</span>
+<span class="nc" id="L18">	}</span>
+	
+	public void visit(StyleText v){
+		int i;
+<span class="nc" id="L22">	}</span>
+	public void visit(PlainText v){
+		int i;
+<span class="nc" id="L25">	}	</span>
+	public void visit(HTMLCode v){
+		int i;
+<span class="nc" id="L28">	}</span>
+	
+	
+	
+	public void visit(Node n){
+
+		
+<span class="nc" id="L35">	}</span>
+	
+
+	
+<span class="nc" id="L39">	public void visit(Block n){}</span>
+<span class="nc" id="L40">	public void visit(Emphasis n){}</span>
+<span class="nc" id="L41">	public void visit(QuotedBlock n){}</span>
+<span class="nc" id="L42">	public void visit(Code n){}</span>
+<span class="nc" id="L43">	public void visit(Image n){}</span>
+	
+	public void visit(Link n){ 
+<span class="nc" id="L46">		int phase = 0;</span>
+		int i;
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		for(i=0;i&lt;line.length();i++){</span>
+<span class="nc bnc" id="L49" title="All 5 branches missed.">			switch(phase){</span>
+			case 0:
+<span class="nc bnc" id="L51" title="All 2 branches missed.">				if(line.charAt(i)==91)phase = 1;</span>
+				break;
+			case 1:
+<span class="nc bnc" id="L54" title="All 2 branches missed.">				if(line.charAt(i)==93)phase = 2;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">				else if(line.charAt(i)==91)phase = 1;</span>
+				else;
+				break;
+			case 2:
+<span class="nc bnc" id="L59" title="All 2 branches missed.">				if(line.charAt(i)==40)phase = 3;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">					else if(line.charAt(i)==91)phase = 1;</span>
+<span class="nc" id="L61">				else phase = 0;</span>
+<span class="nc" id="L62">				break;</span>
+			case 3:
+<span class="nc bnc" id="L64" title="All 2 branches missed.">				if(line.charAt(i)==41)phase = 4;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">				else if(line.charAt(i)==40)phase = 0;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">				else if(line.charAt(i)==91)phase = 1;</span>
+				else;
+				break;
+				default:
+					break;
+			}
+<span class="nc bnc" id="L72" title="All 2 branches missed.">			if(phase==4){</span>
+<span class="nc" id="L73">				Link node = new Link();</span>
+<span class="nc" id="L74">				node.addContent(line);</span>
+<span class="nc" id="L75">				nodeList.add(node);</span>
+<span class="nc" id="L76">				break;</span>
+			}
+		}
+<span class="nc" id="L79">	}</span>
+	
+	public void visit(Header n){ 
+		int i;
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		for(i=n.syntax.length-1;i&gt;=0;i--){</span>
+<span class="nc" id="L84">			target = line.substring(0, n.syntax[i][0].length());</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">			if(target.equals(n.syntax[i][0])){</span>
+<span class="nc" id="L86">				Header node = new Header();</span>
+<span class="nc" id="L87">				node.addContent(line);</span>
+<span class="nc" id="L88">				nodeList.add(node);</span>
+			}
+		}
+<span class="nc" id="L91">	}</span>
+	
+	public void visit(ItemList n){
+<span class="nc" id="L94">		char a = line.charAt(0);</span>
+<span class="nc" id="L95">		char b = line.charAt(1);</span>
+<span class="nc bnc" id="L96" title="All 8 branches missed.">		if((a==42||a==43||a==45)&amp;&amp;b==32){</span>
+<span class="nc" id="L97">				Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">				if(temp.notifyNode().equals(&quot;ItemList&quot;)){</span>
+<span class="nc" id="L99">					temp.addContent(line);</span>
+				}
+				else{
+<span class="nc" id="L102">					ItemList node = new ItemList();</span>
+<span class="nc" id="L103">					node.addContent(line);</span>
+<span class="nc" id="L104">					nodeList.add(node);</span>
+				}
+		}
+		else ;
+<span class="nc" id="L108">	}</span>
+	
+	public void visit(OrderedList n){
+		int i;
+<span class="nc bnc" id="L112" title="All 2 branches missed.">		for(i=0;i&lt;line.length();i++){</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">			if(line.charAt(i)&gt;=48&amp;&amp;line.charAt(i)&lt;=57){</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">				if(line.charAt(i+1)==46){</span>
+<span class="nc" id="L115">					Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">					if(temp.notifyNode().equals(&quot;OrderedList&quot;)){</span>
+<span class="nc" id="L117">						temp.addContent(line);</span>
+<span class="nc" id="L118">						break;</span>
+					}
+					else{
+<span class="nc" id="L121">						OrderedList node = new OrderedList();</span>
+<span class="nc" id="L122">						node.addContent(line);</span>
+<span class="nc" id="L123">						nodeList.add(node);</span>
+<span class="nc" id="L124">						break;</span>
+					}
+				}
+				else ;
+			}
+			else break;
+		}
+<span class="nc" id="L131">	}</span>
+	public void visit(HorizontalRule n){
+		int i;
+<span class="nc" id="L134">		int ruleCase = 0;</span>
+		
+<span class="nc bnc" id="L136" title="All 2 branches missed.">		for(i=0;i&lt;line.length();i++){</span>
+<span class="nc bnc" id="L137" title="All 6 branches missed.">			if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;</span>
+			else{
+<span class="nc bnc" id="L139" title="All 4 branches missed.">				switch(ruleCase){</span>
+				case 0: 
+<span class="nc bnc" id="L141" title="All 6 branches missed.">					if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">						if(line.charAt(i)==42)ruleCase = 1;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">						else if(line.charAt(i)==45)ruleCase = 2;</span>
+<span class="nc" id="L144">						else ruleCase = 0;</span>
+					}
+<span class="nc" id="L146">					else ruleCase =3;</span>
+<span class="nc" id="L147">					break;</span>
+				case 1:
+<span class="nc bnc" id="L149" title="All 4 branches missed.">					if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;</span>
+<span class="nc" id="L150">					else ruleCase = 3;</span>
+<span class="nc" id="L151">					break;</span>
+				case 2:
+<span class="nc bnc" id="L153" title="All 4 branches missed.">					if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;</span>
+<span class="nc" id="L154">					else ruleCase = 3;					</span>
+<span class="nc" id="L155">					break;</span>
+<span class="nc" id="L156">				default: ruleCase = 3;</span>
+				break;
+				}
+			}
+			
+<span class="nc bnc" id="L161" title="All 2 branches missed.">			if(ruleCase==3)break;</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">			else if(i==line.length()-1){</span>
+<span class="nc" id="L163">				HorizontalRule node = new HorizontalRule();</span>
+<span class="nc" id="L164">				node.addContent(line);</span>
+<span class="nc" id="L165">				nodeList.add(node);</span>
+			}
+		}
+<span class="nc" id="L168">	}</span>
+	//public void visit(list n)
+	public void visit(Document v){
+<span class="nc" id="L171">		ArrayList document = v.getDocument();</span>
+
+<span class="nc" id="L173">	}</span>
+
+	
+	
+	public void setLine(String s){
+<span class="nc" id="L178">		line = s;</span>
+<span class="nc" id="L179">	}</span>
+	public String getLine(){
+<span class="nc" id="L181">		return line;</span>
+	}
+	public void setTarget(String s){
+		String temp;
+		int i;
+<span class="nc bnc" id="L186" title="All 2 branches missed.">		for(i=0;i&lt;s.length();i++){</span>
+	//		if(s.charAt(i))				
+		}
+<span class="nc" id="L189">	}</span>
+	
+	public void tokenize(String s, Node n){
+		
+<span class="nc" id="L193">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
