@@ -1,7 +1,8 @@
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-class Document implements MDElement{
+
+public class Document implements MDElement{
  	private ArrayList document = new ArrayList();
  	private ArrayList temp = new ArrayList();
 	private ArrayList nodes = new ArrayList();
@@ -14,16 +15,24 @@ class Document implements MDElement{
     OrderedList olist = new OrderedList();
     HorizontalRule HR = new HorizontalRule();
 	
+    ////Yoojin
+    BlockQuotes bq = new BlockQuotes();
+	CodeBlock cb=new CodeBlock();
+	Text text = new Text();
+	
     public Document() {
 
     }
     public void accept(MDElementVisitor v){
-    	v.visit(this);
-    	
+    	header.accept(v);
+    	HR.accept(v);
     	ilist.accept(v);
     	olist.accept(v);
-    	HR.accept(v);
     	
+    	
+    	bq.accept(v);
+    	cb.accept(v);
+    	text.accept(v);
     }
     
     public ArrayList<String> getDocuments(){
@@ -57,5 +66,5 @@ class Document implements MDElement{
     public void addNode(Node n){
     	nodes.add(n);
     }
-   
+
 }
