@@ -2,11 +2,14 @@ import java.util.ArrayList;
 
 public class HTMLVisitor implements MDElementVisitor {
 	String line;
+
+	int nodeIndex;
+
 	//document
  	private Document ParsedDocument;
 
  	private ArrayList temp = new ArrayList();
-
+	private Node tempNode;
  	//node
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 
@@ -21,7 +24,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 //node
 	 public void visit(Header n){
-
+		tempNode = nodeList[sequence];
 	 }
 
 	 public void visit(ItemList n){
@@ -73,4 +76,20 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 }
 
+	 public void setNodelist(ArrayList<Node> node){
+		 nodeList = node;
+		 nodeindex = nodeList.size();
+	 }
+
+	 public int getNodeIndex(){
+		 return nodeindex;
+	 }
+
+	 public void setLine(String s){
+		 line = s;
+	 }
+
+	 public void setSequence(int i){
+		 sequence = i;
+	 }
 }
