@@ -73,4 +73,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 }
 
+	 public void setNodelist(ArrayList<Node> node){
+		 nodeList = node;
+	 }
 }
