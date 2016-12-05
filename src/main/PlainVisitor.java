@@ -526,7 +526,9 @@ public class PlainVisitor implements MDElementVisitor{
 			pass=0;
 	}
 
-
+		public ArrayList<Node> getNode(){
+			return nodeList;
+	}
 
 
 }
