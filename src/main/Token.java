@@ -1,8 +1,15 @@
 
-public abstract class Token implements MDElement{
-		String content;
+public class Token implements MDElement{
+	String content;
+	String notice;
 	
-	  	public void accept(MDElementVisitor visitor) {
-	  		visitor.visit(this);
-	  	}
+	public String notifyToken(){
+		return notice;
+	}
+  	public void accept(MDElementVisitor visitor) {
+  		visitor.visit(this);
+  	}
+  	public String getContent() {
+  		return content;
+  	}
 }

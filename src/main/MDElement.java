@@ -1,3 +1,4 @@
-interface MDElement{
-void accept(MDElementVisitor v);
+
+public interface MDElement {
+	void accept(MDElementVisitor v);
 }

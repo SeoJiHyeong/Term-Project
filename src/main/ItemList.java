@@ -7,5 +7,4 @@ public class ItemList extends Node{
 	public void accept(MDElementVisitor v) {
 		v.visit(this);
 	}
-	
 }

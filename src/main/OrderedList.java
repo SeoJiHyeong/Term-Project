@@ -1,5 +1,5 @@
 
-public class OrderedList extends Node {
+public class OrderedList extends Node{
 	public int number;
 	
 	public OrderedList(){
