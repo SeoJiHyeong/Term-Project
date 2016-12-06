@@ -19,6 +19,7 @@ public class HTMLVisitor implements MDElementVisitor {
 	private ArrayList<String> HTMLList = new ArrayList();
 
 	 public void visit(Document d){
+		 d.addDocument(line);
 		 ParsedDocument = d;
 	 }
 
@@ -29,10 +30,11 @@ public class HTMLVisitor implements MDElementVisitor {
 		if(n.notifyNode().equals("Header")){
 			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
-			System.out.println(tempNode.notice);
+			String tmp ="";
 			System.out.println(tempNode.htype);
-			System.out.println(tokenList.get(0).notice);
+			tmp = "<h"+tempNode.htype+">"+tokenList.get(0).content+"</h"+tempNode.htype+">";
 			System.out.println(tokenList.get(0).content);
+			line = tmp;
 		}
 		else;
 
@@ -69,7 +71,13 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 public void visit(BlockQuotes n){
 		if(n.notifyNode().equals("BlockQuotes")){
-
+			String tmp = "";
+			tempNode = nodeList.get(sequence);
+			ArrayList<Token> tokenList = tempNode.getTokenList();
+			System.out.println(tokenList.get(0).content);
+			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";
+			line = tmp;
+			System.out.println(line);
 		}
 		else;
 	 }
