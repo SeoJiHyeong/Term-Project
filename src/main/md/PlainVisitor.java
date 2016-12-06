@@ -76,7 +76,7 @@ public class PlainVisitor implements MDElementVisitor{
 		else if(temp.notifyNode().equls("Text")&&(line.charAt(0)==77||line.charAt(0)==93)){
 			boolean isHeader = true;
 			for(int i=1;i<line.length();i++){
-				if((line.charAt(i)==line.charAt(i-1))||line.charAt(i)==32)
+				if((line.charAt(i)==line.charAt(i-1))||line.charAt(i)==32);
 				else {
 					isHeader = false;
 					break;
@@ -98,9 +98,10 @@ public class PlainVisitor implements MDElementVisitor{
 
 	public void visit(ItemList n){
 		System.out.println("itemlist visited");
+		char a,b;
 		if(line.length()>2) //add a condition for comparing two letters.
-			char a = line.charAt(0);
-			char b = line.charAt(1);
+			a = line.charAt(0);
+			b = line.charAt(1);
 			if(pass==0) {
 				System.out.println("checkPass");
 				if((a==42||a==43||a==45)&&b==32){ //remove the case which is called when previous node is list

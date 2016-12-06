@@ -20,21 +20,19 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 public void visit(Document d){
 		 d.addDocument(line);
-		 ParsedDocument = d;
 	 }
 
 
 
 	 //node
 	 public void visit(Header n){
-		if(n.notifyNode().equals("Header")){
+		if(n.notifyNode().equals=="Header"){
 			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
-			String tmp ="";
+			System.out.println(tempNode.notice);
 			System.out.println(tempNode.htype);
-			tmp = "<h"+tempNode.htype+">"+tokenList.get(0).content+"</h"+tempNode.htype+">";
+			System.out.println(tokenList.get(0).notice);
 			System.out.println(tokenList.get(0).content);
-			line = tmp;
 		}
 		else;
 
@@ -42,48 +40,42 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void visit(ItemList n){
-		if(n.notifyNode().equals("ItemList")){
+		if(n.notifyNode().equals=="ItemList"){
 
 		}
 		else;
 	 }
 
 	 public void visit(OrderedList n){
-		if(n.notifyNode().equals("OrderedList")){
+		if(n.notifyNode().equals=="OrderedList"){
 
 		}
 		else;
 	 }
 
 	 public void visit(HorizontalRule n){
-		if(n.notifyNode().equals("HorizontalRule")){
+		if(n.notifyNode().equals=="HorizontalRule"){
 
 		}
 		else;
 	 }
 
 	 public void visit(Text n){
-		if(n.notifyNode().equals("Text")){
+		if(n.notifyNode().equals=="Text"){
 
 		}
 		else;
 	 }
 
 	 public void visit(BlockQuotes n){
-		if(n.notifyNode().equals("BlockQuotes")){
-			String tmp = "";
-			tempNode = nodeList.get(sequence);
-			ArrayList<Token> tokenList = tempNode.getTokenList();
-			System.out.println(tokenList.get(0).content);
-			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";
-			line = tmp;
-			System.out.println(line);
+		if(n.notifyNode().equals=="BlockQuotes"){
+
 		}
 		else;
 	 }
 
 	 public void visit(CodeBlock n){
-		if(n.notifyNode().equals("CodeBlock")){
+		if(n.notifyNode().equals=="CodeBlock"){
 
 		}
 		else;
@@ -92,27 +84,25 @@ public class HTMLVisitor implements MDElementVisitor {
 
 
 	 //token
-	 /*
-	 public void visit(Link t){
-
-	 }
-
-	 public void visit(Block t){
-
-	 }
-
-	 public void visit(Emphasis t){
-
-	 }
-
-
-	 public void visit(Image t){
-
-	 }
-	 */
 	 public void visit(Token t){
+			 if(t.notifyToken().equls("Plaintext")){
+					//good!!
+				}
+				else{
+					tokenParser(t);
+				}
 
-	 }
+	}
+
+	public void tokenParser(Token t){
+		if(t.notifyToken.equals("em")||t.notifyToken.equals("/em")||t.notifyToken.equals("strong")||t.notifyToken.equals("/strong")){
+			t.setContent("<"+t.getContent()+">");
+		}
+		//else if(t.notyfyToken.)
+	}
+
+
+
 
 	 public void setNodelist(ArrayList<Node> node){
 		 nodeList = node;
