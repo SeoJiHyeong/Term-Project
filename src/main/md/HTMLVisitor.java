@@ -9,14 +9,14 @@ public class HTMLVisitor implements MDElementVisitor {
 	//document
  	private Document ParsedDocument;
 
- 	private ArrayList temp = new ArrayList();
+ 	private ArrayList<Node> temp = new ArrayList<Node>();
 	private Node tempNode;
  	//node
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 
 
 	//it will save converted htmlcode
-	private ArrayList<String> HTMLList = new ArrayList();
+	private ArrayList<String> HTMLList = new ArrayList<String>();
 
 	 public void visit(Document d){
 		 d.addDocument(line);
@@ -26,7 +26,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 //node
 	 public void visit(Header n){
-		if(n.notifyNode().equals=="Header"){
+		if(n.notifyNode().equals("Header")){
 			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			System.out.println(tempNode.notice);
@@ -40,42 +40,42 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void visit(ItemList n){
-		if(n.notifyNode().equals=="ItemList"){
+		if(n.notifyNode().equals("ItemList")){
 
 		}
 		else;
 	 }
 
 	 public void visit(OrderedList n){
-		if(n.notifyNode().equals=="OrderedList"){
+		if(n.notifyNode().equals("OrderedList")){
 
 		}
 		else;
 	 }
 
 	 public void visit(HorizontalRule n){
-		if(n.notifyNode().equals=="HorizontalRule"){
+		if(n.notifyNode().equals("HorizontalRule")){
 
 		}
 		else;
 	 }
 
 	 public void visit(Text n){
-		if(n.notifyNode().equals=="Text"){
+		if(n.notifyNode().equals("Text")){
 
 		}
 		else;
 	 }
 
 	 public void visit(BlockQuotes n){
-		if(n.notifyNode().equals=="BlockQuotes"){
+		if(n.notifyNode().equals("BlockQuotes")){
 
 		}
 		else;
 	 }
 
 	 public void visit(CodeBlock n){
-		if(n.notifyNode().equals=="CodeBlock"){
+		if(n.notifyNode().equals("CodeBlock")){
 
 		}
 		else;
@@ -85,7 +85,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 //token
 	 public void visit(Token t){
-			 if(t.notifyToken().equls("Plaintext")){
+			 if(t.notifyToken().equals("Plaintext")){
 					//good!!
 				}
 				else{
@@ -95,7 +95,7 @@ public class HTMLVisitor implements MDElementVisitor {
 	}
 
 	public void tokenParser(Token t){
-		if(t.notifyToken.equals("em")||t.notifyToken.equals("/em")||t.notifyToken.equals("strong")||t.notifyToken.equals("/strong")){
+		if(t.notifyToken().equals("em")||t.notifyToken().equals("/em")||t.notifyToken().equals("strong")||t.notifyToken().equals("/strong")){
 			t.setContent("<"+t.getContent()+">");
 		}
 		//else if(t.notyfyToken.)

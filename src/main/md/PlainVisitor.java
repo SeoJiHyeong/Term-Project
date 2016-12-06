@@ -6,10 +6,10 @@ public class PlainVisitor implements MDElementVisitor{
 
 	String line, target;
  	private ArrayList<Document> documentList = new ArrayList<Document>();
- 	private ArrayList temp = new ArrayList();
+ 	private ArrayList <Node>temp = new ArrayList<Node>();
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
-	private ArrayList multipleLineCase = new ArrayList();
-	private ArrayList nodeSyntax = new ArrayList();
+	//private ArrayList multipleLineCase = new ArrayList();
+	//private ArrayList nodeSyntax = new ArrayList();
 
 
 	int pass=0;
@@ -37,19 +37,7 @@ public class PlainVisitor implements MDElementVisitor{
 	public void visit(Header n){
 
 		System.out.println("header visited");
-		//int i;
-		/*
-		for(i=n.syntax.length-1;i>=0;i--){
-			target = line.substring(0, n.syntax[i][0].length());
-			if(target.equals(n.syntax[i][0])){
-				Header node = new Header();
-				node.addContent(line);
-				nodeList.add(node);
-				pass=pass+1;
-				System.out.println("header : "+pass);
-			}
-		}
-		*/
+
 		String forToken = "";
 		int count=0;
 		int position = 0;
@@ -73,7 +61,7 @@ public class PlainVisitor implements MDElementVisitor{
 			pass=1;
 		}
 		//make a case that 2 lines header
-		else if(temp.notifyNode().equls("Text")&&(line.charAt(0)==77||line.charAt(0)==93)){
+		else if(temp.notifyNode().equals("Text")&&(line.charAt(0)==45||line.charAt(0)==61)){
 			boolean isHeader = true;
 			for(int i=1;i<line.length();i++){
 				if((line.charAt(i)==line.charAt(i-1))||line.charAt(i)==32);
@@ -82,24 +70,28 @@ public class PlainVisitor implements MDElementVisitor{
 					break;
 				}
 			}
+
 			if(isHeader){
-				Header node = new Header();
-				node.htype=1;
-				//i don't know
-				forToken=line.substring(position+1);
-				//i don't know
-				tokenize(forToken,node);
-				nodeList.add(node);
-				pass=1;
+					Header node = new Header();
+					node.htype=1;
+					//i don't know
+					forToken=line.substring(position+1);
+					//i don't know
+					tokenize(forToken,node);
+					//have to add previus node's plain text and h1
+					nodeList.remove(nodeList.size()-1);				//remove and add
+					nodeList.add(node);
+					pass=1;
+					System.out.println("header : "+pass);
 			}
+			else;
 		}
-		else;
 	}
 
 	public void visit(ItemList n){
 		System.out.println("itemlist visited");
 		char a,b;
-		if(line.length()>2) //add a condition for comparing two letters.
+		if(line.length()>2){ //add a condition for comparing two letters.
 			a = line.charAt(0);
 			b = line.charAt(1);
 			if(pass==0) {
@@ -125,10 +117,10 @@ public class PlainVisitor implements MDElementVisitor{
 				if(line.charAt(i)>=48&&line.charAt(i)<=57){
 					if(line.charAt(i+1)==46){
 						Node temp = nodeList.get(nodeList.size()-1);
-						if(temp.notifyNode().equals("OrderedList")){ //Originally, it add content at this case,
-							OrderedList node = new OrderedList();    //but now it compare the number of previous
-							node.addContent(line);                   //one and add new node and count the number
-							node.setNumber(temp.getNumber+1);
+						if(temp.notifyNode().equals("OrderedList")){
+							OrderedList node = new OrderedList();    //Originally, it add content at this case,
+							node.addContent(line);                   //but now it compare the number of previous
+							node.setNumber(temp.number+1);	 //one and add new node and count the number
 							nodeList.add(node);
 							pass=1;
 							System.out.println("orderedlist : "+pass);
@@ -155,43 +147,44 @@ public class PlainVisitor implements MDElementVisitor{
 		System.out.println("horizontalRule visited");
 		int i;
 		int ruleCase = 0;
-
-		for(i=0;i<line.length();i++){
-			if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;
-			else{
-				switch(ruleCase){
-				case 0:
-					if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){
-						if(line.charAt(i)==42)ruleCase = 1;
-						else if(line.charAt(i)==45)ruleCase = 2;
-						else ruleCase = 0;
+		if(pass==0){
+			for(i=0;i<line.length();i++){
+				if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;
+				else{
+					switch(ruleCase){
+					case 0:
+						if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){
+							if(line.charAt(i)==42)ruleCase = 1;
+							else if(line.charAt(i)==45)ruleCase = 2;
+							else ruleCase = 0;
+						}
+						else ruleCase =3;
+						break;
+					case 1:
+						if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
+						else ruleCase = 3;
+						break;
+					case 2:
+						if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;
+						else ruleCase = 3;
+						break;
+					default: ruleCase = 3;
+					break;
 					}
-					else ruleCase =3;
-					break;
-				case 1:
-					if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
-					else ruleCase = 3;
-					break;
-				case 2:
-					if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;
-					else ruleCase = 3;
-					break;
-				default: ruleCase = 3;
-				break;
+				}
+
+				if(ruleCase==3)break;
+				else if(i==line.length()-1){
+					HorizontalRule node = new HorizontalRule();
+					node.addContent(line);
+					nodeList.add(node);
+					pass=1;
+					System.out.println("hr : "+pass);
+					System.out.println("horizontalRule");
 				}
 			}
-
-			if(ruleCase==3)break;
-			else if(i==line.length()-1){
-				HorizontalRule node = new HorizontalRule();
-				node.addContent(line);
-				nodeList.add(node);
-				pass=1;
-				System.out.println("hr : "+pass);
-				System.out.println("horizontalRule");
-			}
 		}
-
+		else;
 	}
 
 	public void setLine(String s){
