@@ -2,22 +2,22 @@ package md;
 import java.util.ArrayList;
 
 public class Node implements MDElement {
-	private ArrayList tokenList = new ArrayList();
- 	ArrayList<String> content = new ArrayList();
+	private ArrayList<Token> tokenList = new ArrayList<Token>();
+ 	ArrayList<String> content = new ArrayList<String>();
  	String notice;
  	String line;
  	int htype=0;
     public String[][] syntax;
-    
- 
-    
+	public int number;
+
+
 	public void accept(MDElementVisitor v){
 	}
-	
+
 	public String notifyNode(){
 		return notice;
 	}
-	
+
 	public void setLine(String s){
 		line = s;
 	}
@@ -33,16 +33,16 @@ public class Node implements MDElement {
 	public void addToken(Token t){
 		tokenList.add(t);
 	}
-	
-	
+
+
 	//////YooJin Add
 
-	
+
 	public int getTokenListSize() {
 		return tokenList.size();
 	}
 	public ArrayList<Token> getTokenList() {
 		return tokenList;
-	}	
-	
+	}
+
 }
