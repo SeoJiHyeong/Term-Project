@@ -1,3 +1,4 @@
+package md;
 import java.util.ArrayList;
 
 public class HTMLVisitor implements MDElementVisitor {
@@ -24,7 +25,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 //node
 	 public void visit(Header n){
-		tempNode = nodeList[sequence];
+		//tempNode = nodeList[sequence];
 	 }
 
 	 public void visit(ItemList n){
@@ -78,11 +79,11 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 public void setNodelist(ArrayList<Node> node){
 		 nodeList = node;
-		 nodeindex = nodeList.size();
+		 nodeIndex = nodeList.size();
 	 }
 
 	 public int getNodeIndex(){
-		 return nodeindex;
+		 return nodeIndex;
 	 }
 
 	 public void setLine(String s){
@@ -90,6 +91,6 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void setSequence(int i){
-		 sequence = i;
+		 //sequence = i;
 	 }
 }

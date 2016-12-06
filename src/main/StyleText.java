@@ -1,4 +1,4 @@
-
+package md;
 public class StyleText extends Token{
 	String content;
 	public StyleText(String s){

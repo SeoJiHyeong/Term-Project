@@ -1,4 +1,5 @@
-public class Simple 
+package md;
+public class Simple
 {
 	public Simple() {
 	}

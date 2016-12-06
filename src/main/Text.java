@@ -1,4 +1,4 @@
-
+package md;
 public class Text extends Node{
 	public Text (){
 		notice = "Text";

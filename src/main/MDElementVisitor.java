@@ -1,4 +1,4 @@
-
+package md;
 public interface MDElementVisitor {
 	void visit(Document v);
 

@@ -1,4 +1,4 @@
-
+package md;
 public class HorizontalRule extends Node{
 	public HorizontalRule (){
 		notice = "HorizontalRule";

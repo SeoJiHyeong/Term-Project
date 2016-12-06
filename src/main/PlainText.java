@@ -1,4 +1,4 @@
-
+package md;
 public class PlainText extends Token{
 	public PlainText(){
 		notice = "plaintext";

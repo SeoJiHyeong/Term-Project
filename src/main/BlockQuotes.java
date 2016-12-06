@@ -1,4 +1,4 @@
-
+package md;
 public class BlockQuotes extends Node{
 	public BlockQuotes (){
 		notice = "BlockQuotes";
