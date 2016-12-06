@@ -9,6 +9,8 @@
     <property name="test.dir" location="test"/>
     <property name="final.name" value="Markdown_converter"/>
     <property name="report.dir" location="report"/>
+    <property name="etd.dir" location="etc"/>
+    
     <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
         <classpath path="${lib.dir}/jacocoant.jar"/>
     </taskdef>
@@ -28,6 +30,7 @@
                 </fileset>
             </classpath>
         </javac>
+        <javadoc sourcepath="${source.dir}" destdir="${doc.dir}" packagenames="md.*"/>
         <javac srcdir="${testSource.dir}" destdir="${test.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}">
@@ -39,12 +42,17 @@
     </target>
     
     <target name="jar" description="o Create the jar" depends="coverage-report">
-        <jar jarfile="${final.name}.jar" basedir="${build.dir}" >
-            <zipfileset dir="${lib.dir}" includes="**/*.jar" excludes="META-INF/*.SF"/>
+        <jar jarfile="deps.jar" >
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
+        </jar>
+        <sleep seconds="1"/>
+        <jar destfile="${final.name}.jar" basedir="${build.dir}" >
+            <zipfileset src="deps.jar" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
             <manifest>
                 <attribute name="Main-Class" value="md.converter"/>
             </manifest>
         </jar>
+        <delete file="deps.jar"/>
     </target>
     <target name="test" description="o Test the class" depends="compile">
         <junit showoutput="ture" printsummary="on" enabletestlistenerevents="true" fork="true">
