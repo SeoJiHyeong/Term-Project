@@ -53,6 +53,7 @@ public class PlainVisitor implements MDElementVisitor{
 		String forToken = "";
 		int count=0;
 		int position = 0;
+		Node temp = nodeList.get(nodeList.size()-1);
 		for(int i=0;i<line.length();i++) {
 			char a=line.charAt(i);
 			if(i<6 && a=='#' && count==i)
@@ -67,60 +68,88 @@ public class PlainVisitor implements MDElementVisitor{
 			node.htype=count;
 			forToken=line.substring(position+1);
 			tokenize(forToken,node);
-	
+
 			nodeList.add(node);
 			pass=1;
 		}
+		//make a case that 2 lines header
+		else if(temp.notifyNode().equls("Text")&&(line.charAt(0)==77||line.charAt(0)==93)){
+			boolean isHeader = true;
+			for(int i=1;i<line.length();i++){
+				if((line.charAt(i)==line.charAt(i-1))||line.charAt(i)==32)
+				else {
+					isHeader = false;
+					break;
+				}
+			}
+			if(isHeader){
+				Header node = new Header();
+				node.htype=1;
+				//i don't know
+				forToken=line.substring(position+1);
+				//i don't know
+				tokenize(forToken,node);
+				nodeList.add(node);
+				pass=1;
+			}
+		}
+		else;
 	}
 
 	public void visit(ItemList n){
 		System.out.println("itemlist visited");
-		char a = line.charAt(0);
-		char b = line.charAt(1);
-		if(pass==0) {
-			System.out.println("checkPass");
-			if((a==42||a==43||a==45)&&b==32){
-					Node temp = nodeList.get(nodeList.size()-1);
-					if(temp.notifyNode().equals("ItemList")){
-						temp.addContent(line);
-					}
-					else{
+		if(line.length()>2) //add a condition for comparing two letters.
+			char a = line.charAt(0);
+			char b = line.charAt(1);
+			if(pass==0) {
+				System.out.println("checkPass");
+				if((a==42||a==43||a==45)&&b==32){ //remove the case which is called when previous node is list
+						Node temp = nodeList.get(nodeList.size()-1);
 						ItemList node = new ItemList();
 						node.addContent(line);
 						nodeList.add(node);
 						pass=1;
 						System.out.println("itemlist : "+pass);
-					}
+				}
+				else ;
 			}
-			else ;
 		}
 	}
 
 	public void visit(OrderedList n){
 		System.out.println("orderedlist visited");
 		int i;
-		for(i=0;i<line.length();i++){
-			if(line.charAt(i)>=48&&line.charAt(i)<=57){
-				if(line.charAt(i+1)==46){
-					Node temp = nodeList.get(nodeList.size()-1);
-					if(temp.notifyNode().equals("OrderedList")){
-						temp.addContent(line);
-						break;
+		if(line.length()>2){	//add a condition for comparing two letters.
+			for(i=0;i<line.length();i++){
+				if(line.charAt(i)>=48&&line.charAt(i)<=57){
+					if(line.charAt(i+1)==46){
+						Node temp = nodeList.get(nodeList.size()-1);
+						if(temp.notifyNode().equals("OrderedList")){ //Originally, it add content at this case,
+							OrderedList node = new OrderedList();    //but now it compare the number of previous
+							node.addContent(line);                   //one and add new node and count the number
+							node.setNumber(temp.getNumber+1);
+							nodeList.add(node);
+							pass=1;
+							System.out.println("orderedlist : "+pass);
+							break;
+						}
+						else{
+							OrderedList node = new OrderedList();
+							node.addContent(line);
+							node.setNumber(1);
+							nodeList.add(node);
+							pass=1;
+							System.out.println("orderedlist : "+pass);
+							break;
+						}
 					}
-					else{
-						OrderedList node = new OrderedList();
-						node.addContent(line);
-						nodeList.add(node);
-						pass=1;
-						System.out.println("orderedlist : "+pass);
-						break;
-					}
+					else ;
 				}
-				else ;
+				else break;
 			}
-			else break;
 		}
 	}
+
 	public void visit(HorizontalRule n){
 		System.out.println("horizontalRule visited");
 		int i;
@@ -358,6 +387,7 @@ public class PlainVisitor implements MDElementVisitor{
 						break;
 					}//**hi*h
 				}
+
 				if(emCheck==1) {
 					StyleText st = new StyleText("em");
 					st.content="*";
