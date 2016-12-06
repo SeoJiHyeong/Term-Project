@@ -9,17 +9,18 @@ public class HTMLVisitor implements MDElementVisitor {
 	//document
  	private Document ParsedDocument;
 
- 	private ArrayList<Node> temp = new ArrayList<Node>();
+ 	private ArrayList temp = new ArrayList();
 	private Node tempNode;
  	//node
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 
 
 	//it will save converted htmlcode
-	private ArrayList<String> HTMLList = new ArrayList<String>();
+	private ArrayList<String> HTMLList = new ArrayList();
 
 	 public void visit(Document d){
 		 d.addDocument(line);
+		 ParsedDocument = d;
 	 }
 
 
@@ -29,10 +30,11 @@ public class HTMLVisitor implements MDElementVisitor {
 		if(n.notifyNode().equals("Header")){
 			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
-			System.out.println(tempNode.notice);
+			String tmp ="";
 			System.out.println(tempNode.htype);
-			System.out.println(tokenList.get(0).notice);
+			tmp = "<h"+tempNode.htype+">"+tokenList.get(0).content+"</h"+tempNode.htype+">";
 			System.out.println(tokenList.get(0).content);
+			line = tmp;
 		}
 		else;
 
@@ -69,7 +71,13 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 public void visit(BlockQuotes n){
 		if(n.notifyNode().equals("BlockQuotes")){
-
+			String tmp = "";
+			tempNode = nodeList.get(sequence);
+			ArrayList<Token> tokenList = tempNode.getTokenList();
+			System.out.println(tokenList.get(0).content);
+			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";
+			line = tmp;
+			System.out.println(line);
 		}
 		else;
 	 }
@@ -84,25 +92,27 @@ public class HTMLVisitor implements MDElementVisitor {
 
 
 	 //token
+	 /*
+	 public void visit(Link t){
+
+	 }
+
+	 public void visit(Block t){
+
+	 }
+
+	 public void visit(Emphasis t){
+
+	 }
+
+
+	 public void visit(Image t){
+
+	 }
+	 */
 	 public void visit(Token t){
-			 if(t.notifyToken().equals("Plaintext")){
-					//good!!
-				}
-				else{
-					tokenParser(t);
-				}
 
-	}
-
-	public void tokenParser(Token t){
-		if(t.notifyToken().equals("em")||t.notifyToken().equals("/em")||t.notifyToken().equals("strong")||t.notifyToken().equals("/strong")){
-			t.setContent("<"+t.getContent()+">");
-		}
-		//else if(t.notyfyToken.)
-	}
-
-
-
+	 }
 
 	 public void setNodelist(ArrayList<Node> node){
 		 nodeList = node;
