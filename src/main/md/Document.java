@@ -8,7 +8,7 @@ public class Document implements MDElement{
  	private ArrayList temp = new ArrayList();
 	private ArrayList nodes = new ArrayList();
 
-	ArrayList<String> document;
+	ArrayList<String> document = new ArrayList();
 
    	Header header = new Header();
     ItemList ilist = new ItemList();

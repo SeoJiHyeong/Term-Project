@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.w3c.tidy.Tidy;
 
-/**
- *Command line converter class
- */
 public class converter {
 	static String input = "";
 	static String output= "";
@@ -28,12 +25,9 @@ public class converter {
 	public static void main(String args[]) throws IOException{
 		
 		if(!new_check_grammar(args)) return;
-        Tidy tidy = new Tidy();
-        System.out.println("!@#!@#");
-        
 		Document document = new Document();
-        /*
 		PlainVisitor plainvisitor = new PlainVisitor();
+		HTMLVisitor htmlvisitor = new HTMLVisitor();
 		plainvisitor.addNode();
 
 		BufferedReader br = new BufferedReader(new FileReader(input));
@@ -42,9 +36,20 @@ public class converter {
 		    if(line==null) break;
 		 	plainvisitor.setLine(line);
 	        document.accept(plainvisitor);
-		 }
+		}
 	    br.close();
-        */
+	    
+	    
+	    htmlvisitor.setNodelist(plainvisitor.getNode());
+	    
+	    
+	    Document dd = new Document();
+	
+	    
+	    for(int i=1;i<htmlvisitor.getNodeIndex();i++){
+	         htmlvisitor.setSequence(i);
+	         dd.accept(htmlvisitor);
+	     }
 		/*
 		Tidy tidy = new Tidy();
 		
@@ -64,11 +69,7 @@ public class converter {
 	      
 	}
 	
-	/**
-     * Check command grammar
-     * @param String[] args
-     * @return boolean type
-     */
+	
 	public static boolean new_check_grammar(String[] args){
 		int[] index_md = new int[args.length];
 		int[] index_output = new int[args.length];

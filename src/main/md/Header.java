@@ -14,7 +14,7 @@ public class Header extends Node{
 	}
 	
 	//yoojin
-	int htype=0;
+	
 	
 	
 }

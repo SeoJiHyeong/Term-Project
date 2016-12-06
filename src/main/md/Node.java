@@ -6,7 +6,7 @@ public class Node implements MDElement {
  	ArrayList<String> content = new ArrayList();
  	String notice;
  	String line;
- 	
+ 	int htype=0;
     public String[][] syntax;
     
  

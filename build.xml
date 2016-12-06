@@ -91,7 +91,7 @@
                 <file file="jacoco.exec" />
             </executiondata>
             
-            <structure name="Simple">
+            <structure name="Branch Coverage Test">
                 <classfiles>
                     <fileset dir="${build.dir}" />
                 </classfiles>

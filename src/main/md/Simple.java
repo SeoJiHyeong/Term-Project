@@ -1,5 +1,5 @@
 package md;
-public class Simple
+public class Simple 
 {
 	public Simple() {
 	}

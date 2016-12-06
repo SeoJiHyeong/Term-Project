@@ -5,7 +5,7 @@ public class HTMLVisitor implements MDElementVisitor {
 	String line;
 
 	int nodeIndex;
-
+	int sequence;
 	//document
  	private Document ParsedDocument;
 
@@ -13,6 +13,7 @@ public class HTMLVisitor implements MDElementVisitor {
 	private Node tempNode;
  	//node
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
+	
 
 	//it will save converted htmlcode
 	private ArrayList<String> HTMLList = new ArrayList();
@@ -25,7 +26,13 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 //node
 	 public void visit(Header n){
-		//tempNode = nodeList[sequence];
+		tempNode = nodeList.get(sequence);
+		ArrayList<Token> tokenList = tempNode.getTokenList();
+		System.out.println(tempNode.notice);
+		System.out.println(tempNode.htype);
+		System.out.println(tokenList.get(0).notice);
+		System.out.println(tokenList.get(0).content);
+		
 	 }
 
 	 public void visit(ItemList n){
@@ -91,6 +98,9 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void setSequence(int i){
-		 //sequence = i;
+		 sequence = i;
 	 }
+	 public ArrayList<Node> getNode(){
+			return nodeList;
+	}
 }

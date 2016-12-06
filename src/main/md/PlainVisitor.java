@@ -67,7 +67,7 @@ public class PlainVisitor implements MDElementVisitor{
 			node.htype=count;
 			forToken=line.substring(position+1);
 			tokenize(forToken,node);
-			System.out.println(forToken);
+	
 			nodeList.add(node);
 			pass=1;
 		}
@@ -522,12 +522,14 @@ public class PlainVisitor implements MDElementVisitor{
 		if(pass==0){
 			Text node = new Text();
 			tokenize(line,node);
+			node.addContent(line);
+			nodeList.add(node);
 		}
 		else
 			pass=0;
 	}
 
-		public ArrayList<Node> getNode(){
+	public ArrayList<Node> getNode(){
 			return nodeList;
 	}
 
