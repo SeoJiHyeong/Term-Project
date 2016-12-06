@@ -14,43 +14,80 @@ import java.util.ArrayList;
  	//node
 <span class="nc" id="L15">	private ArrayList&lt;Node&gt; nodeList = new ArrayList&lt;Node&gt;();</span>
 
+
 	//it will save converted htmlcode
-<span class="nc" id="L18">	private ArrayList&lt;String&gt; HTMLList = new ArrayList();</span>
+<span class="nc" id="L19">	private ArrayList&lt;String&gt; HTMLList = new ArrayList();</span>
 
 	 public void visit(Document d){
-<span class="nc" id="L21">		 ParsedDocument = d;</span>
-<span class="nc" id="L22">	 }</span>
+<span class="nc" id="L22">		 d.addDocument(line);</span>
+<span class="nc" id="L23">		 ParsedDocument = d;</span>
+<span class="nc" id="L24">	 }</span>
 
 
 
 	 //node
 	 public void visit(Header n){
-<span class="nc" id="L28">		tempNode = nodeList.get(sequence);</span>
-<span class="nc" id="L29">	 }</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;Header&quot;)){</span>
+<span class="nc" id="L31">			tempNode = nodeList.get(sequence);</span>
+<span class="nc" id="L32">			ArrayList&lt;Token&gt; tokenList = tempNode.getTokenList();</span>
+<span class="nc" id="L33">			String tmp =&quot;&quot;;</span>
+<span class="nc" id="L34">			System.out.println(tempNode.htype);</span>
+<span class="nc" id="L35">			tmp = &quot;&lt;h&quot;+tempNode.htype+&quot;&gt;&quot;+tokenList.get(0).content+&quot;&lt;/h&quot;+tempNode.htype+&quot;&gt;&quot;;</span>
+<span class="nc" id="L36">			System.out.println(tokenList.get(0).content);</span>
+<span class="nc" id="L37">			line = tmp;</span>
+		}
+		else;
+
+
+<span class="nc" id="L42">	 }</span>
 
 	 public void visit(ItemList n){
+<span class="nc bnc" id="L45" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;ItemList&quot;)){</span>
 
-<span class="nc" id="L33">	 }</span>
-
-	 public void visit(OrderedList n){
-
-<span class="nc" id="L37">	 }</span>
-
-	 public void visit(HorizontalRule n){
-
-<span class="nc" id="L41">	 }</span>
-
-	 public void visit(Text n){
-
-<span class="nc" id="L45">	 }</span>
-
-	 public void visit(BlockQuotes n){
-
+		}
+		else;
 <span class="nc" id="L49">	 }</span>
 
-	 public void visit(CodeBlock n){
+	 public void visit(OrderedList n){
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;OrderedList&quot;)){</span>
 
-<span class="nc" id="L53">	 }</span>
+		}
+		else;
+<span class="nc" id="L56">	 }</span>
+
+	 public void visit(HorizontalRule n){
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;HorizontalRule&quot;)){</span>
+
+		}
+		else;
+<span class="nc" id="L63">	 }</span>
+
+	 public void visit(Text n){
+<span class="nc bnc" id="L66" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;Text&quot;)){</span>
+
+		}
+		else;
+<span class="nc" id="L70">	 }</span>
+
+	 public void visit(BlockQuotes n){
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;BlockQuotes&quot;)){</span>
+<span class="nc" id="L74">			String tmp = &quot;&quot;;</span>
+<span class="nc" id="L75">			tempNode = nodeList.get(sequence);</span>
+<span class="nc" id="L76">			ArrayList&lt;Token&gt; tokenList = tempNode.getTokenList();</span>
+<span class="nc" id="L77">			System.out.println(tokenList.get(0).content);</span>
+<span class="nc" id="L78">			tmp =&quot;&lt;blockquote&gt;&quot;+tokenList.get(0).content+&quot;&lt;/blockquote&gt;&quot;;</span>
+<span class="nc" id="L79">			line = tmp;</span>
+<span class="nc" id="L80">			System.out.println(line);</span>
+		}
+		else;
+<span class="nc" id="L83">	 }</span>
+
+	 public void visit(CodeBlock n){
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		if(n.notifyNode().equals(&quot;CodeBlock&quot;)){</span>
+
+		}
+		else;
+<span class="nc" id="L90">	 }</span>
 
 
 
@@ -75,23 +112,26 @@ import java.util.ArrayList;
 	 */
 	 public void visit(Token t){
 
-<span class="nc" id="L78">	 }</span>
+<span class="nc" id="L115">	 }</span>
 
 	 public void setNodelist(ArrayList&lt;Node&gt; node){
-<span class="nc" id="L81">		 nodeList = node;</span>
-<span class="nc" id="L82">		 nodeIndex = nodeList.size();</span>
-<span class="nc" id="L83">	 }</span>
+<span class="nc" id="L118">		 nodeList = node;</span>
+<span class="nc" id="L119">		 nodeIndex = nodeList.size();</span>
+<span class="nc" id="L120">	 }</span>
 
 	 public int getNodeIndex(){
-<span class="nc" id="L86">		 return nodeIndex;</span>
+<span class="nc" id="L123">		 return nodeIndex;</span>
 	 }
 
 	 public void setLine(String s){
-<span class="nc" id="L90">		 line = s;</span>
-<span class="nc" id="L91">	 }</span>
+<span class="nc" id="L127">		 line = s;</span>
+<span class="nc" id="L128">	 }</span>
 
 	 public void setSequence(int i){
-<span class="nc" id="L94">		 sequence = i;</span>
-<span class="nc" id="L95">	 }</span>
+<span class="nc" id="L131">		 sequence = i;</span>
+<span class="nc" id="L132">	 }</span>
+	 public ArrayList&lt;Node&gt; getNode(){
+<span class="nc" id="L134">			return nodeList;</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

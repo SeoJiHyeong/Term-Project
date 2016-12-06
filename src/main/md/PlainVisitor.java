@@ -223,113 +223,109 @@ public class PlainVisitor implements MDElementVisitor{
 			char a = s.charAt(i);
 			//System.out.println("a : "+a);
 			switch(a) {
-			case '=' :
-				break;
-
 			case '_' :
 
-				//buffer+=a;
-				if(uTotal==1) {
-					buffer+=a;
-					break;
-				}
-				if(ustCheck==1){
-					if(i+1<s.length()&&s.charAt(i+1)=='_'){
-						StyleText st = new StyleText("strong");
-						st.content="__";
-						n.addToken(st);
-
-						PlainText pt = new PlainText();
-						pt.content=buffer.substring(2, buffer.length());
-						n.addToken(pt);
-
-
-						StyleText st2 = new StyleText("/strong");
-						n.addContent("__");
-						n.addToken(st2);
-						buffer="";
-						ustCheck=0;
-						i=i+1;
-						break;
-					}//** hihi **
-					else {
-						PlainText pt = new PlainText();
-						pt.content="_";
-						n.addToken(pt);
-
-						StyleText st = new StyleText("em");
-						st.content="_";
-						n.addToken(st);
-
-						PlainText pt1 = new PlainText();
-						pt1.content=buffer.substring(2, buffer.length());
-						n.addToken(pt1);
-
-
-						StyleText st2 = new StyleText("/em");
-						n.addContent("_");
-						n.addToken(st2);
-						buffer="";
-						ustCheck=0;
-						uemCheck=0;
-						break;
-					}//**hi*h
-				}
-				if(uemCheck==1) {
-					StyleText st = new StyleText("em");
-					st.content="_";
-					n.addToken(st);
-
-					PlainText pt = new PlainText();
-					pt.content=buffer.substring(1, buffer.length());
-					n.addToken(pt);
-
-
-					StyleText st2 = new StyleText("/em");
-					n.addContent("_");
-					n.addToken(st2);
-					buffer="";
-					uemCheck=0;
-					break;
-				}// *hihi*
-
-
-				if(i+2<s.length() && s.charAt(i+1)=='_'&&s.charAt(i+2)=='_') {
-					uTotal=1;
-					buffer+=a;
-					break;
-				}
-				else if(i+1<s.length() && s.charAt(i+1)=='_'){
-					ustCheck=1;
-					if(buffer != null && !buffer.isEmpty())
-					{
-						PlainText pt = new PlainText();
-						pt.content=buffer;
-						//System.out.println(buffer);
-						n.addToken(pt);
-						buffer="";
-						//buffer+=a;
-					}
-					buffer="__";
-					i=i+1;
-					break;
-				}
-
-				else {
-					uemCheck=1;
-					if(buffer != null && !buffer.isEmpty())
-					{
-						PlainText pt = new PlainText();
-						pt.content=buffer;
-						//System.out.println(buffer);
-						n.addToken(pt);
-						buffer="";
-						buffer+=a;
-					}
-					else
-						buffer+=a;
-				}
-				break;
+                    if(uTotal==1) {
+                        buffer+=a;
+                        break;
+                    }
+                    if(ustCheck==1){
+                        if(s.charAt(i+1)=='_'){
+                            StyleText st = new StyleText("strong");
+                            st.content="__";
+                            n.addToken(st);
+                            
+                            PlainText pt = new PlainText();
+                            pt.content=buffer.substring(2, buffer.length());
+                            n.addToken(pt);
+                            
+                            
+                            StyleText st2 = new StyleText("/strong");
+                            n.addContent("__");
+                            n.addToken(st2);
+                            buffer="";
+                            ustCheck=0;
+                            i=i+1;
+                            break;
+                        }//** hihi **
+                        else {
+                            PlainText pt = new PlainText();
+                            pt.content="_";
+                            n.addToken(pt);
+                            
+                            StyleText st = new StyleText("em");
+                            st.content="_";
+                            n.addToken(st);
+                            
+                            PlainText pt1 = new PlainText();
+                            pt1.content=buffer.substring(2, buffer.length());
+                            n.addToken(pt1);
+                            
+                            
+                            StyleText st2 = new StyleText("/em");
+                            n.addContent("_");
+                            n.addToken(st2);
+                            buffer="";
+                            ustCheck=0;
+                            uemCheck=0;
+                            break;
+                        }//**hi*h
+                    }
+                    if(uemCheck==1) {
+                        StyleText st = new StyleText("em");
+                        st.content="_";
+                        n.addToken(st);
+                        
+                        PlainText pt = new PlainText();
+                        pt.content=buffer.substring(1, buffer.length());
+                        n.addToken(pt);
+                        
+                        
+                        StyleText st2 = new StyleText("/em");
+                        n.addContent("_");
+                        n.addToken(st2);
+                        buffer="";
+                        uemCheck=0;
+                        break;
+                    }// *hihi*
+                    
+                    
+                    if(s.charAt(i+1)=='_'&&s.charAt(i+2)=='_') {
+                        uTotal=1;
+                        buffer+=a;
+                        break;
+                    }
+                    else if(s.charAt(i+1)=='_'){
+                        ustCheck=1;
+                        if(!buffer.isEmpty())
+                        {
+                            PlainText pt = new PlainText();
+                            pt.content=buffer;
+                            //System.out.println(buffer);
+                            n.addToken(pt);
+                            buffer="";
+                            //buffer+=a;
+                        }
+                        buffer="__";
+                        i=i+1;
+                        break;
+                    }
+                    
+                    else {
+                        uemCheck=1;
+                        if(!buffer.isEmpty())
+                        {
+                            PlainText pt = new PlainText();
+                            pt.content=buffer;
+                            //System.out.println(buffer);
+                            n.addToken(pt);
+                            buffer="";
+                            buffer+=a;
+                        }
+                        else
+                            buffer+=a;
+                    }
+                    break;
 
 
 			case '*' :
@@ -340,7 +336,7 @@ public class PlainVisitor implements MDElementVisitor{
 					break;
 				}
 				if(stCheck==1){
-					if(i+1<s.length()&&s.charAt(i+1)=='*'){
+					if(s.charAt(i+1)=='*'){
 						StyleText st = new StyleText("strong");
 						st.content="**";
 						n.addToken(st);
@@ -402,14 +398,14 @@ public class PlainVisitor implements MDElementVisitor{
 				}// *hihi*
 
 
-				if(i+2<s.length() && s.charAt(i+1)=='*'&&s.charAt(i+2)=='*') {
+				if(s.charAt(i+1)=='*'&&s.charAt(i+2)=='*') {
 					aTotal=1;
 					buffer+=a;
 					break;
 				}
-				else if(i+1<s.length() && s.charAt(i+1)=='*'){
+				else if(s.charAt(i+1)=='*'){
 					stCheck=1;
-					if(buffer != null && !buffer.isEmpty())
+					if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -425,7 +421,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 				else {
 					emCheck=1;
-					if(buffer != null && !buffer.isEmpty())
+					if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -443,7 +439,7 @@ public class PlainVisitor implements MDElementVisitor{
 				break;
 			}
 		}
-		if(buffer != null && !buffer.isEmpty()) {
+		if(!buffer.isEmpty()) {
 					PlainText pt = new PlainText();
 					pt.content=buffer;
 					//System.out.println(buffer);

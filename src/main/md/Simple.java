@@ -1,5 +1,5 @@
 package md;
-public class Simple 
+public class Simple
 {
 	public Simple() {
 	}
@@ -9,10 +9,4 @@ public class Simple
 			return i ;
 		return i * -1 ;
 	}
-    public int exec2(int i){
-        if(i>0)
-            return 1;
-        else
-            return 2;
-    }
 }
