@@ -2,22 +2,22 @@
 import java.util.ArrayList;
 
 <span class="fc" id="L4">public class Node implements MDElement {</span>
-<span class="fc" id="L5">	private ArrayList tokenList = new ArrayList();</span>
-<span class="fc" id="L6"> 	ArrayList&lt;String&gt; content = new ArrayList();</span>
+<span class="fc" id="L5">	private ArrayList&lt;Token&gt; tokenList = new ArrayList&lt;Token&gt;();</span>
+<span class="fc" id="L6"> 	ArrayList&lt;String&gt; content = new ArrayList&lt;String&gt;();</span>
  	String notice;
  	String line;
 <span class="fc" id="L9"> 	int htype=0;</span>
     public String[][] syntax;
-    
- 
-    
+	public int number;
+
+
 	public void accept(MDElementVisitor v){
 <span class="nc" id="L15">	}</span>
-	
+
 	public String notifyNode(){
 <span class="nc" id="L18">		return notice;</span>
 	}
-	
+
 	public void setLine(String s){
 <span class="nc" id="L22">		line = s;</span>
 <span class="nc" id="L23">	}</span>
@@ -33,17 +33,17 @@ import java.util.ArrayList;
 	public void addToken(Token t){
 <span class="fc" id="L34">		tokenList.add(t);</span>
 <span class="fc" id="L35">	}</span>
-	
-	
+
+
 	//////YooJin Add
 
-	
+
 	public int getTokenListSize() {
 <span class="fc" id="L42">		return tokenList.size();</span>
 	}
 	public ArrayList&lt;Token&gt; getTokenList() {
 <span class="fc" id="L45">		return tokenList;</span>
-	}	
-	
+	}
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

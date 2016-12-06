@@ -6,10 +6,10 @@ import java.util.Iterator;
 
 	String line, target;
 <span class="fc" id="L8"> 	private ArrayList&lt;Document&gt; documentList = new ArrayList&lt;Document&gt;();</span>
-<span class="fc" id="L9"> 	private ArrayList temp = new ArrayList();</span>
+<span class="fc" id="L9"> 	private ArrayList &lt;Node&gt;temp = new ArrayList&lt;Node&gt;();</span>
 <span class="fc" id="L10">	private ArrayList&lt;Node&gt; nodeList = new ArrayList&lt;Node&gt;();</span>
-<span class="fc" id="L11">	private ArrayList multipleLineCase = new ArrayList();</span>
-<span class="fc" id="L12">	private ArrayList nodeSyntax = new ArrayList();</span>
+	//private ArrayList multipleLineCase = new ArrayList();
+	//private ArrayList nodeSyntax = new ArrayList();
 
 
 <span class="fc" id="L15">	int pass=0;</span>
@@ -37,496 +37,520 @@ import java.util.Iterator;
 	public void visit(Header n){
 
 <span class="nc" id="L39">		System.out.println(&quot;header visited&quot;);</span>
-		//int i;
-		/*
-		for(i=n.syntax.length-1;i&gt;=0;i--){
-			target = line.substring(0, n.syntax[i][0].length());
-			if(target.equals(n.syntax[i][0])){
-				Header node = new Header();
-				node.addContent(line);
-				nodeList.add(node);
-				pass=pass+1;
-				System.out.println(&quot;header : &quot;+pass);
-			}
-		}
-		*/
-<span class="nc" id="L53">		String forToken = &quot;&quot;;</span>
-<span class="nc" id="L54">		int count=0;</span>
-<span class="nc" id="L55">		int position = 0;</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">		for(int i=0;i&lt;line.length();i++) {</span>
-<span class="nc" id="L57">			char a=line.charAt(i);</span>
-<span class="nc bnc" id="L58" title="All 6 branches missed.">			if(i&lt;6 &amp;&amp; a=='#' &amp;&amp; count==i)</span>
-<span class="nc" id="L59">				count++;</span>
+
+<span class="nc" id="L41">		String forToken = &quot;&quot;;</span>
+<span class="nc" id="L42">		int count=0;</span>
+<span class="nc" id="L43">		int position = 0;</span>
+<span class="nc" id="L44">		Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">		for(int i=0;i&lt;line.length();i++) {</span>
+<span class="nc" id="L46">			char a=line.charAt(i);</span>
+<span class="nc bnc" id="L47" title="All 6 branches missed.">			if(i&lt;6 &amp;&amp; a=='#' &amp;&amp; count==i)</span>
+<span class="nc" id="L48">				count++;</span>
 			else {
-<span class="nc" id="L61">				position=i;</span>
-<span class="nc" id="L62">				break;</span>
+<span class="nc" id="L50">				position=i;</span>
+<span class="nc" id="L51">				break;</span>
 			}
 		}
-<span class="nc bnc" id="L65" title="All 4 branches missed.">		if(count!=0 &amp;&amp; line.charAt(position)==32){</span>
-<span class="nc" id="L66">			Header node = new Header();</span>
-<span class="nc" id="L67">			node.htype=count;</span>
-<span class="nc" id="L68">			forToken=line.substring(position+1);</span>
-<span class="nc" id="L69">			tokenize(forToken,node);</span>
-	
-<span class="nc" id="L71">			nodeList.add(node);</span>
-<span class="nc" id="L72">			pass=1;</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">		if(count!=0 &amp;&amp; line.charAt(position)==32){</span>
+<span class="nc" id="L55">			Header node = new Header();</span>
+<span class="nc" id="L56">			node.htype=count;</span>
+<span class="nc" id="L57">			forToken=line.substring(position+1);</span>
+<span class="nc" id="L58">			tokenize(forToken,node);</span>
+
+<span class="nc" id="L60">			nodeList.add(node);</span>
+<span class="nc" id="L61">			pass=1;</span>
+<span class="nc" id="L62">		}</span>
+		//make a case that 2 lines header
+<span class="nc bnc" id="L64" title="All 6 branches missed.">		else if(temp.notifyNode().equals(&quot;Text&quot;)&amp;&amp;(line.charAt(0)==45||line.charAt(0)==61)){</span>
+<span class="nc" id="L65">			boolean isHeader = true;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">			for(int i=1;i&lt;line.length();i++){</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">				if((line.charAt(i)==line.charAt(i-1))||line.charAt(i)==32);</span>
+				else {
+<span class="nc" id="L69">					isHeader = false;</span>
+<span class="nc" id="L70">					break;</span>
+				}
+			}
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">			if(isHeader){</span>
+<span class="nc" id="L75">					Header node = new Header();</span>
+<span class="nc" id="L76">					node.htype=1;</span>
+					//i don't know
+<span class="nc" id="L78">					forToken=line.substring(position+1);</span>
+					//i don't know
+<span class="nc" id="L80">					tokenize(forToken,node);</span>
+					//have to add previus node's plain text and h1
+<span class="nc" id="L82">					nodeList.remove(nodeList.size()-1);				//remove and add</span>
+<span class="nc" id="L83">					nodeList.add(node);</span>
+<span class="nc" id="L84">					pass=1;</span>
+<span class="nc" id="L85">					System.out.println(&quot;header : &quot;+pass);</span>
+			}
+			else;
 		}
-<span class="nc" id="L74">	}</span>
+<span class="nc" id="L89">	}</span>
 
 	public void visit(ItemList n){
-<span class="nc" id="L77">		System.out.println(&quot;itemlist visited&quot;);</span>
-<span class="nc" id="L78">		char a = line.charAt(0);</span>
-<span class="nc" id="L79">		char b = line.charAt(1);</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">		if(pass==0) {</span>
-<span class="nc" id="L81">			System.out.println(&quot;checkPass&quot;);</span>
-<span class="nc bnc" id="L82" title="All 8 branches missed.">			if((a==42||a==43||a==45)&amp;&amp;b==32){</span>
-<span class="nc" id="L83">					Node temp = nodeList.get(nodeList.size()-1);</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">					if(temp.notifyNode().equals(&quot;ItemList&quot;)){</span>
-<span class="nc" id="L85">						temp.addContent(line);</span>
-					}
-					else{
-<span class="nc" id="L88">						ItemList node = new ItemList();</span>
-<span class="nc" id="L89">						node.addContent(line);</span>
-<span class="nc" id="L90">						nodeList.add(node);</span>
-<span class="nc" id="L91">						pass=1;</span>
-<span class="nc" id="L92">						System.out.println(&quot;itemlist : &quot;+pass);</span>
-					}
-			}
-			else ;
-		}
-<span class="nc" id="L97">	}</span>
-
-	public void visit(OrderedList n){
-<span class="nc" id="L100">		System.out.println(&quot;orderedlist visited&quot;);</span>
-		int i;
-<span class="nc bnc" id="L102" title="All 2 branches missed.">		for(i=0;i&lt;line.length();i++){</span>
-<span class="nc bnc" id="L103" title="All 4 branches missed.">			if(line.charAt(i)&gt;=48&amp;&amp;line.charAt(i)&lt;=57){</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">				if(line.charAt(i+1)==46){</span>
-<span class="nc" id="L105">					Node temp = nodeList.get(nodeList.size()-1);</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">					if(temp.notifyNode().equals(&quot;OrderedList&quot;)){</span>
-<span class="nc" id="L107">						temp.addContent(line);</span>
-<span class="nc" id="L108">						break;</span>
-					}
-					else{
-<span class="nc" id="L111">						OrderedList node = new OrderedList();</span>
-<span class="nc" id="L112">						node.addContent(line);</span>
-<span class="nc" id="L113">						nodeList.add(node);</span>
-<span class="nc" id="L114">						pass=1;</span>
-<span class="nc" id="L115">						System.out.println(&quot;orderedlist : &quot;+pass);</span>
-<span class="nc" id="L116">						break;</span>
-					}
+<span class="nc" id="L92">		System.out.println(&quot;itemlist visited&quot;);</span>
+		char a,b;
+<span class="nc bnc" id="L94" title="All 2 branches missed.">		if(line.length()&gt;2){ //add a condition for comparing two letters.</span>
+<span class="nc" id="L95">			a = line.charAt(0);</span>
+<span class="nc" id="L96">			b = line.charAt(1);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">			if(pass==0) {</span>
+<span class="nc" id="L98">				System.out.println(&quot;checkPass&quot;);</span>
+<span class="nc bnc" id="L99" title="All 8 branches missed.">				if((a==42||a==43||a==45)&amp;&amp;b==32){ //remove the case which is called when previous node is list</span>
+<span class="nc" id="L100">						Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc" id="L101">						ItemList node = new ItemList();</span>
+<span class="nc" id="L102">						node.addContent(line);</span>
+<span class="nc" id="L103">						nodeList.add(node);</span>
+<span class="nc" id="L104">						pass=1;</span>
+<span class="nc" id="L105">						System.out.println(&quot;itemlist : &quot;+pass);</span>
 				}
 				else ;
 			}
-			else break;
 		}
-<span class="nc" id="L123">	}</span>
-	public void visit(HorizontalRule n){
-<span class="nc" id="L125">		System.out.println(&quot;horizontalRule visited&quot;);</span>
-		int i;
-<span class="nc" id="L127">		int ruleCase = 0;</span>
+<span class="nc" id="L110">	}</span>
 
-<span class="nc bnc" id="L129" title="All 2 branches missed.">		for(i=0;i&lt;line.length();i++){</span>
-<span class="nc bnc" id="L130" title="All 6 branches missed.">			if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;</span>
-			else{
-<span class="nc bnc" id="L132" title="All 4 branches missed.">				switch(ruleCase){</span>
-				case 0:
-<span class="nc bnc" id="L134" title="All 6 branches missed.">					if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){</span>
-<span class="nc bnc" id="L135" title="All 2 branches missed.">						if(line.charAt(i)==42)ruleCase = 1;</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">						else if(line.charAt(i)==45)ruleCase = 2;</span>
-<span class="nc" id="L137">						else ruleCase = 0;</span>
+	public void visit(OrderedList n){
+<span class="nc" id="L113">		System.out.println(&quot;orderedlist visited&quot;);</span>
+		int i;
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		if(line.length()&gt;2){	//add a condition for comparing two letters.</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">			for(i=0;i&lt;line.length();i++){</span>
+<span class="nc bnc" id="L117" title="All 4 branches missed.">				if(line.charAt(i)&gt;=48&amp;&amp;line.charAt(i)&lt;=57){</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">					if(line.charAt(i+1)==46){</span>
+<span class="nc" id="L119">						Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">						if(temp.notifyNode().equals(&quot;OrderedList&quot;)){</span>
+<span class="nc" id="L121">							OrderedList node = new OrderedList();    //Originally, it add content at this case,</span>
+<span class="nc" id="L122">							node.addContent(line);                   //but now it compare the number of previous</span>
+<span class="nc" id="L123">							node.setNumber(temp.number+1);	 //one and add new node and count the number</span>
+<span class="nc" id="L124">							nodeList.add(node);</span>
+<span class="nc" id="L125">							pass=1;</span>
+<span class="nc" id="L126">							System.out.println(&quot;orderedlist : &quot;+pass);</span>
+<span class="nc" id="L127">							break;</span>
+						}
+						else{
+<span class="nc" id="L130">							OrderedList node = new OrderedList();</span>
+<span class="nc" id="L131">							node.addContent(line);</span>
+<span class="nc" id="L132">							node.setNumber(1);</span>
+<span class="nc" id="L133">							nodeList.add(node);</span>
+<span class="nc" id="L134">							pass=1;</span>
+<span class="nc" id="L135">							System.out.println(&quot;orderedlist : &quot;+pass);</span>
+<span class="nc" id="L136">							break;</span>
+						}
 					}
-<span class="nc" id="L139">					else ruleCase =3;</span>
-<span class="nc" id="L140">					break;</span>
-				case 1:
-<span class="nc bnc" id="L142" title="All 4 branches missed.">					if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;</span>
-<span class="nc" id="L143">					else ruleCase = 3;</span>
-<span class="nc" id="L144">					break;</span>
-				case 2:
-<span class="nc bnc" id="L146" title="All 4 branches missed.">					if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;</span>
-<span class="nc" id="L147">					else ruleCase = 3;</span>
-<span class="nc" id="L148">					break;</span>
-<span class="nc" id="L149">				default: ruleCase = 3;</span>
-				break;
+					else ;
+				}
+				else break;
+			}
+		}
+<span class="nc" id="L144">	}</span>
+
+	public void visit(HorizontalRule n){
+<span class="nc" id="L147">		System.out.println(&quot;horizontalRule visited&quot;);</span>
+		int i;
+<span class="nc" id="L149">		int ruleCase = 0;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">		if(pass==0){</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">			for(i=0;i&lt;line.length();i++){</span>
+<span class="nc bnc" id="L152" title="All 6 branches missed.">				if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;</span>
+				else{
+<span class="nc bnc" id="L154" title="All 4 branches missed.">					switch(ruleCase){</span>
+					case 0:
+<span class="nc bnc" id="L156" title="All 6 branches missed.">						if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">							if(line.charAt(i)==42)ruleCase = 1;</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">							else if(line.charAt(i)==45)ruleCase = 2;</span>
+<span class="nc" id="L159">							else ruleCase = 0;</span>
+						}
+<span class="nc" id="L161">						else ruleCase =3;</span>
+<span class="nc" id="L162">						break;</span>
+					case 1:
+<span class="nc bnc" id="L164" title="All 4 branches missed.">						if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;</span>
+<span class="nc" id="L165">						else ruleCase = 3;</span>
+<span class="nc" id="L166">						break;</span>
+					case 2:
+<span class="nc bnc" id="L168" title="All 4 branches missed.">						if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;</span>
+<span class="nc" id="L169">						else ruleCase = 3;</span>
+<span class="nc" id="L170">						break;</span>
+<span class="nc" id="L171">					default: ruleCase = 3;</span>
+					break;
+					}
+				}
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">				if(ruleCase==3)break;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">				else if(i==line.length()-1){</span>
+<span class="nc" id="L178">					HorizontalRule node = new HorizontalRule();</span>
+<span class="nc" id="L179">					node.addContent(line);</span>
+<span class="nc" id="L180">					nodeList.add(node);</span>
+<span class="nc" id="L181">					pass=1;</span>
+<span class="nc" id="L182">					System.out.println(&quot;hr : &quot;+pass);</span>
+<span class="nc" id="L183">					System.out.println(&quot;horizontalRule&quot;);</span>
 				}
 			}
-
-<span class="nc bnc" id="L154" title="All 2 branches missed.">			if(ruleCase==3)break;</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">			else if(i==line.length()-1){</span>
-<span class="nc" id="L156">				HorizontalRule node = new HorizontalRule();</span>
-<span class="nc" id="L157">				node.addContent(line);</span>
-<span class="nc" id="L158">				nodeList.add(node);</span>
-<span class="nc" id="L159">				pass=1;</span>
-<span class="nc" id="L160">				System.out.println(&quot;hr : &quot;+pass);</span>
-<span class="nc" id="L161">				System.out.println(&quot;horizontalRule&quot;);</span>
-			}
 		}
-
-<span class="nc" id="L165">	}</span>
+		else;
+<span class="nc" id="L188">	}</span>
 
 	public void setLine(String s){
-<span class="nc" id="L168">		line = s;</span>
-<span class="nc" id="L169">	}</span>
+<span class="nc" id="L191">		line = s;</span>
+<span class="nc" id="L192">	}</span>
 	public String getLine(){
-<span class="nc" id="L171">		return line;</span>
+<span class="nc" id="L194">		return line;</span>
 	}
 	public void setTarget(String s){
 		String temp;
 		int i;
-<span class="nc bnc" id="L176" title="All 2 branches missed.">		for(i=0;i&lt;s.length();i++){</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">		for(i=0;i&lt;s.length();i++){</span>
 	//		if(s.charAt(i))
 		}
-<span class="nc" id="L179">	}</span>
+<span class="nc" id="L202">	}</span>
 
 
 
 	//////////////Yoojin's Part!!
 	public void tokenize(String s, Node n){
-<span class="fc" id="L185">		String buffer=&quot;&quot;;</span>
+<span class="fc" id="L208">		String buffer=&quot;&quot;;</span>
 
-<span class="fc" id="L187">		int aTotal = 0; // ***</span>
-<span class="fc" id="L188">		int emCheck=0; // emphasis check</span>
-<span class="fc" id="L189">		int stCheck=0; // strong check</span>
+<span class="fc" id="L210">		int aTotal = 0; // ***</span>
+<span class="fc" id="L211">		int emCheck=0; // emphasis check</span>
+<span class="fc" id="L212">		int stCheck=0; // strong check</span>
 
-<span class="fc" id="L191">		int uTotal = 0; // _</span>
-<span class="fc" id="L192">		int uemCheck=0; // _ em</span>
-<span class="fc" id="L193">		int ustCheck=0; // __ strong</span>
+<span class="fc" id="L214">		int uTotal = 0; // _</span>
+<span class="fc" id="L215">		int uemCheck=0; // _ em</span>
+<span class="fc" id="L216">		int ustCheck=0; // __ strong</span>
 
-<span class="fc" id="L195">		int hCheck=0; // header</span>
-<span class="fc" id="L196">		int position = 0;</span>
+<span class="fc" id="L218">		int hCheck=0; // header</span>
+<span class="fc" id="L219">		int position = 0;</span>
 
 		//System.out.println(s);
-<span class="fc bfc" id="L199" title="All 2 branches covered.">		for(int i=0;i&lt;s.length();i++){</span>
-<span class="fc" id="L200">			char a = s.charAt(i);</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">		for(int i=0;i&lt;s.length();i++){</span>
+<span class="fc" id="L223">			char a = s.charAt(i);</span>
 			//System.out.println(&quot;a : &quot;+a);
-<span class="fc bfc" id="L202" title="All 3 branches covered.">			switch(a) {</span>
+<span class="fc bfc" id="L225" title="All 3 branches covered.">			switch(a) {</span>
 			case '_' :
 
-<span class="fc bfc" id="L205" title="All 2 branches covered.">                    if(uTotal==1) {</span>
-<span class="fc" id="L206">                        buffer+=a;</span>
-<span class="fc" id="L207">                        break;</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">                    if(uTotal==1) {</span>
+<span class="fc" id="L229">                        buffer+=a;</span>
+<span class="fc" id="L230">                        break;</span>
                     }
-<span class="fc bfc" id="L209" title="All 2 branches covered.">                    if(ustCheck==1){</span>
-<span class="fc bfc" id="L210" title="All 2 branches covered.">                        if(s.charAt(i+1)=='_'){</span>
-<span class="fc" id="L211">                            StyleText st = new StyleText(&quot;strong&quot;);</span>
-<span class="fc" id="L212">                            st.content=&quot;__&quot;;</span>
-<span class="fc" id="L213">                            n.addToken(st);</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">                    if(ustCheck==1){</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">                        if(s.charAt(i+1)=='_'){</span>
+<span class="fc" id="L234">                            StyleText st = new StyleText(&quot;strong&quot;);</span>
+<span class="fc" id="L235">                            st.content=&quot;__&quot;;</span>
+<span class="fc" id="L236">                            n.addToken(st);</span>
                             
-<span class="fc" id="L215">                            PlainText pt = new PlainText();</span>
-<span class="fc" id="L216">                            pt.content=buffer.substring(2, buffer.length());</span>
-<span class="fc" id="L217">                            n.addToken(pt);</span>
+<span class="fc" id="L238">                            PlainText pt = new PlainText();</span>
+<span class="fc" id="L239">                            pt.content=buffer.substring(2, buffer.length());</span>
+<span class="fc" id="L240">                            n.addToken(pt);</span>
                             
                             
-<span class="fc" id="L220">                            StyleText st2 = new StyleText(&quot;/strong&quot;);</span>
-<span class="fc" id="L221">                            n.addContent(&quot;__&quot;);</span>
-<span class="fc" id="L222">                            n.addToken(st2);</span>
-<span class="fc" id="L223">                            buffer=&quot;&quot;;</span>
-<span class="fc" id="L224">                            ustCheck=0;</span>
-<span class="fc" id="L225">                            i=i+1;</span>
-<span class="fc" id="L226">                            break;</span>
+<span class="fc" id="L243">                            StyleText st2 = new StyleText(&quot;/strong&quot;);</span>
+<span class="fc" id="L244">                            n.addContent(&quot;__&quot;);</span>
+<span class="fc" id="L245">                            n.addToken(st2);</span>
+<span class="fc" id="L246">                            buffer=&quot;&quot;;</span>
+<span class="fc" id="L247">                            ustCheck=0;</span>
+<span class="fc" id="L248">                            i=i+1;</span>
+<span class="fc" id="L249">                            break;</span>
                         }//** hihi **
                         else {
-<span class="fc" id="L229">                            PlainText pt = new PlainText();</span>
-<span class="fc" id="L230">                            pt.content=&quot;_&quot;;</span>
-<span class="fc" id="L231">                            n.addToken(pt);</span>
+<span class="fc" id="L252">                            PlainText pt = new PlainText();</span>
+<span class="fc" id="L253">                            pt.content=&quot;_&quot;;</span>
+<span class="fc" id="L254">                            n.addToken(pt);</span>
                             
-<span class="fc" id="L233">                            StyleText st = new StyleText(&quot;em&quot;);</span>
-<span class="fc" id="L234">                            st.content=&quot;_&quot;;</span>
-<span class="fc" id="L235">                            n.addToken(st);</span>
+<span class="fc" id="L256">                            StyleText st = new StyleText(&quot;em&quot;);</span>
+<span class="fc" id="L257">                            st.content=&quot;_&quot;;</span>
+<span class="fc" id="L258">                            n.addToken(st);</span>
                             
-<span class="fc" id="L237">                            PlainText pt1 = new PlainText();</span>
-<span class="fc" id="L238">                            pt1.content=buffer.substring(2, buffer.length());</span>
-<span class="fc" id="L239">                            n.addToken(pt1);</span>
+<span class="fc" id="L260">                            PlainText pt1 = new PlainText();</span>
+<span class="fc" id="L261">                            pt1.content=buffer.substring(2, buffer.length());</span>
+<span class="fc" id="L262">                            n.addToken(pt1);</span>
                             
                             
-<span class="fc" id="L242">                            StyleText st2 = new StyleText(&quot;/em&quot;);</span>
-<span class="fc" id="L243">                            n.addContent(&quot;_&quot;);</span>
-<span class="fc" id="L244">                            n.addToken(st2);</span>
-<span class="fc" id="L245">                            buffer=&quot;&quot;;</span>
-<span class="fc" id="L246">                            ustCheck=0;</span>
-<span class="fc" id="L247">                            uemCheck=0;</span>
-<span class="fc" id="L248">                            break;</span>
+<span class="fc" id="L265">                            StyleText st2 = new StyleText(&quot;/em&quot;);</span>
+<span class="fc" id="L266">                            n.addContent(&quot;_&quot;);</span>
+<span class="fc" id="L267">                            n.addToken(st2);</span>
+<span class="fc" id="L268">                            buffer=&quot;&quot;;</span>
+<span class="fc" id="L269">                            ustCheck=0;</span>
+<span class="fc" id="L270">                            uemCheck=0;</span>
+<span class="fc" id="L271">                            break;</span>
                         }//**hi*h
                     }
-<span class="fc bfc" id="L251" title="All 2 branches covered.">                    if(uemCheck==1) {</span>
-<span class="fc" id="L252">                        StyleText st = new StyleText(&quot;em&quot;);</span>
-<span class="fc" id="L253">                        st.content=&quot;_&quot;;</span>
-<span class="fc" id="L254">                        n.addToken(st);</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">                    if(uemCheck==1) {</span>
+<span class="fc" id="L275">                        StyleText st = new StyleText(&quot;em&quot;);</span>
+<span class="fc" id="L276">                        st.content=&quot;_&quot;;</span>
+<span class="fc" id="L277">                        n.addToken(st);</span>
                         
-<span class="fc" id="L256">                        PlainText pt = new PlainText();</span>
-<span class="fc" id="L257">                        pt.content=buffer.substring(1, buffer.length());</span>
-<span class="fc" id="L258">                        n.addToken(pt);</span>
+<span class="fc" id="L279">                        PlainText pt = new PlainText();</span>
+<span class="fc" id="L280">                        pt.content=buffer.substring(1, buffer.length());</span>
+<span class="fc" id="L281">                        n.addToken(pt);</span>
                         
                         
-<span class="fc" id="L261">                        StyleText st2 = new StyleText(&quot;/em&quot;);</span>
-<span class="fc" id="L262">                        n.addContent(&quot;_&quot;);</span>
-<span class="fc" id="L263">                        n.addToken(st2);</span>
-<span class="fc" id="L264">                        buffer=&quot;&quot;;</span>
-<span class="fc" id="L265">                        uemCheck=0;</span>
-<span class="fc" id="L266">                        break;</span>
+<span class="fc" id="L284">                        StyleText st2 = new StyleText(&quot;/em&quot;);</span>
+<span class="fc" id="L285">                        n.addContent(&quot;_&quot;);</span>
+<span class="fc" id="L286">                        n.addToken(st2);</span>
+<span class="fc" id="L287">                        buffer=&quot;&quot;;</span>
+<span class="fc" id="L288">                        uemCheck=0;</span>
+<span class="fc" id="L289">                        break;</span>
                     }// *hihi*
                     
                     
-<span class="fc bfc" id="L270" title="All 4 branches covered.">                    if(s.charAt(i+1)=='_'&amp;&amp;s.charAt(i+2)=='_') {</span>
-<span class="fc" id="L271">                        uTotal=1;</span>
-<span class="fc" id="L272">                        buffer+=a;</span>
-<span class="fc" id="L273">                        break;</span>
+<span class="fc bfc" id="L293" title="All 4 branches covered.">                    if(s.charAt(i+1)=='_'&amp;&amp;s.charAt(i+2)=='_') {</span>
+<span class="fc" id="L294">                        uTotal=1;</span>
+<span class="fc" id="L295">                        buffer+=a;</span>
+<span class="fc" id="L296">                        break;</span>
                     }
-<span class="fc bfc" id="L275" title="All 2 branches covered.">                    else if(s.charAt(i+1)=='_'){</span>
-<span class="fc" id="L276">                        ustCheck=1;</span>
-<span class="fc bfc" id="L277" title="All 2 branches covered.">                        if(!buffer.isEmpty())</span>
+<span class="fc bfc" id="L298" title="All 2 branches covered.">                    else if(s.charAt(i+1)=='_'){</span>
+<span class="fc" id="L299">                        ustCheck=1;</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">                        if(!buffer.isEmpty())</span>
                         {
-<span class="fc" id="L279">                            PlainText pt = new PlainText();</span>
-<span class="fc" id="L280">                            pt.content=buffer;</span>
+<span class="fc" id="L302">                            PlainText pt = new PlainText();</span>
+<span class="fc" id="L303">                            pt.content=buffer;</span>
                             //System.out.println(buffer);
-<span class="fc" id="L282">                            n.addToken(pt);</span>
-<span class="fc" id="L283">                            buffer=&quot;&quot;;</span>
+<span class="fc" id="L305">                            n.addToken(pt);</span>
+<span class="fc" id="L306">                            buffer=&quot;&quot;;</span>
                             //buffer+=a;
                         }
-<span class="fc" id="L286">                        buffer=&quot;__&quot;;</span>
-<span class="fc" id="L287">                        i=i+1;</span>
-<span class="fc" id="L288">                        break;</span>
+<span class="fc" id="L309">                        buffer=&quot;__&quot;;</span>
+<span class="fc" id="L310">                        i=i+1;</span>
+<span class="fc" id="L311">                        break;</span>
                     }
                     
                     else {
-<span class="fc" id="L292">                        uemCheck=1;</span>
-<span class="fc bfc" id="L293" title="All 2 branches covered.">                        if(!buffer.isEmpty())</span>
+<span class="fc" id="L315">                        uemCheck=1;</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">                        if(!buffer.isEmpty())</span>
                         {
-<span class="fc" id="L295">                            PlainText pt = new PlainText();</span>
-<span class="fc" id="L296">                            pt.content=buffer;</span>
+<span class="fc" id="L318">                            PlainText pt = new PlainText();</span>
+<span class="fc" id="L319">                            pt.content=buffer;</span>
                             //System.out.println(buffer);
-<span class="fc" id="L298">                            n.addToken(pt);</span>
-<span class="fc" id="L299">                            buffer=&quot;&quot;;</span>
-<span class="fc" id="L300">                            buffer+=a;</span>
-<span class="fc" id="L301">                        }</span>
+<span class="fc" id="L321">                            n.addToken(pt);</span>
+<span class="fc" id="L322">                            buffer=&quot;&quot;;</span>
+<span class="fc" id="L323">                            buffer+=a;</span>
+<span class="fc" id="L324">                        }</span>
                         else
-<span class="fc" id="L303">                            buffer+=a;</span>
+<span class="fc" id="L326">                            buffer+=a;</span>
                     }
-<span class="fc" id="L305">                    break;</span>
+<span class="fc" id="L328">                    break;</span>
 
 
 			case '*' :
 
 				//buffer+=a;
-<span class="fc bfc" id="L311" title="All 2 branches covered.">				if(aTotal==1) {</span>
-<span class="fc" id="L312">					buffer+=a;</span>
-<span class="fc" id="L313">					break;</span>
+<span class="fc bfc" id="L334" title="All 2 branches covered.">				if(aTotal==1) {</span>
+<span class="fc" id="L335">					buffer+=a;</span>
+<span class="fc" id="L336">					break;</span>
 				}
-<span class="fc bfc" id="L315" title="All 2 branches covered.">				if(stCheck==1){</span>
-<span class="fc bfc" id="L316" title="All 2 branches covered.">					if(s.charAt(i+1)=='*'){</span>
-<span class="fc" id="L317">						StyleText st = new StyleText(&quot;strong&quot;);</span>
-<span class="fc" id="L318">						st.content=&quot;**&quot;;</span>
-<span class="fc" id="L319">						n.addToken(st);</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">				if(stCheck==1){</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">					if(s.charAt(i+1)=='*'){</span>
+<span class="fc" id="L340">						StyleText st = new StyleText(&quot;strong&quot;);</span>
+<span class="fc" id="L341">						st.content=&quot;**&quot;;</span>
+<span class="fc" id="L342">						n.addToken(st);</span>
 
-<span class="fc" id="L321">						PlainText pt = new PlainText();</span>
-<span class="fc" id="L322">						pt.content=buffer.substring(2, buffer.length());</span>
-<span class="fc" id="L323">						n.addToken(pt);</span>
+<span class="fc" id="L344">						PlainText pt = new PlainText();</span>
+<span class="fc" id="L345">						pt.content=buffer.substring(2, buffer.length());</span>
+<span class="fc" id="L346">						n.addToken(pt);</span>
 
 
-<span class="fc" id="L326">						StyleText st2 = new StyleText(&quot;/strong&quot;);</span>
-<span class="fc" id="L327">						n.addContent(&quot;**&quot;);</span>
-<span class="fc" id="L328">						n.addToken(st2);</span>
-<span class="fc" id="L329">						buffer=&quot;&quot;;</span>
-<span class="fc" id="L330">						stCheck=0;</span>
-<span class="fc" id="L331">						i=i+1;</span>
-<span class="fc" id="L332">						break;</span>
+<span class="fc" id="L349">						StyleText st2 = new StyleText(&quot;/strong&quot;);</span>
+<span class="fc" id="L350">						n.addContent(&quot;**&quot;);</span>
+<span class="fc" id="L351">						n.addToken(st2);</span>
+<span class="fc" id="L352">						buffer=&quot;&quot;;</span>
+<span class="fc" id="L353">						stCheck=0;</span>
+<span class="fc" id="L354">						i=i+1;</span>
+<span class="fc" id="L355">						break;</span>
 					}//** hihi **
 					else {
-<span class="fc" id="L335">						PlainText pt = new PlainText();</span>
-<span class="fc" id="L336">						pt.content=&quot;*&quot;;</span>
-<span class="fc" id="L337">						n.addToken(pt);</span>
+<span class="fc" id="L358">						PlainText pt = new PlainText();</span>
+<span class="fc" id="L359">						pt.content=&quot;*&quot;;</span>
+<span class="fc" id="L360">						n.addToken(pt);</span>
 
-<span class="fc" id="L339">						StyleText st = new StyleText(&quot;em&quot;);</span>
-<span class="fc" id="L340">						st.content=&quot;*&quot;;</span>
-<span class="fc" id="L341">						n.addToken(st);</span>
+<span class="fc" id="L362">						StyleText st = new StyleText(&quot;em&quot;);</span>
+<span class="fc" id="L363">						st.content=&quot;*&quot;;</span>
+<span class="fc" id="L364">						n.addToken(st);</span>
 
-<span class="fc" id="L343">						PlainText pt1 = new PlainText();</span>
-<span class="fc" id="L344">						pt1.content=buffer.substring(2, buffer.length());</span>
-<span class="fc" id="L345">						n.addToken(pt1);</span>
+<span class="fc" id="L366">						PlainText pt1 = new PlainText();</span>
+<span class="fc" id="L367">						pt1.content=buffer.substring(2, buffer.length());</span>
+<span class="fc" id="L368">						n.addToken(pt1);</span>
 
 
-<span class="fc" id="L348">						StyleText st2 = new StyleText(&quot;/em&quot;);</span>
-<span class="fc" id="L349">						n.addContent(&quot;*&quot;);</span>
-<span class="fc" id="L350">						n.addToken(st2);</span>
-<span class="fc" id="L351">						buffer=&quot;&quot;;</span>
-<span class="fc" id="L352">						stCheck=0;</span>
-<span class="fc" id="L353">						emCheck=0;</span>
-<span class="fc" id="L354">						break;</span>
+<span class="fc" id="L371">						StyleText st2 = new StyleText(&quot;/em&quot;);</span>
+<span class="fc" id="L372">						n.addContent(&quot;*&quot;);</span>
+<span class="fc" id="L373">						n.addToken(st2);</span>
+<span class="fc" id="L374">						buffer=&quot;&quot;;</span>
+<span class="fc" id="L375">						stCheck=0;</span>
+<span class="fc" id="L376">						emCheck=0;</span>
+<span class="fc" id="L377">						break;</span>
 					}//**hi*h
 				}
-<span class="fc bfc" id="L357" title="All 2 branches covered.">				if(emCheck==1) {</span>
-<span class="fc" id="L358">					StyleText st = new StyleText(&quot;em&quot;);</span>
-<span class="fc" id="L359">					st.content=&quot;*&quot;;</span>
-<span class="fc" id="L360">					n.addToken(st);</span>
 
-<span class="fc" id="L362">					PlainText pt = new PlainText();</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">				if(emCheck==1) {</span>
+<span class="fc" id="L382">					StyleText st = new StyleText(&quot;em&quot;);</span>
+<span class="fc" id="L383">					st.content=&quot;*&quot;;</span>
+<span class="fc" id="L384">					n.addToken(st);</span>
+
+<span class="fc" id="L386">					PlainText pt = new PlainText();</span>
 					//System.out.println(buffer.substring(1, buffer.length()));
-<span class="fc" id="L364">					pt.content=buffer.substring(1, buffer.length());</span>
-<span class="fc" id="L365">					n.addToken(pt);</span>
+<span class="fc" id="L388">					pt.content=buffer.substring(1, buffer.length());</span>
+<span class="fc" id="L389">					n.addToken(pt);</span>
 
 
-<span class="fc" id="L368">					StyleText st2 = new StyleText(&quot;/em&quot;);</span>
-<span class="fc" id="L369">					n.addContent(&quot;*&quot;);</span>
-<span class="fc" id="L370">					n.addToken(st2);</span>
-<span class="fc" id="L371">					buffer=&quot;&quot;;</span>
-<span class="fc" id="L372">					emCheck=0;</span>
-<span class="fc" id="L373">					break;</span>
+<span class="fc" id="L392">					StyleText st2 = new StyleText(&quot;/em&quot;);</span>
+<span class="fc" id="L393">					n.addContent(&quot;*&quot;);</span>
+<span class="fc" id="L394">					n.addToken(st2);</span>
+<span class="fc" id="L395">					buffer=&quot;&quot;;</span>
+<span class="fc" id="L396">					emCheck=0;</span>
+<span class="fc" id="L397">					break;</span>
 				}// *hihi*
 
 
-<span class="fc bfc" id="L377" title="All 4 branches covered.">				if(s.charAt(i+1)=='*'&amp;&amp;s.charAt(i+2)=='*') {</span>
-<span class="fc" id="L378">					aTotal=1;</span>
-<span class="fc" id="L379">					buffer+=a;</span>
-<span class="fc" id="L380">					break;</span>
+<span class="fc bfc" id="L401" title="All 4 branches covered.">				if(s.charAt(i+1)=='*'&amp;&amp;s.charAt(i+2)=='*') {</span>
+<span class="fc" id="L402">					aTotal=1;</span>
+<span class="fc" id="L403">					buffer+=a;</span>
+<span class="fc" id="L404">					break;</span>
 				}
-<span class="fc bfc" id="L382" title="All 2 branches covered.">				else if(s.charAt(i+1)=='*'){</span>
-<span class="fc" id="L383">					stCheck=1;</span>
-<span class="fc bfc" id="L384" title="All 2 branches covered.">					if(!buffer.isEmpty())</span>
+<span class="fc bfc" id="L406" title="All 2 branches covered.">				else if(s.charAt(i+1)=='*'){</span>
+<span class="fc" id="L407">					stCheck=1;</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">					if(!buffer.isEmpty())</span>
 					{
-<span class="fc" id="L386">						PlainText pt = new PlainText();</span>
-<span class="fc" id="L387">						pt.content=buffer;</span>
+<span class="fc" id="L410">						PlainText pt = new PlainText();</span>
+<span class="fc" id="L411">						pt.content=buffer;</span>
 						//System.out.println(buffer);
-<span class="fc" id="L389">						n.addToken(pt);</span>
-<span class="fc" id="L390">						buffer=&quot;&quot;;</span>
+<span class="fc" id="L413">						n.addToken(pt);</span>
+<span class="fc" id="L414">						buffer=&quot;&quot;;</span>
 						//buffer+=a;
 					}
-<span class="fc" id="L393">					buffer=&quot;**&quot;;</span>
-<span class="fc" id="L394">					i=i+1;</span>
-<span class="fc" id="L395">					break;</span>
+<span class="fc" id="L417">					buffer=&quot;**&quot;;</span>
+<span class="fc" id="L418">					i=i+1;</span>
+<span class="fc" id="L419">					break;</span>
 				}
 
 				else {
-<span class="fc" id="L399">					emCheck=1;</span>
-<span class="fc bfc" id="L400" title="All 2 branches covered.">					if(!buffer.isEmpty())</span>
+<span class="fc" id="L423">					emCheck=1;</span>
+<span class="fc bfc" id="L424" title="All 2 branches covered.">					if(!buffer.isEmpty())</span>
 					{
-<span class="fc" id="L402">						PlainText pt = new PlainText();</span>
-<span class="fc" id="L403">						pt.content=buffer;</span>
+<span class="fc" id="L426">						PlainText pt = new PlainText();</span>
+<span class="fc" id="L427">						pt.content=buffer;</span>
 						//System.out.println(buffer);
-<span class="fc" id="L405">						n.addToken(pt);</span>
-<span class="fc" id="L406">						buffer=&quot;&quot;;</span>
-<span class="fc" id="L407">						buffer+=a;</span>
-<span class="fc" id="L408">					}</span>
+<span class="fc" id="L429">						n.addToken(pt);</span>
+<span class="fc" id="L430">						buffer=&quot;&quot;;</span>
+<span class="fc" id="L431">						buffer+=a;</span>
+<span class="fc" id="L432">					}</span>
 					else
-<span class="fc" id="L410">						buffer+=a;</span>
+<span class="fc" id="L434">						buffer+=a;</span>
 				}
-<span class="fc" id="L412">				break;</span>
+<span class="fc" id="L436">				break;</span>
 			default :
-<span class="fc" id="L414">				buffer+=a;</span>
+<span class="fc" id="L438">				buffer+=a;</span>
 				break;
 			}
 		}
-<span class="fc bfc" id="L418" title="All 2 branches covered.">		if(!buffer.isEmpty()) {</span>
-<span class="fc" id="L419">					PlainText pt = new PlainText();</span>
-<span class="fc" id="L420">					pt.content=buffer;</span>
+<span class="fc bfc" id="L442" title="All 2 branches covered.">		if(!buffer.isEmpty()) {</span>
+<span class="fc" id="L443">					PlainText pt = new PlainText();</span>
+<span class="fc" id="L444">					pt.content=buffer;</span>
 					//System.out.println(buffer);
-<span class="fc" id="L422">					n.addToken(pt);</span>
-<span class="fc" id="L423">					buffer=&quot;&quot;;</span>
+<span class="fc" id="L446">					n.addToken(pt);</span>
+<span class="fc" id="L447">					buffer=&quot;&quot;;</span>
 		}
 
-<span class="fc bfc" id="L426" title="All 2 branches covered.">		for(int i=0; i&lt;n.getTokenListSize();i++) {</span>
-<span class="fc" id="L427">			System.out.println(n.getTokenList().get(i).notifyToken()+&quot; : &quot;+n.getTokenList().get(i).getContent());</span>
+<span class="fc bfc" id="L450" title="All 2 branches covered.">		for(int i=0; i&lt;n.getTokenListSize();i++) {</span>
+<span class="fc" id="L451">			System.out.println(n.getTokenList().get(i).notifyToken()+&quot; : &quot;+n.getTokenList().get(i).getContent());</span>
 		}
 
-<span class="fc" id="L430">	}</span>
+<span class="fc" id="L454">	}</span>
 
 
 	@Override
 	public void visit(BlockQuotes v) {
 		// TODO Auto-generated method stub
-<span class="nc" id="L436">		System.out.println(&quot;blockquotes visited&quot;);</span>
-<span class="nc" id="L437">		char a = line.charAt(0);</span>
-<span class="nc" id="L438">		Node temp = nodeList.get(nodeList.size()-1);</span>
+<span class="nc" id="L460">		System.out.println(&quot;blockquotes visited&quot;);</span>
+<span class="nc" id="L461">		char a = line.charAt(0);</span>
+<span class="nc" id="L462">		Node temp = nodeList.get(nodeList.size()-1);</span>
 		String forToken;
 
-<span class="nc bnc" id="L441" title="All 2 branches missed.">		if(a==62) {</span>
-<span class="nc" id="L442">			System.out.println(&quot;BlockQuotes!!!&quot;);</span>
-<span class="nc" id="L443">			BlockQuotes node = new BlockQuotes();</span>
-<span class="nc" id="L444">			node.addContent(line);</span>
-<span class="nc" id="L445">			forToken = line.substring(1);</span>
-<span class="nc" id="L446">			tokenize(forToken,node);</span>
-<span class="nc" id="L447">			nodeList.add(node);</span>
-<span class="nc" id="L448">			pass=1;</span>
-<span class="nc" id="L449">			System.out.println(&quot;bq : &quot;+pass);</span>
-<span class="nc" id="L450">			System.out.println(&quot;BlockQuotes Done!!!&quot;);</span>
-<span class="nc" id="L451">		}</span>
+<span class="nc bnc" id="L465" title="All 2 branches missed.">		if(a==62) {</span>
+<span class="nc" id="L466">			System.out.println(&quot;BlockQuotes!!!&quot;);</span>
+<span class="nc" id="L467">			BlockQuotes node = new BlockQuotes();</span>
+<span class="nc" id="L468">			node.addContent(line);</span>
+<span class="nc" id="L469">			forToken = line.substring(1);</span>
+<span class="nc" id="L470">			tokenize(forToken,node);</span>
+<span class="nc" id="L471">			nodeList.add(node);</span>
+<span class="nc" id="L472">			pass=1;</span>
+<span class="nc" id="L473">			System.out.println(&quot;bq : &quot;+pass);</span>
+<span class="nc" id="L474">			System.out.println(&quot;BlockQuotes Done!!!&quot;);</span>
+<span class="nc" id="L475">		}</span>
 
-<span class="nc bnc" id="L453" title="All 2 branches missed.">		else if(temp.notifyNode().equals(&quot;BlockQuotes&quot;)) {</span>
-<span class="nc" id="L454">			BlockQuotes node = new BlockQuotes();</span>
-<span class="nc" id="L455">			tokenize(line,node);</span>
-<span class="nc" id="L456">			node.addContent(line);</span>
-<span class="nc" id="L457">			pass=1;</span>
-<span class="nc" id="L458">			System.out.println(&quot;bq : &quot;+pass);</span>
+<span class="nc bnc" id="L477" title="All 2 branches missed.">		else if(temp.notifyNode().equals(&quot;BlockQuotes&quot;)) {</span>
+<span class="nc" id="L478">			BlockQuotes node = new BlockQuotes();</span>
+<span class="nc" id="L479">			tokenize(line,node);</span>
+<span class="nc" id="L480">			node.addContent(line);</span>
+<span class="nc" id="L481">			pass=1;</span>
+<span class="nc" id="L482">			System.out.println(&quot;bq : &quot;+pass);</span>
 		}
 
-<span class="nc" id="L461">	}</span>
+<span class="nc" id="L485">	}</span>
 
 	@Override
 	public void visit(CodeBlock v) {
 		// TODO Auto-generated method stub
-<span class="nc" id="L466">		System.out.println(&quot;CodeBlock visited&quot;);</span>
-<span class="nc" id="L467">		char a=line.charAt(0);</span>
+<span class="nc" id="L490">		System.out.println(&quot;CodeBlock visited&quot;);</span>
+<span class="nc" id="L491">		char a=line.charAt(0);</span>
 		String forToken;
 
 		//tab case
-<span class="nc bnc" id="L471" title="All 2 branches missed.">		if(a==9){</span>
-<span class="nc" id="L472">			CodeBlock node = new CodeBlock();</span>
-<span class="nc" id="L473">			node.addContent(line);</span>
-<span class="nc" id="L474">			forToken=line.substring(1);</span>
-<span class="nc" id="L475">			tokenize(forToken,node);</span>
-<span class="nc" id="L476">			nodeList.add(node);</span>
-<span class="nc" id="L477">			pass=1;</span>
-<span class="nc" id="L478">			System.out.println(&quot;cb : &quot;+pass);</span>
-<span class="nc" id="L479">			System.out.println(&quot;CodeBlockkkkk!!&quot;);</span>
-<span class="nc" id="L480">		}</span>
+<span class="nc bnc" id="L495" title="All 2 branches missed.">		if(a==9){</span>
+<span class="nc" id="L496">			CodeBlock node = new CodeBlock();</span>
+<span class="nc" id="L497">			node.addContent(line);</span>
+<span class="nc" id="L498">			forToken=line.substring(1);</span>
+<span class="nc" id="L499">			tokenize(forToken,node);</span>
+<span class="nc" id="L500">			nodeList.add(node);</span>
+<span class="nc" id="L501">			pass=1;</span>
+<span class="nc" id="L502">			System.out.println(&quot;cb : &quot;+pass);</span>
+<span class="nc" id="L503">			System.out.println(&quot;CodeBlockkkkk!!&quot;);</span>
+<span class="nc" id="L504">		}</span>
 
 		//4 spaces case
-<span class="nc bnc" id="L483" title="All 2 branches missed.">		else if(a==32) {</span>
-<span class="nc" id="L484">			int flag =1;</span>
-<span class="nc" id="L485">			int position=0;</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">		else if(a==32) {</span>
+<span class="nc" id="L508">			int flag =1;</span>
+<span class="nc" id="L509">			int position=0;</span>
 
-<span class="nc bnc" id="L487" title="All 2 branches missed.">			for(int i=0;i&lt;line.length();i++) {</span>
-<span class="nc" id="L488">				char b=line.charAt(i);</span>
-<span class="nc bnc" id="L489" title="All 4 branches missed.">				if(i&lt;4 &amp;&amp; b!=32){</span>
-<span class="nc" id="L490">					flag=0;</span>
-<span class="nc" id="L491">					break;</span>
+<span class="nc bnc" id="L511" title="All 2 branches missed.">			for(int i=0;i&lt;line.length();i++) {</span>
+<span class="nc" id="L512">				char b=line.charAt(i);</span>
+<span class="nc bnc" id="L513" title="All 4 branches missed.">				if(i&lt;4 &amp;&amp; b!=32){</span>
+<span class="nc" id="L514">					flag=0;</span>
+<span class="nc" id="L515">					break;</span>
 				}
-<span class="nc bnc" id="L493" title="All 2 branches missed.">				else if(b!=32){</span>
-<span class="nc" id="L494">					position=i;</span>
-<span class="nc" id="L495">					break;</span>
+<span class="nc bnc" id="L517" title="All 2 branches missed.">				else if(b!=32){</span>
+<span class="nc" id="L518">					position=i;</span>
+<span class="nc" id="L519">					break;</span>
 				}
 			}
-<span class="nc bnc" id="L498" title="All 2 branches missed.">			if(flag==1) {</span>
-<span class="nc" id="L499">				CodeBlock node = new CodeBlock();</span>
-<span class="nc" id="L500">				node.addContent(line);</span>
-<span class="nc" id="L501">				forToken=line.substring(position);</span>
-<span class="nc" id="L502">				tokenize(forToken,node);</span>
+<span class="nc bnc" id="L522" title="All 2 branches missed.">			if(flag==1) {</span>
+<span class="nc" id="L523">				CodeBlock node = new CodeBlock();</span>
+<span class="nc" id="L524">				node.addContent(line);</span>
+<span class="nc" id="L525">				forToken=line.substring(position);</span>
+<span class="nc" id="L526">				tokenize(forToken,node);</span>
 				//System.out.println(forToken);
-<span class="nc" id="L504">				nodeList.add(node);</span>
-<span class="nc" id="L505">				pass=1;</span>
-<span class="nc" id="L506">				System.out.println(&quot;cb : &quot;+pass);</span>
-<span class="nc" id="L507">				System.out.println(&quot;CodeBlockkkkk!!&quot;);</span>
+<span class="nc" id="L528">				nodeList.add(node);</span>
+<span class="nc" id="L529">				pass=1;</span>
+<span class="nc" id="L530">				System.out.println(&quot;cb : &quot;+pass);</span>
+<span class="nc" id="L531">				System.out.println(&quot;CodeBlockkkkk!!&quot;);</span>
 
 			}
 		}
-<span class="nc" id="L511">	}</span>
+<span class="nc" id="L535">	}</span>
 
 	@Override
 	public void visit(Text v) {
 		// TODO Auto-generated method stub
 		//System.out.println(pass);
-<span class="nc" id="L517">		System.out.println(&quot;Text Visitied&quot;);</span>
-<span class="nc bnc" id="L518" title="All 2 branches missed.">		if(pass==0){</span>
-<span class="nc" id="L519">			Text node = new Text();</span>
-<span class="nc" id="L520">			tokenize(line,node);</span>
-<span class="nc" id="L521">			node.addContent(line);</span>
-<span class="nc" id="L522">			nodeList.add(node);</span>
-<span class="nc" id="L523">		}</span>
+<span class="nc" id="L541">		System.out.println(&quot;Text Visitied&quot;);</span>
+<span class="nc bnc" id="L542" title="All 2 branches missed.">		if(pass==0){</span>
+<span class="nc" id="L543">			Text node = new Text();</span>
+<span class="nc" id="L544">			tokenize(line,node);</span>
+<span class="nc" id="L545">			node.addContent(line);</span>
+<span class="nc" id="L546">			nodeList.add(node);</span>
+<span class="nc" id="L547">		}</span>
 		else
-<span class="nc" id="L525">			pass=0;</span>
-<span class="nc" id="L526">	}</span>
+<span class="nc" id="L549">			pass=0;</span>
+<span class="nc" id="L550">	}</span>
 
 	public ArrayList&lt;Node&gt; getNode(){
-<span class="fc" id="L529">			return nodeList;</span>
+<span class="fc" id="L553">			return nodeList;</span>
 	}
 
 

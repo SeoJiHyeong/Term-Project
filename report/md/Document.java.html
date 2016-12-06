@@ -5,36 +5,33 @@ import java.util.Iterator;
 
 public class Document implements MDElement{
 
-<span class="fc" id="L8"> 	private ArrayList temp = new ArrayList();</span>
-<span class="fc" id="L9">	private ArrayList nodes = new ArrayList();</span>
+<span class="fc" id="L8">	ArrayList&lt;String&gt; document = new ArrayList&lt;String&gt;();</span>
 
-<span class="fc" id="L11">	ArrayList&lt;String&gt; document = new ArrayList();</span>
-
-<span class="fc" id="L13">   	Header header = new Header();</span>
-<span class="fc" id="L14">    ItemList ilist = new ItemList();</span>
-<span class="fc" id="L15">    OrderedList olist = new OrderedList();</span>
-<span class="fc" id="L16">    HorizontalRule HR = new HorizontalRule();</span>
+<span class="fc" id="L10">   	Header header = new Header();</span>
+<span class="fc" id="L11">    ItemList ilist = new ItemList();</span>
+<span class="fc" id="L12">    OrderedList olist = new OrderedList();</span>
+<span class="fc" id="L13">    HorizontalRule HR = new HorizontalRule();</span>
 
     ////Yoojin
-<span class="fc" id="L19">    BlockQuotes bq = new BlockQuotes();</span>
-<span class="fc" id="L20">	CodeBlock cb=new CodeBlock();</span>
-<span class="fc" id="L21">	Text text = new Text();</span>
+<span class="fc" id="L16">    BlockQuotes bq = new BlockQuotes();</span>
+<span class="fc" id="L17">	CodeBlock cb=new CodeBlock();</span>
+<span class="fc" id="L18">	Text text = new Text();</span>
 
-<span class="fc" id="L23">    public Document() {</span>
+<span class="fc" id="L20">    public Document() {</span>
 
-<span class="fc" id="L25">    }</span>
+<span class="fc" id="L22">    }</span>
     public void accept(MDElementVisitor v){
-<span class="nc" id="L27">    	header.accept(v);</span>
-<span class="nc" id="L28">    	HR.accept(v);</span>
-<span class="nc" id="L29">    	ilist.accept(v);</span>
-<span class="nc" id="L30">    	olist.accept(v);</span>
-<span class="nc" id="L31">    	bq.accept(v);</span>
-<span class="nc" id="L32">    	cb.accept(v);</span>
-<span class="nc" id="L33">    	text.accept(v);</span>
+<span class="nc" id="L24">    	header.accept(v);</span>
+<span class="nc" id="L25">    	HR.accept(v);</span>
+<span class="nc" id="L26">    	ilist.accept(v);</span>
+<span class="nc" id="L27">    	olist.accept(v);</span>
+<span class="nc" id="L28">    	bq.accept(v);</span>
+<span class="nc" id="L29">    	cb.accept(v);</span>
+<span class="nc" id="L30">    	text.accept(v);</span>
 
-<span class="nc" id="L35">		v.visit(this);</span>
+<span class="nc" id="L32">		v.visit(this);</span>
 
-<span class="nc" id="L37">    }</span>
+<span class="nc" id="L34">    }</span>
 
    /*
     public ArrayList&lt;String&gt; getDocuments(){
@@ -45,12 +42,12 @@ public class Document implements MDElement{
     */
 
     public void addDocument(String line){
-<span class="fc" id="L48">    	document.add(line);</span>
+<span class="fc" id="L45">    	document.add(line);</span>
     	//checkSyntax(line);
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L47">    }</span>
 
-    public ArrayList getDocument(){
-<span class="fc" id="L53">    	return document;</span>
+    public ArrayList&lt;String&gt; getDocument(){
+<span class="fc" id="L50">    	return document;</span>
     }
 
 
