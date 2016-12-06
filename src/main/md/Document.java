@@ -5,10 +5,7 @@ import java.util.Iterator;
 
 public class Document implements MDElement{
 
- 	private ArrayList temp = new ArrayList();
-	private ArrayList nodes = new ArrayList();
-
-	ArrayList<String> document = new ArrayList();
+	ArrayList<String> document = new ArrayList<String>();
 
    	Header header = new Header();
     ItemList ilist = new ItemList();
@@ -49,7 +46,7 @@ public class Document implements MDElement{
     	//checkSyntax(line);
     }
 
-    public ArrayList getDocument(){
+    public ArrayList<String> getDocument(){
     	return document;
     }
 
