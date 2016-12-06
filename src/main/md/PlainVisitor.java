@@ -297,7 +297,7 @@ public class PlainVisitor implements MDElementVisitor{
                     }
                     else if(s.charAt(i+1)=='_'){
                         ustCheck=1;
-                        if(!buffer.isEmpty())
+                        if( !buffer.isEmpty())
                         {
                             PlainText pt = new PlainText();
                             pt.content=buffer;
@@ -313,7 +313,7 @@ public class PlainVisitor implements MDElementVisitor{
                     
                     else {
                         uemCheck=1;
-                        if(!buffer.isEmpty())
+                        if( !buffer.isEmpty())
                         {
                             PlainText pt = new PlainText();
                             pt.content=buffer;
@@ -326,8 +326,6 @@ public class PlainVisitor implements MDElementVisitor{
                             buffer+=a;
                     }
                     break;
-
-
 			case '*' :
 
 				//buffer+=a;

@@ -88,6 +88,8 @@ public class PlainVisitorTest
         nodeList = p.getNode();
         tokenList = nod.getTokenList();
         assertEquals("hi",tokenList.get(0).getContent());
+        p = new PlainVisitor();
+        
     }
     
     
@@ -132,7 +134,28 @@ public class PlainVisitorTest
     }
 
     @Test
-    public void testVisitHeader(){
+    public void testVisitItemList(){
+        ItemList h = new ItemList();
+        PlainVisitor v = new PlainVisitor();
+        v.addNode();
+        v.setLine("- gggg");
+        v.visit(h);
+        v.setLine("+ gggg");
+        v.visit(h);
+        v.setLine("* gggg");
+        v.visit(h);
+        v.setLine("@ gggg");
+        v.visit(h);
+        v.setLine("-gggg");
+        v.visit(h);
+        v.setLine("+gggg");
+        v.visit(h);
+        v.setLine("*gggg");
+        v.visit(h);
+        v.setLine("!!gggg");
+        v.visit(h);
+        v.setLine("-");
+        v.visit(h);
         
     }
 }

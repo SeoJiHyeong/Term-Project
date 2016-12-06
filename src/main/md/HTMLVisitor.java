@@ -28,18 +28,13 @@ public class HTMLVisitor implements MDElementVisitor {
 	 //node     *****************************************don't use n, only use tempNode
 	 public void visit(Header n){
 		if(tempNode.notifyNode().equals("Header")){
-			/*tempNode = nodeList.get(sequence);
+			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			String tmp ="";
-			System.out.println(tempNode.htype);
-<<<<<<< HEAD
-			System.out.println(tokenList.get(0).notice);
-			System.out.println(tokenList.get(0).content);*/
-=======
 			tmp = "<h"+tempNode.htype+">"+tokenList.get(0).content+"</h"+tempNode.htype+">";
-			System.out.println(tokenList.get(0).content);
 			line = tmp;
->>>>>>> origin/master
+            System.out.println(line);
+
 		}
 		else;
 
@@ -78,10 +73,10 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void visit(BlockQuotes n){
-<<<<<<< HEAD
+
 		if(tempNode.notifyNode().equals("BlockQuotes")){
 
-=======
+
 		if(n.notifyNode().equals("BlockQuotes")){
 			String tmp = "";
 			tempNode = nodeList.get(sequence);
@@ -90,7 +85,7 @@ public class HTMLVisitor implements MDElementVisitor {
 			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";
 			line = tmp;
 			System.out.println(line);
->>>>>>> origin/master
+
 		}
 		else;
 	 }
@@ -105,7 +100,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 
 	 //token
-<<<<<<< HEAD
+
 	 public void visit(Token t){
 			 if(t.notifyToken().equals("Plaintext")){
 					//good!!
@@ -118,21 +113,21 @@ public class HTMLVisitor implements MDElementVisitor {
 					line = line + t.getContent();
 			}
 			else line = t.getContent();
-=======
+
 	 /*
 	 public void visit(Link t){
->>>>>>> origin/master
+
 
 	 }
 
-<<<<<<< HEAD
+
 	public void tokenParser(Token t){
 		if(t.notifyToken().equals("em")||t.notifyToken().equals("/em")||t.notifyToken().equals("strong")||t.notifyToken().equals("/strong")){
 			t.setContent("<"+t.notifyToken()+">");
 		}
 		//else if(t.notyfyToken.)
 	}
-=======
+
 	 public void visit(Block t){
 
 	 }
@@ -140,7 +135,7 @@ public class HTMLVisitor implements MDElementVisitor {
 	 public void visit(Emphasis t){
 
 	 }
->>>>>>> origin/master
+
 
 
 	 public void visit(Image t){
