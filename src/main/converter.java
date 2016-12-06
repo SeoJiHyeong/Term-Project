@@ -25,6 +25,7 @@ public class converter {
 	public static void main(String args[]) throws IOException{
 		
 		if(!new_check_grammar(args)) return;
+        /*
 		Document document = new Document();
 		PlainVisitor plainvisitor = new PlainVisitor();
 		plainvisitor.addNode();
@@ -37,7 +38,7 @@ public class converter {
 	        document.accept(plainvisitor);
 		 }
 	    br.close();
-
+        */
 		/*
 		Tidy tidy = new Tidy();
 		

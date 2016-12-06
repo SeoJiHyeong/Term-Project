@@ -39,8 +39,11 @@
     </target>
     
     <target name="jar" description="o Create the jar" depends="coverage-report">
-        <jar jarfile="${final.name}.jar" basedir="${build.dir}">
-            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
+        <jar jarfile="${final.name}.jar" basedir="${build.dir}" >
+            <zipfileset dir="${lib.dir}" includes="**/*.jar" excludes="META-INF/*.SF"/>
+            <manifest>
+                <attribute name="Main-Class" value="md.converter"/>
+            </manifest>
         </jar>
     </target>
     <target name="test" description="o Test the class" depends="compile">
