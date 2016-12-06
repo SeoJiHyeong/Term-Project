@@ -24,15 +24,15 @@ public class HTMLVisitor implements MDElementVisitor {
 
 
 
-	 //node
+	 //node     *****************************************don't use n, only use tempNode
 	 public void visit(Header n){
-		if(n.notifyNode().equals("Header")){
-			tempNode = nodeList.get(sequence);
+		if(tempNode.notifyNode().equals("Header")){
+			/*tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			System.out.println(tempNode.notice);
 			System.out.println(tempNode.htype);
 			System.out.println(tokenList.get(0).notice);
-			System.out.println(tokenList.get(0).content);
+			System.out.println(tokenList.get(0).content);*/
 		}
 		else;
 
@@ -40,42 +40,45 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void visit(ItemList n){
-		if(n.notifyNode().equals("ItemList")){
+		if(tempNode.notifyNode().equals("ItemList")){
 
 		}
 		else;
 	 }
 
 	 public void visit(OrderedList n){
-		if(n.notifyNode().equals("OrderedList")){
+		if(tempNode.notifyNode().equals("OrderedList")){
 
 		}
 		else;
 	 }
 
 	 public void visit(HorizontalRule n){
-		if(n.notifyNode().equals("HorizontalRule")){
-
+		if(tempNode.notifyNode().equals("HorizontalRule")){
+			line = "<HR>";
 		}
 		else;
 	 }
 
 	 public void visit(Text n){
-		if(n.notifyNode().equals("Text")){
-
+		if(tempNode.notifyNode().equals("Text")){
+			ArrayList<Token> tokenList = tempNode.getTokenList();
+			for(int i=0;i<tempNode.getTokenListSize();i++){
+				visit(tokenList.get(i));
+			}
 		}
 		else;
 	 }
 
 	 public void visit(BlockQuotes n){
-		if(n.notifyNode().equals("BlockQuotes")){
+		if(tempNode.notifyNode().equals("BlockQuotes")){
 
 		}
 		else;
 	 }
 
 	 public void visit(CodeBlock n){
-		if(n.notifyNode().equals("CodeBlock")){
+		if(tempNode.notifyNode().equals("CodeBlock")){
 
 		}
 		else;
@@ -87,16 +90,21 @@ public class HTMLVisitor implements MDElementVisitor {
 	 public void visit(Token t){
 			 if(t.notifyToken().equals("Plaintext")){
 					//good!!
-				}
-				else{
+			}
+			else{
 					tokenParser(t);
-				}
+			}
+
+			if(line!=null){
+					line = line + t.getContent();
+			}
+			else line = t.getContent();
 
 	}
 
 	public void tokenParser(Token t){
 		if(t.notifyToken().equals("em")||t.notifyToken().equals("/em")||t.notifyToken().equals("strong")||t.notifyToken().equals("/strong")){
-			t.setContent("<"+t.getContent()+">");
+			t.setContent("<"+t.notifyToken()+">");
 		}
 		//else if(t.notyfyToken.)
 	}
@@ -122,5 +130,9 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 	 public ArrayList<Node> getNode(){
 			return nodeList;
+	}
+
+	public void setTempNode(){
+		tempNode = nodeList.get(sequence);
 	}
 }

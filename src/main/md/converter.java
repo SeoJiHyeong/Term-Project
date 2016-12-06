@@ -18,12 +18,12 @@ public class converter {
 	static List list_file = new ArrayList();
 	static List list_options = new ArrayList();
 	static List list_output = new ArrayList();
-	
-	
+
+
 	private static ArrayList<ArrayList<String>> mGroupList = new ArrayList<ArrayList<String>>();;
 	private static ArrayList<String> mChildList = null;
 	public static void main(String args[]) throws IOException{
-		
+
 		if(!new_check_grammar(args)) return;
 		Document document = new Document();
 		PlainVisitor plainvisitor = new PlainVisitor();
@@ -32,50 +32,60 @@ public class converter {
 
 		BufferedReader br = new BufferedReader(new FileReader(input));
 		while(true) {
-			String line = br.readLine();   
+			String line = br.readLine();
 		    if(line==null) break;
 		 	plainvisitor.setLine(line);
 	        document.accept(plainvisitor);
 		}
 	    br.close();
-	    
-	    
+
+
 	    htmlvisitor.setNodelist(plainvisitor.getNode());
-	    
-	    
+
+
 	    Document dd = new Document();
-	
-	    
+
+	    dd.addDocument("<html>");
 	    for(int i=1;i<htmlvisitor.getNodeIndex();i++){
+	         htmlvisitor.setLine("");
 	         htmlvisitor.setSequence(i);
+	         htmlvisitor.setTempNode();
 	         dd.accept(htmlvisitor);
 	     }
+	     dd.addDocument("</html>");
+
+		ArrayList<String> html = dd.getDocument();
+
+		for(int i=0;i<html.size();i++){
+			System.out.println(html.get(i));
+		}
+
 		/*
 		Tidy tidy = new Tidy();
-		
-		
-		
+
+
+
 		Document do = new Document();
 
 		BufferedReader br = new BufferedReader(new FileReader(input));
 		      while(true) {
-		         String line = br.readLine();   
+		         String line = br.readLine();
 		         if(line==null) break;
 		         do.addDocument(line);
 		      }
 	    br.close();
-		  */    
-		      
-	      
+		  */
+
+
 	}
-	
-	
+
+
 	public static boolean new_check_grammar(String[] args){
 		int[] index_md = new int[args.length];
 		int[] index_output = new int[args.length];
 		int[] index_output_option = new int[args.length];
 		int[] index_option = new int[args.length];
-		
+
 		if(args.length==0){
 			help_message();
 			return true;
@@ -84,7 +94,7 @@ public class converter {
 			help_message();
 			return true;
 		}
-		
+
 		for(int i = 0 ; i < args.length; i++){
 			index_md[i]=0;
 			index_output[i]=0;
@@ -103,16 +113,16 @@ public class converter {
 			}
 			else if(check_md(args[i])) {
 				index_md[i]=1;
-				
+
 			}
 			else if(check_option(args[i])) {
 				index_option[i]=1;
-				
+
 			}
 		}
-		
-		
-		
+
+
+
 		if(!check_file(args[0])) {
 			System.out.println("FILE ERROR");
 			return false;
@@ -121,7 +131,7 @@ public class converter {
 		int opt = 1;
 		int out = 0;
 		int out_f = 0;
-		
+
 		while(true){
 			if(x>=args.length){
 				break;
@@ -166,13 +176,13 @@ public class converter {
 					System.out.println("ERROR");
 					return false;
 				}
-				
+
 			}
 			else break;
-			
+
 		}
-		
-		
+
+
 		int cc = 0;
 		int pp = 0;
 		for(int i=0; i < args.length;i++){
@@ -181,11 +191,11 @@ public class converter {
 					if(cc!=0){
 						mGroupList.add(mChildList);
 					}
-					
+
 					mChildList = new ArrayList<String>();
 					mChildList.add(args[i]);
 					cc++;
-					
+
 				}
 				else{
 					System.out.println("File is not exist");
@@ -193,18 +203,18 @@ public class converter {
 			}
 			else if(index_output_option[i]==1){
 				mChildList.add(args[i]);
-				
+
 			}
 			else if(index_output[i]==1){
 				mChildList.add(args[i]);
-				
+
 			}
 			else if(index_option[i]==1){
 				mChildList.add(args[i]);
-				
+
 			}
 		}
-		
+
 		mGroupList.add(mChildList);
 		for(int i = 0 ; i < mGroupList.size();i++){
 			System.out.print(i+" command line : ");
@@ -212,7 +222,7 @@ public class converter {
 			for(int j = 0; j < aa;j++){
 				System.out.print(mGroupList.get(i).get(j) + "\t");
 				if(j==0){
-					
+
 					input = mGroupList.get(i).get(j);
 				}
 				else if(j==1){
@@ -224,7 +234,7 @@ public class converter {
 					}
 				}
 				else if(j==2){
-					
+
 					if(mGroupList.get(i).get(j).equals("-o")){
 						output = mGroupList.get(i).get(j+1);
 					}
@@ -239,8 +249,8 @@ public class converter {
 					else if(mGroupList.get(i).get(j).substring(0, 1).equals("-"))
 						option = mGroupList.get(i).get(j);
 				}
-					
-				
+
+
 			}
 			System.out.println("");
 		}
@@ -278,10 +288,10 @@ public class converter {
 		try{
 			FileReader fstream = new FileReader(c);
 			return true;
-			
+
 		}catch(FileNotFoundException e){
 			return false;
 		}
-		
+
 	}
 }
