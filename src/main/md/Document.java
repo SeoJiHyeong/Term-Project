@@ -24,8 +24,6 @@ public class Document implements MDElement{
 
     }
     public void accept(MDElementVisitor v){
-		v.visit(this);
-
     	header.accept(v);
     	HR.accept(v);
     	ilist.accept(v);
@@ -33,6 +31,9 @@ public class Document implements MDElement{
     	bq.accept(v);
     	cb.accept(v);
     	text.accept(v);
+
+		v.visit(this);
+
     }
 
    /*
