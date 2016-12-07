@@ -678,14 +678,6 @@ public class PlainVisitor implements MDElementVisitor{
 			System.out.println("BlockQuotes Done!!!");
 		}
 
-		else if(temp.notifyNode().equals("BlockQuotes")) {
-			BlockQuotes node = new BlockQuotes();
-			tokenize(line,node);
-			node.addContent(line);
-			pass=1;
-			System.out.println("bq : "+pass);
-		}
-
 	}
 
 	@Override
