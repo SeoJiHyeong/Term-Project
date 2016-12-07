@@ -198,9 +198,37 @@ public class PlainVisitorTest
         
     }
     
+    @Test
+    public void testOrderedList2(){
+        OrderedList h = new OrderedList();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        
+        v.addNode();
+        v.setLine("1.hi");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(2,nodeList.size());
+        
+        v.setLine("p.hi");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(2,nodeList.size());
+        
+        v.setLine("p");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(2,nodeList.size());
+        
+        v.setLine("pppppppppp");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(2,nodeList.size());
+    }
     
     @Test
-    public void testOrderedList(){
+    public void testOrderedList1(){
         OrderedList h = new OrderedList();
         PlainVisitor v = new PlainVisitor();
         ArrayList<Node> nodeList = new ArrayList<Node>();
@@ -211,12 +239,19 @@ public class PlainVisitorTest
         v.visit(h);
         nodeList = v.getNode();
         tokenList = nodeList.get(1).getTokenList();
-        System.out.println("##################################");
-        System.out.println(tokenList.get(0).getContent());
-        System.out.println("##################################");
+        
+        assertEquals(" hi",tokenList.get(0).getContent());
+        
+        v.setLine("1. hi");
+        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        
+        assertEquals(" hi",tokenList.get(0).getContent());
         
     }
     
+
     @Test
     public void testVisitCodeBlock1(){
         CodeBlock c = new CodeBlock();
@@ -248,5 +283,174 @@ public class PlainVisitorTest
         v.visit(c);
         nodeList = v.getNode();
         assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testHorizontalRule1(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        
+        v.addNode();
+        v.setLine("----------");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals("----------",nodeList.get(1).getContent(0));
+    }
+    
+    @Test
+    public void testHorizontalRule2(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        
+        v.addNode();
+        v.setLine("*****************");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals("*****************",nodeList.get(1).getContent(0));
+    }
+    
+    @Test
+    public void testHorizontalRule3(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("-");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(2,nodeList.size());
+        
+    }
+    
+    @Test
+    public void testHorizontalRule4(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        
+        v.addNode();
+        v.setLine("* * * * * *");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals("* * * * * *",nodeList.get(1).getContent(0));
+    }
+    
+    @Test
+    public void testHorizontalRule5(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        
+        v.addNode();
+        v.setLine("- - - - - -");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals("- - - - - -",nodeList.get(1).getContent(0));
+    }
+    
+    @Test
+    public void testHorizontalRule6(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("---*---");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testHorizontalRule7(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("**-");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testHorizontalRule8(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("** * -");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testHorizontalRule9(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("-- - *");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testHorizontalRule10(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testHorizontalRule11(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine(" ");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    @Test
+    public void testHorizontalRule12(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("pppppp");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    @Test
+    public void testHorizontalRule13(){
+        HorizontalRule h = new HorizontalRule();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        
+        v.addNode();
+        v.setLine("*****************");
+        v.visit(h);
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(2,nodeList.size());
     }
 }
