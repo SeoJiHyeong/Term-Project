@@ -17,7 +17,8 @@ public class HTMLVisitorTest
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("link");
         h.tokenParser(t);
-        assertEquals(t.getContent(),"link");
+        
+        assertEquals(t.getContent(),"<a href=\"null\">");
     }
 	
     @Test
@@ -25,7 +26,8 @@ public class HTMLVisitorTest
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("/link");
         h.tokenParser(t);
-        assertEquals(t.getContent(),"/link");
+        
+        assertEquals(t.getContent(),"null</a>");
     }
     
     @Test
@@ -33,7 +35,8 @@ public class HTMLVisitorTest
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("image");
         h.tokenParser(t);
-        assertEquals(t.getContent(),"image");
+        
+        assertEquals(t.getContent(),"<img src=\"null\"");
     }
     
     @Test
@@ -41,6 +44,7 @@ public class HTMLVisitorTest
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("/image");
         h.tokenParser(t);
-        assertEquals(t.getContent(),"/image");
+        
+        assertEquals(t.getContent()," alt=\"null\">");
     }
 }

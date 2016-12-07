@@ -132,32 +132,121 @@ public class PlainVisitorTest
         tokenList = nod.getTokenList();
         assertEquals("h",tokenList.get(0).getContent());
     }
-
+    
     @Test
-    public void testVisitItemList(){
+    public void testVisitItemList1(){
         ItemList h = new ItemList();
         PlainVisitor v = new PlainVisitor();
         ArrayList<Node> nodeList = new ArrayList<Node>();
         ArrayList<Token> tokenList = new ArrayList<Token>();
+        
         v.addNode();
-        v.setLine("-gggg");
-        v.visit(h);
-        v.setLine("+gggg");
-        v.visit(h);
-        v.setLine("*gggg");
-        v.visit(h);
-        v.setLine("!!gggg");
-        v.visit(h);
         v.setLine("-");
         v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+        
+        v.setLine("-gggg");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+     
+        v.setLine("+gggg");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+        
+        v.setLine("*gggg");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+        
+        v.setLine("!!gggg");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+        
+        
+    }
+
+    @Test
+    public void testVisitItemList2(){
+        ItemList h = new ItemList();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        
+        v.addNode();
         v.setLine("- gggg");
         v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("gggg",tokenList.get(0).getContent());
+        
+        
         v.setLine("+ gggg");
         v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("gggg",tokenList.get(0).getContent());
+        
         v.setLine("* gggg");
         v.visit(h);
-        v.setLine("@ gggg");
-        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("gggg",tokenList.get(0).getContent());
         
+    }
+    
+    
+    @Test
+    public void testOrderedList(){
+        OrderedList h = new OrderedList();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        
+        v.addNode();
+        v.setLine("1. hi");
+        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        System.out.println("##################################");
+        System.out.println(tokenList.get(0).getContent());
+        System.out.println("##################################");
+        
+    }
+    
+    @Test
+    public void testVisitCodeBlock1(){
+        CodeBlock c = new CodeBlock();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("	codeblockkkk");
+        v.visit(c);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("codeblockkkk",tokenList.get(0).getContent());
+        
+        v.setLine("   codeblockkkk");
+        v.visit(c);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("codeblockkkk",tokenList.get(0).getContent());
+    }
+    
+    @Test
+    public void testVisitCodeBlock2(){
+        CodeBlock c = new CodeBlock();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("codeblockkkk");
+        v.visit(c);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
     }
 }
