@@ -30,7 +30,9 @@
                 </fileset>
             </classpath>
         </javac>
-        <javadoc sourcepath="${source.dir}" destdir="${doc.dir}" packagenames="md.*"/>
+        <javadoc sourcepath="${source.dir}" destdir="${doc.dir}" packagenames="md.*">
+            <classpath path="${lib.dir}"/>
+        </javadoc>
         <javac srcdir="${testSource.dir}" destdir="${test.dir}" debug="true">
             <classpath>
                 <fileset dir="${lib.dir}">
