@@ -700,55 +700,53 @@ public class PlainVisitor implements MDElementVisitor{
 	@Override
 	public void visit(CodeBlock v) {
 		// TODO Auto-generated method stub
+
 		System.out.println("CodeBlock visited");
-		char a;
-		if(line.length()>0){
-			a=line.charAt(0);
-			String forToken;
+		char a=line.charAt(0);
+		String forToken;
 
-			//tab case
-			if(a==9){
-				CodeBlock node = new CodeBlock();
-				node.addContent(line);
-				forToken=line.substring(1);
-				tokenize(forToken,node);
-				nodeList.add(node);
-				pass=1;
-				System.out.println("cb : "+pass);
-				System.out.println("CodeBlockkkkk!!");
-			}
+		//tab case
+		if(a==9){
+			CodeBlock node = new CodeBlock();
+			node.addContent(line);
+			forToken=line.substring(1);
+			tokenize(forToken,node);
+			nodeList.add(node);
+			pass=1;
+			System.out.println("cb : "+pass);
+			System.out.println("CodeBlockkkkk!!");
+		}
 
-			//4 spaces case
-			else if(a==32) {
-				int flag =1;
-				int position=0;
-
-				for(int i=0;i<line.length();i++) {
-					char b=line.charAt(i);
-					if(i<4 && b!=32){
-						flag=0;
+		//4 spaces case
+		else if(a==32) {
+			int flag=0;
+			//System.out.println(line.substring(0,3));
+			if(line.length()<=3)
+				;
+			else {
+				for(int i=1;i<4;i++) {
+					if(line.charAt(i)!=32)
 						break;
-					}
-					else if(b!=32){
-						position=i;
-						break;
-					}
+					else 
+						flag+=1;
 				}
-				if(flag==1) {
-					CodeBlock node = new CodeBlock();
-					node.addContent(line);
-					forToken=line.substring(position);
-					tokenize(forToken,node);
-					//System.out.println(forToken);
-					nodeList.add(node);
-					pass=1;
-					System.out.println("cb : "+pass);
-					System.out.println("CodeBlockkkkk!!");
-
+				if(flag==3) {
+					if(line.length()>4){
+						CodeBlock node = new CodeBlock();
+						node.addContent(line);
+						forToken=line.substring(4);
+						tokenize(forToken,node);
+						//System.out.println(forToken);
+						nodeList.add(node);
+						pass=1;
+						System.out.println("cb : "+pass);
+						System.out.println("CodeBlockkkkk!!");
+					}
+					else
+						;
 				}
 			}
 		}
-
 	}
 
 	@Override
