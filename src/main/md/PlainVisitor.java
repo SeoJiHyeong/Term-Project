@@ -265,9 +265,9 @@ public class PlainVisitor implements MDElementVisitor{
 		                  System.out.println("true");
 
 		                  StyleText st1 = new StyleText("image");
-		                  st1.setContent(matcher.group(2));
+		                  st1.setContent(matcher.group(4));
 		                  StyleText st2 = new StyleText("/image");
-		                  st2.setContent(matcher.group(4));
+		                  st2.setContent(matcher.group(2));
 		                  n.addToken(st1);
 		                  n.addToken(st2);
 		                  buffer="";
@@ -293,9 +293,9 @@ public class PlainVisitor implements MDElementVisitor{
 		                  System.out.println("true");
 
 		                  StyleText st1 = new StyleText("image");
-		                  st1.setContent(matcher.group(2));
+		                  st1.setContent(matcher.group(4));
 		                  StyleText st2 = new StyleText("/image");
-		                  st2.setContent(matcher.group(4));              //if there is no alt text, show address instead of alt text
+		                  st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
 		                  n.addToken(st1);
 		                  n.addToken(st2);
 
