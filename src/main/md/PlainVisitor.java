@@ -197,13 +197,7 @@ public class PlainVisitor implements MDElementVisitor{
 	public String getLine(){
 		return line;
 	}
-	public void setTarget(String s){
-		String temp;
-		int i;
-		for(i=0;i<s.length();i++){
-	//		if(s.charAt(i))
-		}
-	}
+	
 
 
 
