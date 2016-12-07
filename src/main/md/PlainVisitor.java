@@ -76,10 +76,10 @@ public class PlainVisitor implements MDElementVisitor{
 			if(isHeader){
 					Header node = new Header();
 					node.htype=1;
-					//i don't know
-					forToken=line.substring(position+1);
-					//i don't know
-					tokenize(forToken,node);
+					ArrayList<Token> tokenList = temp.getTokenList();
+					for(int i=0;i<temp.getTokenListSize();i++){
+						node.addToken(tokenList.get(i));
+					}
 					//have to add previus node's plain text and h1
 					nodeList.remove(nodeList.size()-1);				//remove and add
 					nodeList.add(node);
@@ -664,6 +664,12 @@ public class PlainVisitor implements MDElementVisitor{
 			System.out.println(n.getTokenList().get(i).notifyToken()+" : "+n.getTokenList().get(i).getContent());
 		}
 
+		if(line.length()>1){
+			if(line.charAt(line.length()-2)==32&&line.charAt(line.length()-2)==32){
+				StyleText br = new StyleText("br");
+				n.addToken(br);
+			}
+		}
 	}
 
 
@@ -688,8 +694,6 @@ public class PlainVisitor implements MDElementVisitor{
 				System.out.println("bq : "+pass);
 				System.out.println("BlockQuotes Done!!!");
 			}
-
-			
 		}
 	}
 
@@ -744,6 +748,7 @@ public class PlainVisitor implements MDElementVisitor{
 				}
 			}
 		}
+
 	}
 
 	@Override
