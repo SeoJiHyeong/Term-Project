@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class PlainVisitor implements MDElementVisitor{
 
-	String line, target;
+	String line="";
  	private ArrayList<Document> documentList = new ArrayList<Document>();
  	private ArrayList <Node>temp = new ArrayList<Node>();
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
@@ -46,7 +46,7 @@ public class PlainVisitor implements MDElementVisitor{
 		Node temp = nodeList.get(nodeList.size()-1);
 		for(int i=0;i<line.length();i++) {
 			char a=line.charAt(i);
-			if(i<6 && a=='#' && count==i)
+			if(i<6 && a=='#')
 				count++;
 			else {
 				position=i;
@@ -66,7 +66,7 @@ public class PlainVisitor implements MDElementVisitor{
 		else if(temp.notifyNode().equals("Text")&&(line.charAt(0)==45||line.charAt(0)==61)){
 			boolean isHeader = true;
 			for(int i=1;i<line.length();i++){
-				if((line.charAt(i)==line.charAt(i-1))||line.charAt(i)==32);
+				if((line.charAt(i)==line.charAt(i-1)));
 				else {
 					isHeader = false;
 					break;
