@@ -75,7 +75,11 @@ public class PlainVisitor implements MDElementVisitor{
 
 			if(isHeader){
 					Header node = new Header();
+					if(line.charAt(0)==61)
 					node.htype=1;
+					else
+					node.htype=2;
+
 					ArrayList<Token> tokenList = temp.getTokenList();
 					for(int i=0;i<temp.getTokenListSize();i++){
 						node.addToken(tokenList.get(i));
@@ -161,8 +165,8 @@ public class PlainVisitor implements MDElementVisitor{
 							case 0:
                                 if(line.charAt(i)==42)ruleCase = 1;
                                 else ruleCase = 2;
-								
-								
+
+
 								break;
 							case 1:
 								if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
@@ -725,7 +729,7 @@ public class PlainVisitor implements MDElementVisitor{
 				for(int i=1;i<4;i++) {
 					if(line.charAt(i)!=32)
 						break;
-					else 
+					else
 						flag+=1;
 				}
 				if(flag==3) {
