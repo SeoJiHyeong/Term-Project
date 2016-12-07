@@ -17,34 +17,55 @@ public class HTMLVisitorTest
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("link");
         h.tokenParser(t);
-        
+
         assertEquals(t.getContent(),"<a href=\"null\">");
     }
-	
+
     @Test
     public void testTokenParser3() {
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("/link");
         h.tokenParser(t);
-        
+
         assertEquals(t.getContent(),"null</a>");
     }
-    
+
     @Test
     public void testTokenParser4() {
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("image");
         h.tokenParser(t);
-        
+
         assertEquals(t.getContent(),"<img src=\"null\"");
     }
-    
+
     @Test
     public void testTokenParser5() {
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("/image");
         h.tokenParser(t);
-        
+
         assertEquals(t.getContent()," alt=\"null\">");
+    }
+
+        @Test
+	    public void testHeader1() {
+
+	        HTMLVisitor h = new HTMLVisitor();
+	        Header header = new Header();
+	        header.htype=1;
+
+	        header.accept(h);
+
+	        assertEquals(h.getLine(),"<h1></h1>");
+    }
+
+        @Test
+	    public void testHeader2() {
+	        HTMLVisitor h = new HTMLVisitor();
+	        StyleText t = new StyleText("/image");
+	        h.tokenParser(t);
+
+	        assertEquals(t.getContent()," alt=\"null\">");
     }
 }

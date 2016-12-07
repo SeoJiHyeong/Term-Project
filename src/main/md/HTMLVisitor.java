@@ -31,8 +31,11 @@ public class HTMLVisitor implements MDElementVisitor {
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			String tmp ="";
 			//System.out.println(tempNode.htype);
+			if(tokenList.size()<1)
+			tmp = "<h"+tempNode.htype+">"+"</h"+tempNode.htype+">";
+			else
 			tmp = "<h"+tempNode.htype+">"+tokenList.get(0).content+"</h"+tempNode.htype+">";
-			System.out.println(tokenList.get(0).content);
+
 			line = tmp;
 		}
 		else;
@@ -98,10 +101,10 @@ public class HTMLVisitor implements MDElementVisitor {
 			String tmp = "";
 			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
-			System.out.println(tokenList.get(0).content);
-			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";
+			if(tokenList.size()<1)
+			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";//delete print and add if
+			else
 			line = tmp;
-			System.out.println(line);
 		}
 		else;
 	 }
@@ -188,5 +191,9 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	public void setTempNode(){
 		tempNode = nodeList.get(sequence);
+	}
+
+	public String getLine(){
+		return line;
 	}
 }
