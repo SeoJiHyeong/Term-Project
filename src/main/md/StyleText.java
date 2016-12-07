@@ -28,7 +28,9 @@ public class StyleText extends Token{
       	case "/link":
          	notice = "/link";
          	break;
-
+      	case "br":
+         	notice = "<br>";
+         	break;
 		default:
 			//notice = s;
 			break;

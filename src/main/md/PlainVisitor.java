@@ -151,44 +151,47 @@ public class PlainVisitor implements MDElementVisitor{
 		System.out.println("horizontalRule visited");
 		int i;
 		int ruleCase = 0;
-		if(pass==0){
-			for(i=0;i<line.length();i++){
-				if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;
-				else{
-					switch(ruleCase){
-					case 0:
-						if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){
-							if(line.charAt(i)==42)ruleCase = 1;
-							else if(line.charAt(i)==45)ruleCase = 2;
-							else ruleCase = 0;
+		if(line.length()>0){
+			if(pass==0){
+				if(line.charAt(0)!= 32)
+					for(i=0;i<line.length();i++){
+						if(!(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42))break;
+						else{
+							switch(ruleCase){
+							case 0:
+								if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){
+									if(line.charAt(i)==42)ruleCase = 1;
+									else if(line.charAt(i)==45)ruleCase = 2;
+									else ruleCase = 0;
+								}
+								else ruleCase =3;
+								break;
+							case 1:
+								if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
+								else ruleCase = 3;
+								break;
+							case 2:
+								if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;
+								else ruleCase = 3;
+								break;
+							default: ruleCase = 3;
+							break;
+							}
 						}
-						else ruleCase =3;
-						break;
-					case 1:
-						if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
-						else ruleCase = 3;
-						break;
-					case 2:
-						if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;
-						else ruleCase = 3;
-						break;
-					default: ruleCase = 3;
-					break;
-					}
-				}
 
-				if(ruleCase==3)break;
-				else if(i==line.length()-1){
-					HorizontalRule node = new HorizontalRule();
-					node.addContent(line);
-					nodeList.add(node);
-					pass=1;
-					System.out.println("hr : "+pass);
-					System.out.println("horizontalRule");
-				}
+						if(ruleCase==3)break;
+						else if(i==line.length()-1){
+							HorizontalRule node = new HorizontalRule();
+							node.addContent(line);
+							nodeList.add(node);
+							pass=1;
+							System.out.println("hr : "+pass);
+							System.out.println("horizontalRule");
+						}
+					}
 			}
+			else;
 		}
-		else;
 	}
 
 	public void setLine(String s){
@@ -197,7 +200,13 @@ public class PlainVisitor implements MDElementVisitor{
 	public String getLine(){
 		return line;
 	}
-	
+	public void setTarget(String s){
+		String temp;
+		int i;
+		for(i=0;i<s.length();i++){
+	//		if(s.charAt(i))
+		}
+	}
 
 
 
@@ -661,71 +670,84 @@ public class PlainVisitor implements MDElementVisitor{
 	@Override
 	public void visit(BlockQuotes v) {
 		// TODO Auto-generated method stub
+		char a;
 		System.out.println("blockquotes visited");
-		char a = line.charAt(0);
-		Node temp = nodeList.get(nodeList.size()-1);
-		String forToken;
+		if(line.length()>0){
+			a = line.charAt(0);
+			Node temp = nodeList.get(nodeList.size()-1);
+			String forToken;
 
-		if(a==62) {
-			System.out.println("BlockQuotes!!!");
-			BlockQuotes node = new BlockQuotes();
-			node.addContent(line);
-			forToken = line.substring(1);
-			tokenize(forToken,node);
-			nodeList.add(node);
-			pass=1;
-			System.out.println("bq : "+pass);
-			System.out.println("BlockQuotes Done!!!");
+			if(a==62) {
+				System.out.println("BlockQuotes!!!");
+				BlockQuotes node = new BlockQuotes();
+				node.addContent(line);
+				forToken = line.substring(1);
+				tokenize(forToken,node);
+				nodeList.add(node);
+				pass=1;
+				System.out.println("bq : "+pass);
+				System.out.println("BlockQuotes Done!!!");
+			}
+
+			else if(temp.notifyNode().equals("BlockQuotes")) {
+				BlockQuotes node = new BlockQuotes();
+				tokenize(line,node);
+				node.addContent(line);
+				pass=1;
+				System.out.println("bq : "+pass);
+			}
 		}
-
 	}
 
 	@Override
 	public void visit(CodeBlock v) {
 		// TODO Auto-generated method stub
 		System.out.println("CodeBlock visited");
-		char a=line.charAt(0);
-		String forToken;
+		char a;
+		if(line.length()>0){
+			a=line.charAt(0);
+			String forToken;
 
-		//tab case
-		if(a==9){
-			CodeBlock node = new CodeBlock();
-			node.addContent(line);
-			forToken=line.substring(1);
-			tokenize(forToken,node);
-			nodeList.add(node);
-			pass=1;
-			System.out.println("cb : "+pass);
-			System.out.println("CodeBlockkkkk!!");
-		}
-
-		//4 spaces case
-		else if(a==32) {
-			int flag =1;
-			int position=0;
-
-			for(int i=0;i<line.length();i++) {
-				char b=line.charAt(i);
-				if(i<4 && b!=32){
-					flag=0;
-					break;
-				}
-				else if(b!=32){
-					position=i;
-					break;
-				}
-			}
-			if(flag==1) {
+			//tab case
+			if(a==9){
 				CodeBlock node = new CodeBlock();
 				node.addContent(line);
-				forToken=line.substring(position);
+				forToken=line.substring(1);
 				tokenize(forToken,node);
-				//System.out.println(forToken);
 				nodeList.add(node);
 				pass=1;
 				System.out.println("cb : "+pass);
 				System.out.println("CodeBlockkkkk!!");
+			}
 
+			//4 spaces case
+			else if(a==32) {
+				int flag =1;
+				int position=0;
+
+				for(int i=0;i<line.length();i++) {
+					char b=line.charAt(i);
+					if(i<4 && b!=32){
+						flag=0;
+						break;
+					}
+					else if(b!=32){
+						position=i;
+						break;
+					}
+				}
+				if(flag==1) {
+					CodeBlock node = new CodeBlock();
+					node.addContent(line);
+					forToken=line.substring(position);
+					tokenize(forToken,node);
+					//System.out.println(forToken);
+					nodeList.add(node);
+					pass=1;
+					System.out.println("cb : "+pass);
+					System.out.println("CodeBlockkkkk!!");
+
+				}
 			}
 		}
 	}
@@ -744,6 +766,8 @@ public class PlainVisitor implements MDElementVisitor{
 		else
 			pass=0;
 	}
+
+
 
 	public ArrayList<Node> getNode(){
 			return nodeList;
