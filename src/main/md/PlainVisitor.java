@@ -159,12 +159,10 @@ public class PlainVisitor implements MDElementVisitor{
 						else{
 							switch(ruleCase){
 							case 0:
-								if(line.charAt(i)==32||line.charAt(i)==45||line.charAt(i)==42){
-									if(line.charAt(i)==42)ruleCase = 1;
-									else if(line.charAt(i)==45)ruleCase = 2;
-									else ruleCase = 0;
-								}
-								else ruleCase =3;
+                                if(line.charAt(i)==42)ruleCase = 1;
+                                else ruleCase = 2;
+								
+								
 								break;
 							case 1:
 								if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
