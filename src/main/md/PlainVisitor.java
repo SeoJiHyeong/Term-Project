@@ -663,7 +663,7 @@ public class PlainVisitor implements MDElementVisitor{
 		}
 
 		if(line.length()>1){
-			if(line.charAt(line.length()-2)==32&&line.charAt(line.length()-2)==32){
+			if(line.charAt(line.length()-2)==32&&line.charAt(line.length()-1)==32){
 				StyleText br = new StyleText("br");
 				n.addToken(br);
 			}

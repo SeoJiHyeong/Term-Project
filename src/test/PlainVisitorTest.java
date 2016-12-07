@@ -90,6 +90,53 @@ public class PlainVisitorTest
         assertEquals("hi",tokenList.get(0).getContent());
         p = new PlainVisitor();
         
+        p = new PlainVisitor();
+        p.setLine("dafadf  ");
+        tmp = "hi__hi";
+        nod = new Text();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        nodeList = p.getNode();
+        tokenList = nod.getTokenList();
+        assertEquals("hi",tokenList.get(0).getContent());
+        p = new PlainVisitor();
+        
+        p = new PlainVisitor();
+        p.setLine("dafadf 1");
+        tmp = "hi__hi";
+        nod = new Text();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        nodeList = p.getNode();
+        tokenList = nod.getTokenList();
+        assertEquals("hi",tokenList.get(0).getContent());
+        p = new PlainVisitor();
+        
+        p = new PlainVisitor();
+        p.setLine("dafadf1 ");
+        tmp = "hi__hi";
+        nod = new Text();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        nodeList = p.getNode();
+        tokenList = nod.getTokenList();
+        assertEquals("hi",tokenList.get(0).getContent());
+        p = new PlainVisitor();
+        
+        p = new PlainVisitor();
+        p.setLine("dafadf");
+        tmp = "hi__hi";
+        nod = new Text();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        nodeList = p.getNode();
+        tokenList = nod.getTokenList();
+        assertEquals("hi",tokenList.get(0).getContent());
+        p = new PlainVisitor();
     }
     
     
@@ -453,4 +500,120 @@ public class PlainVisitorTest
         nodeList = v.getNode();
         assertEquals(2,nodeList.size());
     }
+    
+    @Test
+    public void testHeader1(){
+        Header h = new Header();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("# h1");
+        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("h1",tokenList.get(0).getContent());
+    }
+    
+    @Test
+    public void testHeader2(){
+        Header h = new Header();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("## h2");
+        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("h2",tokenList.get(0).getContent());
+    }
+    
+    @Test
+    public void testHeader3(){
+        Header h = new Header();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("adsfadsf");
+        v.visit(t);
+        v.setLine("========");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals("Header",nodeList.get(1).notifyNode());
+       
+    }
+
+    @Test
+    public void testHeader4(){
+        Header h = new Header();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("adsfadsf");
+        v.visit(t);
+        v.setLine("=========1111");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals("Text",nodeList.get(1).notifyNode());
+    }
+    
+    @Test
+    public void testHeader5(){
+        Header h = new Header();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("############ h2");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals(1,nodeList.size());
+        
+        
+    }
+    
+    
+    @Test
+    public void testHeader6(){
+        Header h = new Header();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("adsfadsf");
+        v.visit(t);
+        v.setLine("------------");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals("Header",nodeList.get(1).notifyNode());
+        
+    }
+    
+    @Test
+    public void testHeader7(){
+        Header h = new Header();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("adsfadsf");
+        v.visit(t);
+        v.setLine("------------1111");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals("Text",nodeList.get(1).notifyNode());
+    }
+    
 }
