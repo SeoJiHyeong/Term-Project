@@ -137,15 +137,9 @@ public class PlainVisitorTest
     public void testVisitItemList(){
         ItemList h = new ItemList();
         PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
         v.addNode();
-        v.setLine("- gggg");
-        v.visit(h);
-        v.setLine("+ gggg");
-        v.visit(h);
-        v.setLine("* gggg");
-        v.visit(h);
-        v.setLine("@ gggg");
-        v.visit(h);
         v.setLine("-gggg");
         v.visit(h);
         v.setLine("+gggg");
@@ -155,6 +149,14 @@ public class PlainVisitorTest
         v.setLine("!!gggg");
         v.visit(h);
         v.setLine("-");
+        v.visit(h);
+        v.setLine("- gggg");
+        v.visit(h);
+        v.setLine("+ gggg");
+        v.visit(h);
+        v.setLine("* gggg");
+        v.visit(h);
+        v.setLine("@ gggg");
         v.visit(h);
         
     }
