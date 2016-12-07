@@ -104,7 +104,7 @@ public class converter {
 		for(int i = 0; i < args.length; i++){
 			if(args[i].equals("-o")){
 				index_output_option[i]=1;
-				if(i!=args.length-1 && !check_md(args[i+1]) && !check_option(args[i+1])){
+				if(!check_option(args[i+1])){
 					index_output[i+1]=1;
 				}
 				else{
@@ -124,6 +124,7 @@ public class converter {
 
 
 		if(!check_file(args[0])) {
+            System.out.println(args[0]);
 			System.out.println("FILE ERROR");
 			return false;
 		}
@@ -136,18 +137,14 @@ public class converter {
 			if(x>=args.length){
 				break;
 			}
-			if(check_file(args[x])){
+			
 				opt=0;
 				out=0;
 				out_f=0;
-			}
-			else{
-				System.out.println("File ERROR");
-				return false;
-			}
+			
+			
 			x++;
 			if(x<=args.length-1){
-				if(check_md(args[x])) continue;
 				if(check_option(args[x])) {
 					opt=1;
 					x++;
@@ -155,7 +152,7 @@ public class converter {
 				if(x < args.length-1 && args[x].equals("-o")){
 					x++;
 					out = 1;
-					if(x < args.length-1 && check_md(args[x]) || check_option(args[x]) || args.equals("-h") || args.equals("--help") || args.equals("-o")){
+					if(check_option(args[x]) ){
 						System.out.println("Output ERROR");
 						return false;
 					}
@@ -171,7 +168,7 @@ public class converter {
 					opt=1;
 					x++;
 				}
-				else if(check_md(args[x])) continue;
+				
 				else{
 					System.out.println("ERROR");
 					return false;
@@ -187,7 +184,7 @@ public class converter {
 		int pp = 0;
 		for(int i=0; i < args.length;i++){
 			if(index_md[i]==1){
-				if(check_file(args[i])){
+				
 					if(cc!=0){
 						mGroupList.add(mChildList);
 					}
@@ -196,20 +193,14 @@ public class converter {
 					mChildList.add(args[i]);
 					cc++;
 
-				}
-				else{
-					System.out.println("File is not exist");
-				}
+				
+			
 			}
 			else if(index_output_option[i]==1){
 				mChildList.add(args[i]);
 
 			}
 			else if(index_output[i]==1){
-				mChildList.add(args[i]);
-
-			}
-			else if(index_option[i]==1){
 				mChildList.add(args[i]);
 
 			}
@@ -225,41 +216,13 @@ public class converter {
 
 					input = mGroupList.get(i).get(j);
 				}
-				else if(j==1){
-					if(mGroupList.get(i).get(j).equals("-o")){
-						output = mGroupList.get(i).get(j+1);
-					}
-					else{
-						option = mGroupList.get(i).get(j);
-					}
-				}
-				else if(j==2){
-
-					if(mGroupList.get(i).get(j).equals("-o")){
-						output = mGroupList.get(i).get(j+1);
-					}
-					else{
-						option = mGroupList.get(i).get(j);
-					}
-				}
-				else if(j==3){
-					if(output.equals("")){
-						output = mGroupList.get(i).get(j);
-					}
-					else if(mGroupList.get(i).get(j).substring(0, 1).equals("-"))
-						option = mGroupList.get(i).get(j);
-				}
-
-
+				
 			}
 			System.out.println("");
 		}
 		return true;
 	}
-	public static boolean sum(int a, int b, int c, int d){
-		if(a+b+c+d >=2) return false;
-		return true;
-	}
+	
 	public static void help_message(){
 		System.out.println("java converter md_File1 [-options] md_File2 [-options] ...");
 		System.out.println("Options : ");
@@ -269,10 +232,7 @@ public class converter {
 		System.out.println("\t-o\t\tNaming Output name");
 		System.out.println("\t-h(--help)\tHelp");
 	}
-	public static boolean check_help_option(String c){
-		if(c.equals("-h") || c.equals("--help")) return true;
-		return false;
-	}
+	
 	public static boolean check_option(String c){
 		if(c.equals("-f")||c.equals("-s")||c.equals("-p")) return true;
 		return false;
@@ -281,7 +241,7 @@ public class converter {
 		return check_md(c) && check_file_exist(c);
 	}
 	public static boolean check_md(String c){
-		if(c.length()>3&&!c.substring(0, 1).equals("-") && c.substring(c.length()-3, c.length()).equals(".md")) return true;
+		if(c.length()>3&& c.substring(c.length()-3, c.length()).equals(".md")) return true;
 		return false;
 	}
 	public static boolean check_file_exist(String c){
