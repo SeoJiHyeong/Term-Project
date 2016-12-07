@@ -152,6 +152,9 @@ public class HTMLVisitor implements MDElementVisitor {
 			case "/image":
 				t.setContent(" alt=\"" + t.getContent() + "\">") ;
 				break;
+			case "<br>":
+				t.setContent(t.notifyToken());
+				break;
 			default:
 				break;
 		}/*
