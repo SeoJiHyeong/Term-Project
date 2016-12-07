@@ -2,7 +2,6 @@ package md;
 public class Token implements MDElement{
 	String content;
 	String notice;
-
 	public String notifyToken(){
 		return notice;
 	}

@@ -38,7 +38,6 @@ public class HTMLVisitor implements MDElementVisitor {
 
 			line = tmp;
 		}
-		else;
 
 
 	 }
@@ -52,7 +51,6 @@ public class HTMLVisitor implements MDElementVisitor {
 			}
 			line = line + "</li>";
 		}
-		else;
 	 }
 
 	 public void visit(OrderedList n){
@@ -75,7 +73,6 @@ public class HTMLVisitor implements MDElementVisitor {
 			else;
 
 		}
-		else;
 
 	 }
 
@@ -83,7 +80,6 @@ public class HTMLVisitor implements MDElementVisitor {
 		if(tempNode.notifyNode().equals("HorizontalRule")){
 			line = "<HR>";
 		}
-		else;
 	 }
 
 	 public void visit(Text n){
@@ -93,35 +89,31 @@ public class HTMLVisitor implements MDElementVisitor {
 				visit(tokenList.get(i));
 			}
 		}
-		else;
 	 }
 
 	 public void visit(BlockQuotes n){
 		if(tempNode.notifyNode().equals("BlockQuotes")){
 			String tmp = "";
-			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
-			if(tokenList.size()<1)
+			if(tokenList.size()>0)
 			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";//delete print and add if
 			else
+			tmp ="<blockquote>"+"</blockquote>";
 			line = tmp;
 		}
-		else;
 	 }
 
 	 public void visit(CodeBlock n){
 		if(tempNode.notifyNode().equals("CodeBlock")){
 
 		}
-		else;
 	 }
 
 
 
 	 //token
 	 public void visit(Token t){
-			 if(t.notifyToken().equals("Plaintext")){
-					//good!!
+			if(t.notifyToken().equals("plaintext")){
 			}
 			else{
 					tokenParser(t);
@@ -135,35 +127,28 @@ public class HTMLVisitor implements MDElementVisitor {
 	}
 
 	public void tokenParser(Token t){
-		switch(t.notifyToken()){
-			case "<em>":
-			case "</em>":
-			case "<strong>":
-			case "</strong>":
-				t.setContent(t.notifyToken());
-				break;
 
-			case "link":
-				t.setContent("<a href=\"" + t.getContent()+"\">");
-				break;
-			case "/link":
-				t.setContent(t.getContent() + "</a>") ;
-				break;
-			case "image":
-				t.setContent("<img src=\"" + t.getContent() +"\"");
-				break;
-			case "/image":
-				t.setContent(" alt=\"" + t.getContent() + "\">") ;
-				break;
-			case "<br>":
-				t.setContent(t.notifyToken());
-				break;
-			default:
-				break;
-		}/*
-		if(t.notifyToken().equals("<em>")||t.notifyToken().equals("</em>")||t.notifyToken().equals("<strong>")||t.notifyToken().equals("</strong>")){
-			t.setContent(t.notifyToken());
-		}*/
+				if(t.notifyToken().equals("<em>"))
+					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("</em>"))
+					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("<strong>"))
+					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("</strong>"))
+					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("link"))
+					t.setContent("<a href=\"" + t.getContent()+"\">");
+				else if(t.notifyToken().equals("/link"))
+					t.setContent(t.getContent() + "</a>") ;
+				else if(t.notifyToken().equals("image"))
+					t.setContent("<img src=\"" + t.getContent() +"\"");
+				else if(t.notifyToken().equals("/image"))
+					t.setContent(" alt=\"" + t.getContent() + "\">") ;
+				else if(t.notifyToken().equals("<br>"))
+					t.setContent(t.notifyToken());
+				else;
+
+
 	}
 
 

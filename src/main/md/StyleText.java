@@ -32,7 +32,7 @@ public class StyleText extends Token{
          	notice = "<br>";
          	break;
 		default:
-			//notice = s;
+			notice = s;
 			break;
 		}
 	}

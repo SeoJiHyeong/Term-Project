@@ -1,7 +1,7 @@
 package md;
 public class CodeBlock extends Node{
 	public CodeBlock (){
-		notice = "BlockQuotes";
+		notice = "CodeBlock";
 	}
 
 	public void accept(MDElementVisitor v) {
