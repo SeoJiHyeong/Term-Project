@@ -150,7 +150,7 @@ public class HTMLVisitor implements MDElementVisitor {
 				t.setContent("<img src=\"" + t.getContent() +"\"");
 				break;
 			case "/image":
-				t.setContent(" alt=\"" + t.getContent() + "\"</>") ;
+				t.setContent(" alt=\"" + t.getContent() + "\">") ;
 				break;
 			default:
 				break;
@@ -158,7 +158,6 @@ public class HTMLVisitor implements MDElementVisitor {
 		if(t.notifyToken().equals("<em>")||t.notifyToken().equals("</em>")||t.notifyToken().equals("<strong>")||t.notifyToken().equals("</strong>")){
 			t.setContent(t.notifyToken());
 		}*/
-		//else if(t.notyfyToken.)
 	}
 
 
