@@ -124,7 +124,7 @@ public class HtmlVisitorTest
 			h.setSequence(1);
 			h.setTempNode();
 			h.visit(header);
-			assertEquals(h.getLine(),"<h1></h1>");
+			assertEquals(h.getLine(),"<h1>"+null+"</h1>");
 
 			PlainText text = new PlainText();
 			text.setContent("hi");
@@ -139,47 +139,7 @@ public class HtmlVisitorTest
 	        assertEquals(h.getLine(),"<h1>hi</h1>");
     }
 
-     @Test
-	    public void testItemList() {
-	        HTMLVisitor h = new HTMLVisitor();
-	        ArrayList<Node> node = new ArrayList<Node>();
 
-			PlainText plaintext = new PlainText();
-			plaintext.setContent("hi");
-
-			ItemList list1 = new ItemList();
-			list1.listLevel = 1;
-			ItemList list2 = new ItemList();
-			list2.listLevel = 2;
-			ItemList list3 = new ItemList();
-			list3.listLevel = 3;
-			ItemList list4 = new ItemList();
-			list4.listLevel = 4;
-
-			PlainText text = new PlainText();
-			text.setContent("hi");
-			Text dummy = new Text();
-			list1.addToken(plaintext);
-			node.add(dummy);
-			node.add(list1);
-			node.add(list1);
-			node.add(list2);
-			node.add(list2);
-			node.add(list3);
-			node.add(list3);
-			node.add(list1);
-			node.add(list2);
-			node.add(list3);
-			node.add(list2);
-			h.setNodelist(node);
-
-			for(int i=1;i<node.size();i++){
-				h.setSequence(i);
-				h.setTempNode();
-				h.visit(list1);
-			}
-			//assertEquals(h.getLine(),"<li>hi</li>");
-    }
          @Test
 		    public void testItemList1() {
 		        HTMLVisitor h = new HTMLVisitor();
@@ -258,6 +218,46 @@ public class HtmlVisitorTest
 				}
 				//assertEquals(h.getLine(),"<li>hi</li>");
     }
+    @Test
+		public void testOrederedList1() {
+		        HTMLVisitor h = new HTMLVisitor();
+		        ArrayList<Node> node = new ArrayList<Node>();
+
+				PlainText plaintext = new PlainText();
+				plaintext.setContent("hi");
+
+				OrderedList list1 = new OrderedList();
+				list1.listLevel = 1;
+				OrderedList list2 = new OrderedList();
+				list2.listLevel = 2;
+				OrderedList list3 = new OrderedList();
+				list3.listLevel = 3;
+				OrderedList list4 = new OrderedList();
+				list4.listLevel = 4;
+
+				PlainText text = new PlainText();
+				text.setContent("hi");
+				Text dummy = new Text();
+				list1.addToken(plaintext);
+				node.add(dummy);
+				node.add(list1);
+				node.add(list1);
+				node.add(list2);
+				node.add(list2);
+				node.add(list3);
+				node.add(list2);
+				node.add(list1);
+				h.setNodelist(node);
+
+				for(int i=1;i<h.getNodeIndex();i++){
+					h.setSequence(i);
+					h.setTempNode();
+					h.visit(list1);
+					System.out.println();
+					System.out.println(i);
+				}
+				assertEquals(h.getLine(),"<ol><li></li></ol></ol></ol></ol>");
+    }
 
     @Test
 		public void testOrederedList2() {
@@ -290,9 +290,6 @@ public class HtmlVisitorTest
 				node.add(list4);
 				h.setNodelist(node);
 
-				//h.setSequence(0);
-				//h.setTempNode();
-				//h.visit(dummy);
 				for(int i=1;i<h.getNodeIndex();i++){
 					h.setSequence(i);
 					h.setTempNode();
@@ -322,7 +319,7 @@ public class HtmlVisitorTest
 			h.setTempNode();
 			h.visit(hr);
 
-	        assertEquals(h.getLine(),"<HR>");
+	        assertEquals(h.getLine(),"<hr>");
     }
 
         @Test

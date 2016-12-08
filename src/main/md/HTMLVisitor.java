@@ -109,7 +109,7 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 public void visit(HorizontalRule n){
 		if(tempNode.notifyNode().equals("HorizontalRule")){
-			line = "<HR>";
+			line = "<hr>";
 		}
 	 }
 
