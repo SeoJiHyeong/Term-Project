@@ -109,6 +109,7 @@ public class HtmlVisitorTest
 
 	        HTMLVisitor h = new HTMLVisitor();
 	        Header header = new Header();
+	        Header header2 = new Header();
 	        ArrayList<Node> node = new ArrayList<Node>();
 	        header.htype=1;
 
@@ -124,21 +125,39 @@ public class HtmlVisitorTest
 			h.setSequence(1);
 			h.setTempNode();
 			h.visit(header);
-			assertEquals(h.getLine(),"<h1>"+null+"</h1>");
-
+assertEquals(h.getLine(),"<h1>"+""+"</h1>");
 			PlainText text = new PlainText();
 			text.setContent("hi");
-			header.addToken(text);
-			node.add(header);
+			header2.addToken(text);
+			node.add(header2);
 			h.setNodelist(node);
 			h.setSequence(2);
 			h.setTempNode();
-			h.visit(header);
-
-
+			h.visit(header2);
 	        assertEquals(h.getLine(),"<h1>hi</h1>");
     }
+        @Test
+	    public void testLineFeed() {
 
+	        HTMLVisitor h = new HTMLVisitor();
+	        LineFeed lf = new LineFeed();
+	        ArrayList<Node> node = new ArrayList<Node>();
+
+			Text dummy = new Text();
+			node.add(dummy);
+			h.setNodelist(node);
+			h.setSequence(0);
+			h.setTempNode();
+			h.visit(lf);
+
+			node.add(lf);
+			h.setNodelist(node);
+			h.setSequence(1);
+			h.setTempNode();
+			h.visit(lf);
+			assertEquals(h.getLine(),null);
+
+    }
 
          @Test
 		    public void testItemList1() {
@@ -178,7 +197,7 @@ public class HtmlVisitorTest
 					h.setTempNode();
 					h.visit(list1);
 				}
-				//assertEquals(h.getLine(),"<li>hi</li>");
+				assertEquals(h.getLine(),"<li></li></ul></ul>");
     }
 
          @Test
@@ -216,7 +235,7 @@ public class HtmlVisitorTest
 					h.setTempNode();
 					h.visit(list1);
 				}
-				//assertEquals(h.getLine(),"<li>hi</li>");
+				assertEquals(h.getLine(),"<ul><li></li></ul></ul></ul></ul>");
     }
     @Test
 		public void testOrederedList1() {
@@ -253,10 +272,8 @@ public class HtmlVisitorTest
 					h.setSequence(i);
 					h.setTempNode();
 					h.visit(list1);
-					System.out.println();
-					System.out.println(i);
 				}
-				assertEquals(h.getLine(),"<ol><li></li></ol></ol></ol></ol>");
+				assertEquals(h.getLine(),"<li>hi</li></ol>");
     }
 
     @Test
@@ -294,8 +311,6 @@ public class HtmlVisitorTest
 					h.setSequence(i);
 					h.setTempNode();
 					h.visit(list1);
-					System.out.println();
-					System.out.println(i);
 				}
 				assertEquals(h.getLine(),"<ol><li></li></ol></ol></ol></ol>");
     }
@@ -336,15 +351,19 @@ public class HtmlVisitorTest
 			dummy.addToken(text);
 			node.add(dummy);
 			node.add(hr);
-			h.setNodelist(node);
-			h.setSequence(0);
-			h.setTempNode();
-			h.visit(dummy);
-			h.setSequence(1);
-			h.setTempNode();
-			h.visit(dummy);
+			node.add(dummy);
+			node.add(dummy);
+			node.add(hr);
+			node.add(dummy);
 
-	        assertEquals(h.getLine(),"hi");
+			h.setNodelist(node);
+
+			for(int i=1;i<node.size();i++){
+				h.setSequence(i);
+				h.setTempNode();
+				h.visit(dummy);
+			}
+	        assertEquals(h.getLine(),"<p>"+"hi"+"</p>");
     }
 		@Test
 	    public void testCodeBlock() {
@@ -353,6 +372,9 @@ public class HtmlVisitorTest
 			CodeBlock cb = new CodeBlock();
 
 	        ArrayList<Node> node = new ArrayList<Node>();
+			PlainText text = new PlainText();
+			text.setContent("hi");
+			cb.addToken(text);
 
 			node.add(dummy);
 			node.add(cb);
