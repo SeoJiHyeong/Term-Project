@@ -34,7 +34,7 @@ public class HTMLVisitor implements MDElementVisitor {
 			for(int i=0;i<tempNode.getTokenListSize();i++){
 				visit(tokenList.get(i));
 			}
-			
+
 			if(tokenList.size()<1)
 			tmp = "<h"+tempNode.htype+">"+"</h"+tempNode.htype+">";
 			else
@@ -55,7 +55,8 @@ public class HTMLVisitor implements MDElementVisitor {
 			}
 			line = line + "</li>";
 
-			if(previousLevel==0||previousLevel<tempNode.listLevel){
+			if(previousLevel==0||previousLevel<tempNode.listLevel
+										||listStack.size()==0){
 				line = "<ul>" + line;
 				listStack.add("</ul>");
 			}
@@ -68,8 +69,10 @@ public class HTMLVisitor implements MDElementVisitor {
 				}
 			else if(nodeList.get(sequence+1).listLevel<tempNode.listLevel)
 				for(int i=0;i<tempNode.listLevel-nodeList.get(sequence+1).listLevel;i++){
+					if(listStack.size()!=0){
 									line = line + listStack.get(listStack.size()-1);
 									listStack.remove(listStack.size()-1);
+					}
 				}
 			else;
 		}
@@ -87,7 +90,7 @@ public class HTMLVisitor implements MDElementVisitor {
 			}
 			line = line + "</li>";
 
-			if(previousLevel==0||previousLevel<tempNode.listLevel){
+			if(previousLevel==0||previousLevel<tempNode.listLevel||listStack.size()==0){
 				line = "<ol>" + line;
 				listStack.add("</ol>");
 			}
@@ -100,8 +103,10 @@ public class HTMLVisitor implements MDElementVisitor {
 				}
 			else if(nodeList.get(sequence+1).listLevel<tempNode.listLevel)
 				for(int i=0;i<tempNode.listLevel-nodeList.get(sequence+1).listLevel;i++){
+					if(listStack.size()!=0){
 									line = line + listStack.get(listStack.size()-1);
 									listStack.remove(listStack.size()-1);
+					}
 				}
 			else;
 		}

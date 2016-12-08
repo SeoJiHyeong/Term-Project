@@ -37,7 +37,7 @@ public class PlainVisitor implements MDElementVisitor{
 	public void visit(LineFeed n){
 		if(pass==0){
 			if(line.equals("~")){
-				
+
 				if(nodeList.get(nodeList.size()-1).notifyNode().equals("LineFeed")){
 				   pass = 1;
 			 	}
@@ -76,7 +76,7 @@ public class PlainVisitor implements MDElementVisitor{
          for(int i=line.length()-1;i>position;i--) { //test ## hi ##, ## hi ######, ## hi##########
         	if(line.charAt(i)=='#')
         		j++;
-        	else 
+        	else
         		break;
          }
          if(j==0)
@@ -118,29 +118,30 @@ public class PlainVisitor implements MDElementVisitor{
 						nodeList.remove(nodeList.size()-1);				//remove and add
 						nodeList.add(node);
 						pass=1;
-						
+
 				}
 				else;
 			}
 		}
 	}
 	public void visit(ItemList n){
-		
-		
+
+
 		char a,b;
 		int startIndex = 0;
 		int listLevel = 1;
 		if(line.length()>2){ //add a condition for comparing two letters.
-			for(int i=0;i+1<line.length();i=i+2){ //count the 'space' before list
+			for(int i=0;i+1<line.length();i=i+1){ //count the 'space' before list
 				if(line.charAt(i)==32&&line.charAt(i+1)==32){
 					startIndex=i+2;
 					listLevel++;
+					i++;
 				}
 				else if(line.charAt(i)==32)startIndex++;
 
 				else break;
 			}
-			if(nodeList.get(nodeList.size()-1).listLevel+2>listLevel){ //only accepts previous level +2 space
+			if(nodeList.get(nodeList.size()-1).listLevel+3>listLevel){ //only accepts previous level +2 space
 				a = line.charAt(startIndex);
 				b = line.charAt(startIndex+1);  //parse startindex and startindex+1 and tokenize after them
 				if(pass==0) {
@@ -152,34 +153,35 @@ public class PlainVisitor implements MDElementVisitor{
 							node.listLevel = listLevel;
 							nodeList.add(node);
 							pass=1;
-							
+
 					}
 					else ;
 				}
 			}
 
 		}
-		
+
 	}
 
 	public void visit(OrderedList n){
-		
-		
-		
+
+
+
 		int startIndex = 0;
 		int listLevel = 1;
 
 		if(line.length()>2){	//add a condition for comparing two letters.
-			for(int i=0;i+1<line.length();i=i+2){ //count the 'space' before list
+			for(int i=0;i+1<line.length();i=i+1){ //count the 'space' before list
 				if(line.charAt(i)==32&&line.charAt(i+1)==32){
 					startIndex=i+2;
 					listLevel++;
+					i++;
 				}
 				else if(line.charAt(i)==32)startIndex++;
 
 				else break;
 			}
-			if(nodeList.get(nodeList.size()-1).listLevel+2>listLevel){
+			if(nodeList.get(nodeList.size()-1).listLevel+3>listLevel){
 				for(int i=startIndex;i<line.length();i++){
 					if(line.charAt(i)>=48&&line.charAt(i)<=57){
 						if(line.charAt(i+1)==46&&line.charAt(i+2)==32){
@@ -190,7 +192,7 @@ public class PlainVisitor implements MDElementVisitor{
 							tokenize(line.substring(i+3,line.length()), node);
 							nodeList.add(node);
 							pass=1;
-							
+
 							break;
 						}
 						else ;
@@ -199,10 +201,10 @@ public class PlainVisitor implements MDElementVisitor{
 				}//'for'
 			}//check listLevel
 		}
-		
+
 	}
 	public void visit(HorizontalRule n){
-		
+
 		int i;
 		int ruleCase = 0;
 		if(line.length()>0){
@@ -237,7 +239,7 @@ public class PlainVisitor implements MDElementVisitor{
 							node.addContent(line);
 							nodeList.add(node);
 							pass=1;
-							
+
 						}
 					}
 			}
@@ -269,7 +271,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 		int hCheck=0; // header
 		int position = 0;
-		
+
 
 		    for(int i=0;i<s.length();i++){
 		        char a = s.charAt(i);
@@ -279,7 +281,7 @@ public class PlainVisitor implements MDElementVisitor{
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
-						
+
 						n.addToken(pt);
 						buffer="";
 						//buffer+=a;
@@ -305,15 +307,15 @@ public class PlainVisitor implements MDElementVisitor{
 							 n.addToken(pt);
 								buffer="";
 								i=i+1;
-		
+
 								break;
-		        			 
-		        		 
-		        
+
+
+
 		        		 }
-		        		 
+
 		        	 }
-		        	 else 
+		        	 else
 		        		 buffer+=a;
                         break;
 		         //daeun
@@ -321,10 +323,10 @@ public class PlainVisitor implements MDElementVisitor{
                          if(!buffer.isEmpty())
                          {
 
-                             
+
                              PlainText pt = new PlainText();
                              pt.content = buffer;
-                             
+
                              n.addToken(pt);
                              buffer="";
 
@@ -337,7 +339,7 @@ public class PlainVisitor implements MDElementVisitor{
                              Pattern pattern1 = Pattern.compile(input1);
                              Matcher matcher1 = pattern1.matcher(s);
                              if(matcher.matches()){
-                                 
+
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -352,7 +354,7 @@ public class PlainVisitor implements MDElementVisitor{
 
                              }
                              else if(matcher1.matches()) {
-                                 
+
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher1.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -367,11 +369,11 @@ public class PlainVisitor implements MDElementVisitor{
                                  i = matcher1.end(7);
                              }
                              else;
-                                 
+
                          }
                          else
                          {
-                           
+
                              String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
                              String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
 
@@ -381,7 +383,7 @@ public class PlainVisitor implements MDElementVisitor{
                              Pattern pattern1 = Pattern.compile(input1);
                              Matcher matcher1 = pattern1.matcher(s);
                              if(matcher.matches()){
-                                 
+
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -395,7 +397,7 @@ public class PlainVisitor implements MDElementVisitor{
                                  i = matcher.end(4);
                              }
                              else if(matcher1.matches()) {
-                                 
+
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher1.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -419,20 +421,20 @@ public class PlainVisitor implements MDElementVisitor{
 		            {
 		               PlainText pt = new PlainText();
 		               pt.content = buffer;
-		               
+
 		               n.addToken(pt);
 		               buffer="";
 		         //      buffer+=a;
 
 		               String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
 		               String input_string = s;
-		               
+
 
 		               Pattern pattern = Pattern.compile(input_pattern);
 		               Matcher matcher =  pattern.matcher(s);
 
 		               if(matcher.matches()){
-		                  
+
 		                  StyleText st1 = new StyleText("link");
 		                  st1.setContent(matcher.group(4));
 		                  StyleText st2 = new StyleText("/link");
@@ -453,7 +455,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 		               String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
 		               String input_string = s;
-		               
+
 
 		               Pattern pattern = Pattern.compile(input_pattern);
 		               Matcher matcher =  pattern.matcher(s);
@@ -481,19 +483,19 @@ public class PlainVisitor implements MDElementVisitor{
 		            {
 		               PlainText pt = new PlainText();
 		               pt.content = buffer;
-		               
+
 		               n.addToken(pt);
 		               buffer="";
 
 		               String input_pattern = ".*(\\<)(http:\\/\\/.+)(\\>).*";//pattern
 		               String input_string = s;
-		               
+
 
 		               Pattern pattern = Pattern.compile(input_pattern);
 		               Matcher matcher =  pattern.matcher(s);
 
 		               if(matcher.matches()){
-		                  
+
 
 					 	  StyleText st1 = new StyleText("link");
 		                  st1.setContent(matcher.group(2));
@@ -521,7 +523,7 @@ public class PlainVisitor implements MDElementVisitor{
 		               Matcher matcher =  pattern.matcher(s);
 
 		               if(matcher.matches()){
-		                  
+
 
 					 	  StyleText st1 = new StyleText("link");
 		                  st1.setContent(matcher.group(2));
@@ -616,7 +618,7 @@ public class PlainVisitor implements MDElementVisitor{
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
-						
+
 						n.addToken(pt);
 						buffer="";
 						//buffer+=a;
@@ -632,7 +634,7 @@ public class PlainVisitor implements MDElementVisitor{
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
-						
+
 						n.addToken(pt);
 						buffer="";
 						buffer+=a;
@@ -699,7 +701,7 @@ public class PlainVisitor implements MDElementVisitor{
 					n.addToken(st);
 
 					PlainText pt = new PlainText();
-					
+
 					pt.content=buffer.substring(1, buffer.length());
 					n.addToken(pt);
 
@@ -724,7 +726,7 @@ public class PlainVisitor implements MDElementVisitor{
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
-						
+
 						n.addToken(pt);
 						buffer="";
 						//buffer+=a;
@@ -740,7 +742,7 @@ public class PlainVisitor implements MDElementVisitor{
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
-						
+
 						n.addToken(pt);
 						buffer="";
 						buffer+=a;
@@ -757,12 +759,12 @@ public class PlainVisitor implements MDElementVisitor{
 		if(!buffer.isEmpty()) {
 					PlainText pt = new PlainText();
 					pt.content=buffer;
-					
+
 					n.addToken(pt);
 					buffer="";
 		}
 
-		
+
 
 		if(line.length()>1){
 			if(line.charAt(line.length()-2)==32&&line.charAt(line.length()-1)==32){
@@ -777,7 +779,7 @@ public class PlainVisitor implements MDElementVisitor{
 	public void visit(BlockQuotes v) {
 		// TODO Auto-generated method stub
 		char a;
-		
+
 		if(pass==0){
 			if(line.length()>0){
 				a = line.charAt(0);
@@ -785,14 +787,14 @@ public class PlainVisitor implements MDElementVisitor{
 				String forToken;
 
 				if(a==62) {
-					
+
 					BlockQuotes node = new BlockQuotes();
 					node.addContent(line);
 					forToken = line.substring(1);
 					tokenize(forToken,node);
 					nodeList.add(node);
 					pass=1;
-					
+
 				}
 			}
 		}
@@ -802,7 +804,7 @@ public class PlainVisitor implements MDElementVisitor{
 	public void visit(CodeBlock v) {
 		// TODO Auto-generated method stub
 
-		
+
 		if(pass==0&&line.length()>0){
 			char a=line.charAt(0);
 			String forToken;
@@ -820,7 +822,7 @@ public class PlainVisitor implements MDElementVisitor{
 			//4 spaces case
 			else if(a==32) {
 				int flag=0;
-				
+
 				if(line.length()<=3)
 					;
 				else {
@@ -836,10 +838,10 @@ public class PlainVisitor implements MDElementVisitor{
 							node.addContent(line);
 							forToken=line.substring(4);
 							tokenize(forToken,node);
-							
+
 							nodeList.add(node);
 							pass=1;
-							
+
 						}
 						else
 							;
