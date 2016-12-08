@@ -175,6 +175,8 @@ public class HTMLVisitor implements MDElementVisitor {
 					t.setContent("<img src=\"" + t.getContent() +"\"");
 				else if(t.notifyToken().equals("/image"))
 					t.setContent(" alt=\"" + t.getContent() + "\">") ;
+				else if(t.notifyToken().equals("title"))
+					t.setContent(" title=\"" + t.getContent() + "\"/>") ;
 				else if(t.notifyToken().equals("<br>"))
 					t.setContent(t.notifyToken());
 				else;
