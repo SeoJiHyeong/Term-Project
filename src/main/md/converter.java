@@ -1,15 +1,17 @@
 package md;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
-//import org.w3c.tidy.Tidy;
+import org.w3c.tidy.Tidy;
 
 public class converter {
 	static String input = "";
@@ -67,22 +69,21 @@ public class converter {
             }
             dd.addDocument("</html>");
 
-            ArrayList<String> html = dd.getDocument();
+                ArrayList<String> html = dd.getDocument();
           
-            String string  = new String();
+                String string  = new String();
                 
-            for(int i=0;i<html.size();i++){
+                for(int i=0;i<html.size();i++){
               //      System.out.println(html.get(i));
                     string += html.get(i);
-            }
+                }
                
-            jtidy Jtidy = new jtidy();
-            Jtidy.check(string);
+          //      jtidy Jtidy = new jtidy();
+           //     Jtidy.check(string);
                 
-            System.out.println("====================jtidy check ok"); 
-
-
-            FileWriter fw = new FileWriter(output);
+                jtidy_check(string);
+                System.out.println("====================jtidy check ok"); 
+                FileWriter fw = new FileWriter(output);
 
             for(int i=0;i<html.size();i++){
                 System.out.println(html.get(i));
@@ -90,18 +91,17 @@ public class converter {
             }
             fw.close();
 
-
-            //Tidy tidy = new Tidy();
-
         }catch(IOException e){
             System.out.println("File not found");
         }
 
-
-
-
-
 	}
+	public static boolean jtidy_check(String string){
+		   Tidy tidy = new Tidy();
+		   InputStream stream = new ByteArrayInputStream(string.getBytes());
+		   tidy.parse(stream, System.out);
+		   return (tidy.getParseErrors() == 0);
+		}
 
 
 	public static boolean new_check_grammar(String[] args){
