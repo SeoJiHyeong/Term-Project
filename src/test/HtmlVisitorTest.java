@@ -244,7 +244,7 @@ public class HtmlVisitorTest
 			h.setTempNode();
 			h.visit(hr);
 
-	        assertEquals(h.getLine(),"<hr>");
+	        assertEquals(h.getLine(),"<HR>");
     }
 
         @Test

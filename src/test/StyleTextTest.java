@@ -57,4 +57,16 @@ public class StyleTextTest
         assertEquals("ddddd",s.notifyToken());
         
     }
+    
+    @Test
+    public void testNotice10() {
+        StyleText s = new StyleText("title");
+        assertEquals(s.notifyToken(),"title");
+    }
+    
+    @Test
+    public void testNotice11() {
+        StyleText s = new StyleText("/title");
+        assertEquals(s.notifyToken(),"/title");
+    }
 }

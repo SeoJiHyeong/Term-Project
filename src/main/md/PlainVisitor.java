@@ -245,26 +245,10 @@ public class PlainVisitor implements MDElementVisitor{
 
 		    for(int i=0;i<s.length();i++){
 		        char a = s.charAt(i);
-/*		         if(a =='h')
-		         {
-		            System.out.println("hhhhhhh");
-		            String input_pattern = ".*http://.+";//pattern
-		            String input_string = s;
-
-		            Pattern pattern = Pattern.compile(input_pattern);
-		            Matcher matcher =  pattern.matcher(s);
-
-		            if (matcher.matches())
-		            {
-		               System.out.println("match");
-		               a = '<';
-		            }
-		         }
-*/		         //System.out.println("a : "+a);
 		         switch(a) {
 		         case '\\':
-\\backslash escape
-		 			if(buffer != null && !buffer.isEmpty())
+
+		 			if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -307,7 +291,7 @@ public class PlainVisitor implements MDElementVisitor{
 				break;
 		         //daeun
                      case '!' :
-                         if(buffer != null && !buffer.isEmpty())
+                         if(!buffer.isEmpty())
                          {
                              
                              System.out.println("if");
@@ -521,8 +505,6 @@ public class PlainVisitor implements MDElementVisitor{
 		            }
 		         }
          break;
-			case '=' :
-				break;
 
 			case '_' :
 

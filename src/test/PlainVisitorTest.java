@@ -202,7 +202,7 @@ public class PlainVisitorTest
         assertEquals("http://www.naver.com",tokenList.get(1).getContent());
         
         p = new PlainVisitor();
-        tmp = "click : [](http://www.naver.com)";
+        tmp = "click : [naver](http://www.naver.com)";
         nod = new Node();
         nodeList = new ArrayList<Node>();
         tokenList = new ArrayList<Token>();
@@ -210,15 +210,111 @@ public class PlainVisitorTest
         tokenList =nod.getTokenList();
         assertEquals("http://www.naver.com",tokenList.get(1).getContent());
         
-        
         p = new PlainVisitor();
-        tmp = "click : [](http://www.naver.com)";
+        tmp = "[naver](http://www.naver.com)";
         nod = new Node();
         nodeList = new ArrayList<Node>();
         tokenList = new ArrayList<Token>();
         p.tokenize(tmp,nod);
         tokenList =nod.getTokenList();
-        assertEquals("http://www.naver.com",tokenList.get(0).getContent());
+        assertEquals("naver",tokenList.get(1).getContent());
+        
+        
+        p = new PlainVisitor();
+        tmp = "asdfsdf![N|Solid](/path/to/img.jpg \"Optional title\")";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("/path/to/img.jpg ",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "asdfsdf![N|Solid](/path/to/img.jpg)";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("/path/to/img.jpg",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "![N|Solid](/path/to/img.jpg)";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("N|Solid",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "![N|Solid](/path/to/img.jpg \"Optional title\")";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("/path/to/img.jpg ",tokenList.get(0).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "click : [naver](htt://www.naver.com)";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        
+        assertEquals("naver](htt://www.naver.com)",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "[naver](htt://www.naver.com)";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        
+        assertEquals("naver](htt://www.naver.com)",tokenList.get(0).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "<htt://www.naver.com>";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("htt://www.naver.com>",tokenList.get(0).getContent());
+        
+        
+        p = new PlainVisitor();
+        tmp = "dfjlakdjfk <htt://www.naver.com>";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("htt://www.naver.com>",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "asdfsdf![N|Solid(/path/to/img.jpg \"Optional title\")";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        
+        assertEquals("N|Solid(/path/to/img.jpg \"Optional title\")",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "![N|Solid](/path/to/img.jpg \"Optional title\")";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        
+        assertEquals("/path/to/img.jpg ",tokenList.get(0).getContent());
+
         
         
     }
@@ -299,22 +395,28 @@ public class PlainVisitorTest
         v.setLine("1.hi");
         v.visit(h);
         nodeList = v.getNode();
-        assertEquals(2,nodeList.size());
+        assertEquals(1,nodeList.size());
+        
+        
+        v.setLine("1phi");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
         
         v.setLine("p.hi");
         v.visit(h);
         nodeList = v.getNode();
-        assertEquals(2,nodeList.size());
+        assertEquals(1,nodeList.size());
         
         v.setLine("p");
         v.visit(h);
         nodeList = v.getNode();
-        assertEquals(2,nodeList.size());
+        assertEquals(1,nodeList.size());
         
         v.setLine("pppppppppp");
         v.visit(h);
         nodeList = v.getNode();
-        assertEquals(2,nodeList.size());
+        assertEquals(1,nodeList.size());
     }
     
     @Test
@@ -330,14 +432,14 @@ public class PlainVisitorTest
         nodeList = v.getNode();
         tokenList = nodeList.get(1).getTokenList();
         
-        assertEquals(" hi",tokenList.get(0).getContent());
+        assertEquals("hi",tokenList.get(0).getContent());
         
         v.setLine("1. hi");
         v.visit(h);
         nodeList = v.getNode();
         tokenList = nodeList.get(1).getTokenList();
         
-        assertEquals(" hi",tokenList.get(0).getContent());
+        assertEquals("hi",tokenList.get(0).getContent());
         
     }
     
@@ -375,6 +477,20 @@ public class PlainVisitorTest
         assertEquals(1,nodeList.size());
     }
     
+    @Test
+    public void testVisitCodeBlock6(){
+        CodeBlock c = new CodeBlock();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("    codeblockkkk");
+        v.visit(c);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("codeblockkkk",tokenList.get(0).getContent());
+        
+    }
     @Test
     public void testVisitCodeBlock3(){
         CodeBlock c = new CodeBlock();
