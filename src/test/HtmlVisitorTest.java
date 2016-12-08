@@ -95,6 +95,15 @@ public class HtmlVisitorTest
        // assertEquals(t.getContent(),"null");
     }
 
+    @Test
+    public void testTokenParser9() {  //image_title
+        HTMLVisitor h = new HTMLVisitor();
+        StyleText t = new StyleText("title");
+        h.tokenParser(t);
+		h.visit(t);
+        assertEquals(notifyToken(),"title");
+    }
+
         @Test
 	    public void testHeader() {
 
@@ -133,8 +142,9 @@ public class HtmlVisitorTest
         @Test
 	    public void testItemList() {
 	        HTMLVisitor h = new HTMLVisitor();
-	        ItemList list = new ItemList();
 	        ArrayList<Node> node = new ArrayList<Node>();
+
+			ItemList list = new ItemList();
 
 			PlainText text = new PlainText();
 			text.setContent("hi");
