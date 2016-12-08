@@ -17,7 +17,7 @@ public class converterTest
         assertTrue(c.new_check_grammar(b));
         String[] b1 = {"./src/test/testData/test.md","-o","tt","-f"};
         assertTrue(c.new_check_grammar(b1));
-        String[] b2 = {"./src/test/testData/test.md","-o","tt","-f","./testData/test2.md","-o","tt","-p"};
+        String[] b2 = {"./src/test/testData/test.md","-o","tt","-f","./src/test/testData/test2.md","-o","tt","-p"};
         assertTrue(c.new_check_grammar(b2));
         String[] c2 = {"./src/test/testData/test.md","-p","-o","tt"};
         assertTrue(c.new_check_grammar(c2));
