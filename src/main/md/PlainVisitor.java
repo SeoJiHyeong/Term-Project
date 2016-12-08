@@ -276,7 +276,7 @@ public class PlainVisitor implements MDElementVisitor{
 		        char a = s.charAt(i);
 		         switch(a) {
 		         case '\\':
-		 			if(buffer != null && !buffer.isEmpty())
+		 			if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
