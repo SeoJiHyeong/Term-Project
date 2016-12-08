@@ -54,6 +54,7 @@ public class StyleTextTest
     @Test
     public void testNotice9() {
         StyleText s = new StyleText("ddddd");
-        assertNull(s.notifyToken());
+        assertEquals("ddddd",s.notifyToken());
+        
     }
 }
