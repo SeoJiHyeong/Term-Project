@@ -1024,7 +1024,7 @@ public class PlainVisitorTest
     }
     
     @Test
-    public void testLineFeed(){
+    public void testLineFeed1(){
         LineFeed l = new LineFeed();
         Text t = new Text();
         PlainVisitor v = new PlainVisitor();
@@ -1039,6 +1039,21 @@ public class PlainVisitorTest
         v.visit(l);
         
         assertEquals("LineFeed",v.getNode().get(1).notifyNode());
+    }
+    
+    @Test
+    public void testLineFeed2(){
+        LineFeed l = new LineFeed();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        
+        v.setLine("!");
+        v.addNode();
+        v.visit(l);
+        
+        assertEquals(1,v.getNode().size());
     }
     
 }
