@@ -34,7 +34,21 @@ public class PlainVisitor implements MDElementVisitor{
 		nodeList.add(test);
 		}
 
-
+	public void visit(LineFeed n){
+		if(pass==0){
+			if(line.equals("~")){
+				LineFeed node = new LineFeed();
+				if(nodeList.get(nodeList.size()-1).notifyNode().equals("LineFeed")){
+				   pass = 1;
+			 	}
+			 	else{
+				   nodeList.add(node);
+				   pass = 1;
+				}
+			 }
+			 else ;
+		 }
+	 }
 
 	public void visit(Header n){
 
@@ -44,53 +58,55 @@ public class PlainVisitor implements MDElementVisitor{
 		int count=0;
 		int position = 0;
 		Node temp = nodeList.get(nodeList.size()-1);
-		for(int i=0;i<line.length();i++) {
-			char a=line.charAt(i);
-			if(i<6 && a=='#')
-				count++;
-			else {
-				position=i;
-				break;
-			}
-		}
-		if(count!=0 && line.charAt(position)==32){
-			Header node = new Header();
-			node.htype=count;
-			forToken=line.substring(position+1);
-			tokenize(forToken,node);
-
-			nodeList.add(node);
-			pass=1;
-		}
-		//make a case that 2 lines header
-		else if(temp.notifyNode().equals("Text")&&(line.charAt(0)==45||line.charAt(0)==61)){
-			boolean isHeader = true;
-			for(int i=1;i<line.length();i++){
-				if((line.charAt(i)==line.charAt(i-1)));
+		if(line.length()>0){
+			for(int i=0;i<line.length();i++) {
+				char a=line.charAt(i);
+				if(i<6 && a=='#')
+					count++;
 				else {
-					isHeader = false;
+					position=i;
 					break;
 				}
 			}
+			if(count!=0 && line.charAt(position)==32){
+				Header node = new Header();
+				node.htype=count;
+				forToken=line.substring(position+1);
+				tokenize(forToken,node);
 
-			if(isHeader){
-					Header node = new Header();
-					if(line.charAt(0)==61)
-					node.htype=1;
-					else
-					node.htype=2;
-
-					ArrayList<Token> tokenList = temp.getTokenList();
-					for(int i=0;i<temp.getTokenListSize();i++){
-						node.addToken(tokenList.get(i));
-					}
-					//have to add previus node's plain text and h1
-					nodeList.remove(nodeList.size()-1);				//remove and add
-					nodeList.add(node);
-					pass=1;
-					System.out.println("header : "+pass);
+				nodeList.add(node);
+				pass=1;
 			}
-			else;
+			//make a case that 2 lines header
+			else if(temp.notifyNode().equals("Text")&&(line.charAt(0)==45||line.charAt(0)==61)){
+				boolean isHeader = true;
+				for(int i=1;i<line.length();i++){
+					if((line.charAt(i)==line.charAt(i-1)));
+					else {
+						isHeader = false;
+						break;
+					}
+				}
+
+				if(isHeader){
+						Header node = new Header();
+						if(line.charAt(0)==61)
+						node.htype=1;
+						else
+						node.htype=2;
+
+						ArrayList<Token> tokenList = temp.getTokenList();
+						for(int i=0;i<temp.getTokenListSize();i++){
+							node.addToken(tokenList.get(i));
+						}
+						//have to add previus node's plain text and h1
+						nodeList.remove(nodeList.size()-1);				//remove and add
+						nodeList.add(node);
+						pass=1;
+						System.out.println("header : "+pass);
+				}
+				else;
+			}
 		}
 	}
 
@@ -773,7 +789,7 @@ public class PlainVisitor implements MDElementVisitor{
 		// TODO Auto-generated method stub
 
 		System.out.println("CodeBlock visited");
-		if(pass==0){
+		if(pass==0&&line.length()>0){
 			char a=line.charAt(0);
 			String forToken;
 

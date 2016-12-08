@@ -41,8 +41,6 @@ public class HTMLVisitor implements MDElementVisitor {
 			tmp = "<h"+tempNode.htype+">"+line+"</h"+tempNode.htype+">";
 			line = tmp;
 		}
-
-
 	 }
 
 	 public void visit(ItemList n){
@@ -115,12 +113,26 @@ public class HTMLVisitor implements MDElementVisitor {
 		}
 	 }
 
+	 public void visit(LineFeed n){
+		if(tempNode.notifyNode().equals("LineFeed")){
+
+		}
+	 }
+
 	 public void visit(Text n){
 		if(tempNode.notifyNode().equals("Text")){
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			for(int i=0;i<tempNode.getTokenListSize();i++){
 				visit(tokenList.get(i));
 			}
+			if(!(nodeList.get(sequence-1).notifyNode().equals("Text")))
+				line = "<p>" + line;
+
+			if(sequence==nodeList.size()-1)
+				line = line + "</p>";
+
+				else if(!(nodeList.get(sequence+1).notifyNode().equals("Text")))
+					line = line + "</p>";
 		}
 	 }
 
@@ -141,7 +153,16 @@ public class HTMLVisitor implements MDElementVisitor {
 
 	 public void visit(CodeBlock n){
 		if(tempNode.notifyNode().equals("CodeBlock")){
-
+			String tmp = "";
+			ArrayList<Token> tokenList = tempNode.getTokenList();
+			for(int i=0;i<tempNode.getTokenListSize();i++){
+				visit(tokenList.get(i));
+			}
+			if(tokenList.size()>0)
+			tmp ="<pre><code>"+line+"</pre></code>";//delete print and add if
+			else
+			tmp ="<pre><code>"+"</pre></code>";
+			line = tmp;
 		}
 	 }
 

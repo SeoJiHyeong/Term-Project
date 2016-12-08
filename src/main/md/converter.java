@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileWriter;
 //import org.w3c.tidy.Tidy;
 
 public class converter {
@@ -38,17 +39,25 @@ public class converter {
             while(true) {
                 String line = br.readLine();
                 if(line==null) break;
-                plainvisitor.setLine(line);
-                document.accept(plainvisitor);
+				  else if(line.equals(""))
+				  {
+					 line = "~";
+					 plainvisitor.setLine(line);
+					 document.accept(plainvisitor);
+				  }
+				  else{
+					 plainvisitor.setLine(line);
+					 document.accept(plainvisitor);
+				  }
             }
             br.close();
-            
-            
+
+
             htmlvisitor.setNodelist(plainvisitor.getNode());
-            
-            
+
+
             Document dd = new Document();
-            
+
             dd.addDocument("<html>");
             for(int i=1;i<htmlvisitor.getNodeIndex();i++){
                 htmlvisitor.setLine("");
@@ -57,27 +66,27 @@ public class converter {
                 dd.accept(htmlvisitor);
             }
             dd.addDocument("</html>");
-            
+
                 ArrayList<String> html = dd.getDocument();
             FileWriter fw = new FileWriter(output);
-            
+
             for(int i=0;i<html.size();i++){
                 System.out.println(html.get(i));
                 fw.write(html.get(i));
             }
             fw.close();
-      
+
 
             //Tidy tidy = new Tidy();
-            
+
         }catch(IOException e){
             System.out.println("File not found");
         }
-		
-		
-		
 
-     
+
+
+
+
 	}
 
 
@@ -138,12 +147,12 @@ public class converter {
 			if(x>=args.length){
 				break;
 			}
-			
+
 				opt=0;
 				out=0;
 				out_f=0;
-			
-			
+
+
 			x++;
 			if(x<=args.length-1){
 				if(check_option(args[x])) {
@@ -169,7 +178,7 @@ public class converter {
 					opt=1;
 					x++;
 				}
-				
+
 				else{
 					System.out.println("ERROR");
 					return false;
@@ -185,7 +194,7 @@ public class converter {
 		int pp = 0;
 		for(int i=0; i < args.length;i++){
 			if(index_md[i]==1){
-				
+
 					if(cc!=0){
 						mGroupList.add(mChildList);
 					}
@@ -194,8 +203,8 @@ public class converter {
 					mChildList.add(args[i]);
 					cc++;
 
-				
-			
+
+
 			}
 			else if(index_output_option[i]==1){
 				mChildList.add(args[i]);
@@ -219,13 +228,13 @@ public class converter {
                 if(mGroupList.get(i).get(j).equals("-o")){
                     output = mGroupList.get(i).get(j+1);
                 }
-				
+
 			}
 			System.out.println("");
 		}
 		return true;
 	}
-	
+
 	public static void help_message(){
 		System.out.println("java converter md_File1 [-options] md_File2 [-options] ...");
 		System.out.println("Options : ");
@@ -235,7 +244,7 @@ public class converter {
 		System.out.println("\t-o\t\tNaming Output name");
 		System.out.println("\t-h(--help)\tHelp");
 	}
-	
+
 	public static boolean check_option(String c){
 		if(c.equals("-f")||c.equals("-s")||c.equals("-p")) return true;
 		return false;

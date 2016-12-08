@@ -11,7 +11,7 @@ public class Document implements MDElement{
     ItemList ilist = new ItemList();
     OrderedList olist = new OrderedList();
     HorizontalRule HR = new HorizontalRule();
-
+	LineFeed LF = new LineFeed();
     ////Yoojin
     BlockQuotes bq = new BlockQuotes();
 	CodeBlock cb=new CodeBlock();
@@ -22,6 +22,7 @@ public class Document implements MDElement{
     }
     public void accept(MDElementVisitor v){
     	header.accept(v);
+    	LF.accept(v);
     	HR.accept(v);
     	ilist.accept(v);
     	olist.accept(v);

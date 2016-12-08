@@ -10,6 +10,6 @@ public interface MDElementVisitor {
 	void visit(Text v);
 	void visit(BlockQuotes v);
 	void visit(CodeBlock v);
-
+	void visit(LineFeed v);
 	void visit(Token t);
 }
