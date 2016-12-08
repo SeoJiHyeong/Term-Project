@@ -24,6 +24,9 @@ public class StyleText extends Token{
         else if(s.equals("title")){
             notice = "title";
         }
+        else if(s.equals("/title")){
+            notice = "/title";
+        }
         else if(s.equals("link")){
             notice = "link";
         }
