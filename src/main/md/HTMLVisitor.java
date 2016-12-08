@@ -31,12 +31,14 @@ public class HTMLVisitor implements MDElementVisitor {
 			tempNode = nodeList.get(sequence);
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			String tmp ="";
+			for(int i=0;i<tempNode.getTokenListSize();i++){
+				visit(tokenList.get(i));
+			}
 			//System.out.println(tempNode.htype);
 			if(tokenList.size()<1)
 			tmp = "<h"+tempNode.htype+">"+"</h"+tempNode.htype+">";
 			else
-			tmp = "<h"+tempNode.htype+">"+tokenList.get(0).content+"</h"+tempNode.htype+">";
-
+			tmp = "<h"+tempNode.htype+">"+line+"</h"+tempNode.htype+">";
 			line = tmp;
 		}
 
@@ -126,8 +128,11 @@ public class HTMLVisitor implements MDElementVisitor {
 		if(tempNode.notifyNode().equals("BlockQuotes")){
 			String tmp = "";
 			ArrayList<Token> tokenList = tempNode.getTokenList();
+			for(int i=0;i<tempNode.getTokenListSize();i++){
+				visit(tokenList.get(i));
+			}
 			if(tokenList.size()>0)
-			tmp ="<blockquote>"+tokenList.get(0).content+"</blockquote>";//delete print and add if
+			tmp ="<blockquote>"+line+"</blockquote>";//delete print and add if
 			else
 			tmp ="<blockquote>"+"</blockquote>";
 			line = tmp;
@@ -168,15 +173,15 @@ public class HTMLVisitor implements MDElementVisitor {
 				else if(t.notifyToken().equals("</strong>"))
 					t.setContent(t.notifyToken());
 				else if(t.notifyToken().equals("link"))
-					t.setContent("<a href=\"" + t.getContent()+"\">");
+					t.setContent("<a href=\"" + t.getContent()+"\"/>");
 				else if(t.notifyToken().equals("/link"))
 					t.setContent(t.getContent() + "</a>") ;
 				else if(t.notifyToken().equals("image"))
 					t.setContent("<img src=\"" + t.getContent() +"\"");
-				else if(t.notifyToken().equals("/image"))
-					t.setContent(" alt=\"" + t.getContent() + "\">") ;
 				else if(t.notifyToken().equals("title"))
-					t.setContent(" title=\"" + t.getContent() + "\"/>") ;
+					t.setContent("title=\"" + t.getContent() + "\"/>") ;
+				else if(t.notifyToken().equals("/image"))
+					t.setContent(" alt=\"" + t.getContent() + "\"") ;
 				else if(t.notifyToken().equals("<br>"))
 					t.setContent(t.notifyToken());
 				else;
