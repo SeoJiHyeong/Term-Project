@@ -207,9 +207,11 @@ public class converter {
 			for(int j = 0; j < aa;j++){
 				System.out.print(mGroupList.get(i).get(j) + "\t");
 				if(j==0){
-
 					input = mGroupList.get(i).get(j);
 				}
+                if(mGroupList.get(i).get(j).equals("-o")){
+                    output = mGroupList.get(i).get(j+1);
+                }
 				
 			}
 			System.out.println("");
