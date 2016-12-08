@@ -34,7 +34,7 @@ public class HTMLVisitor implements MDElementVisitor {
 			for(int i=0;i<tempNode.getTokenListSize();i++){
 				visit(tokenList.get(i));
 			}
-			//System.out.println(tempNode.htype);
+			
 			if(tokenList.size()<1)
 			tmp = "<h"+tempNode.htype+">"+"</h"+tempNode.htype+">";
 			else

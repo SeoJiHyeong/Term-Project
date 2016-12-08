@@ -73,8 +73,13 @@ public class converter {
           
                 String string  = new String();
                 
+<<<<<<< HEAD
                 for(int i=0;i<html.size();i++){
               //      System.out.println(html.get(i));
+=======
+            for(int i=0;i<html.size();i++){
+              
+>>>>>>> origin/master
                     string += html.get(i);
                 }
                
@@ -91,6 +96,12 @@ public class converter {
             }
             fw.close();
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> origin/master
         }catch(IOException e){
             System.out.println("File not found");
         }
@@ -232,10 +243,10 @@ public class converter {
 
 		mGroupList.add(mChildList);
 		for(int i = 0 ; i < mGroupList.size();i++){
-			System.out.print(i+" command line : ");
+			
 			int aa = mGroupList.get(i).size();
 			for(int j = 0; j < aa;j++){
-				System.out.print(mGroupList.get(i).get(j) + "\t");
+				
 				if(j==0){
 					input = mGroupList.get(i).get(j);
 				}
@@ -244,7 +255,7 @@ public class converter {
                 }
 
 			}
-			System.out.println("");
+		
 		}
 		return true;
 	}
