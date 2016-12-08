@@ -262,6 +262,49 @@ public class PlainVisitor implements MDElementVisitor{
 		         }
 */		         //System.out.println("a : "+a);
 		         switch(a) {
+		         case '\\':
+\\backslash escape
+		 			if(buffer != null && !buffer.isEmpty())
+					{
+						PlainText pt = new PlainText();
+						pt.content=buffer;
+						//System.out.println(buffer);
+						n.addToken(pt);
+						buffer="";
+						//buffer+=a;
+					}
+		        	 if(i+1<s.length()){
+		        		 char b=s.charAt(i+1);
+		        		 switch(b){
+		        		 case '*' :
+		        		 case '\\' :
+		        		 case '\'' :
+		        		 case '_':
+		        		 case '{' :
+		        		 case '}':
+		        		 case '[':
+		        		 case ']':
+		        		 case '(':
+		        		 case ')':
+		        		 case '#':
+		        		 case '.':
+		        		 case '!':
+		        			 PlainText pt = new PlainText();
+							 pt.content=Character.toString(b);
+							 n.addToken(pt);
+								buffer="";
+								i=i+1;
+		
+								break;
+		        			 
+		        		 
+		        
+		        		 }
+		        		 
+		        	 }
+		        	 else 
+		        		 buffer+=a;
+				break;
 		         //daeun
 	         case '!' :
 		            if(buffer != null && !buffer.isEmpty())
