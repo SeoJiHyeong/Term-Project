@@ -70,7 +70,7 @@ public class HtmlVisitorTest
     }
 
     @Test
-    public void testTokenParser6() {  //br
+    public void testTokenParser6() {
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("br");
         h.tokenParser(t);
@@ -78,21 +78,21 @@ public class HtmlVisitorTest
         assertEquals(t.getContent(),"<br>");
     }
     @Test
-    public void testTokenParser7() {  //visit style
+    public void testTokenParser7() {
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("hello");
-//        h.tokenParser(t);
+
 		h.visit(t);
-      //  assertEquals(t.getContent(),"");
+
     }
     @Test
-    public void testTokenParser8() {  //visitPLAIN
+    public void testTokenParser8() {
         HTMLVisitor h = new HTMLVisitor();
         h.setLine("hello");
         StyleText t = new StyleText("wrong");
-//        h.tokenParser(t);
+
 		h.visit(t);
-       // assertEquals(t.getContent(),"null");
+
     }
 
     @Test
@@ -135,7 +135,7 @@ public class HtmlVisitorTest
 			h.setTempNode();
 			h.visit(header);
 
-	       // header.accept(h);
+	       
 	        assertEquals(h.getLine(),"<h1>hi</h1>");
     }
 

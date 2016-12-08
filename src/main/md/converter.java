@@ -10,7 +10,7 @@ import org.w3c.tidy.Tidy;
 
 public class converter {
 	static String input = "";
-	static String output= "";
+	static String output= "result.html";
 	static String option= "";
 	static int file_count = 0;
 	static int option_count = 0;
