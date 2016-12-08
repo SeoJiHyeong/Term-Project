@@ -22,61 +22,55 @@ public class converter {
 
 	private static ArrayList<ArrayList<String>> mGroupList = new ArrayList<ArrayList<String>>();;
 	private static ArrayList<String> mChildList = null;
-	public static void main(String args[]) throws IOException{
+	public static void main(String args[]) {
 
 		if(!new_check_grammar(args)) return;
 		Document document = new Document();
 		PlainVisitor plainvisitor = new PlainVisitor();
 		HTMLVisitor htmlvisitor = new HTMLVisitor();
 		plainvisitor.addNode();
+        BufferedReader br;
+        try{
+            br = new BufferedReader(new FileReader(input));
+            while(true) {
+                String line = br.readLine();
+                if(line==null) break;
+                plainvisitor.setLine(line);
+                document.accept(plainvisitor);
+            }
+            br.close();
+            
+            
+            htmlvisitor.setNodelist(plainvisitor.getNode());
+            
+            
+            Document dd = new Document();
+            
+            dd.addDocument("<html>");
+            for(int i=1;i<htmlvisitor.getNodeIndex();i++){
+                htmlvisitor.setLine("");
+                htmlvisitor.setSequence(i);
+                htmlvisitor.setTempNode();
+                dd.accept(htmlvisitor);
+            }
+            dd.addDocument("</html>");
+            
+            ArrayList<String> html = dd.getDocument();
+            
+            for(int i=0;i<html.size();i++){
+                System.out.println(html.get(i));
+            }
 
-		BufferedReader br = new BufferedReader(new FileReader(input));
-		while(true) {
-			String line = br.readLine();
-		    if(line==null) break;
-		 	plainvisitor.setLine(line);
-	        document.accept(plainvisitor);
-		}
-	    br.close();
+            Tidy tidy = new Tidy();
+            
+        }catch(IOException e){
+            System.out.println("File not found");
+        }
+		
+		
+		
 
-
-	    htmlvisitor.setNodelist(plainvisitor.getNode());
-
-
-	    Document dd = new Document();
-
-	    dd.addDocument("<html>");
-	    for(int i=1;i<htmlvisitor.getNodeIndex();i++){
-	         htmlvisitor.setLine("");
-	         htmlvisitor.setSequence(i);
-	         htmlvisitor.setTempNode();
-	         dd.accept(htmlvisitor);
-	     }
-	     dd.addDocument("</html>");
-
-		ArrayList<String> html = dd.getDocument();
-
-		for(int i=0;i<html.size();i++){
-			System.out.println(html.get(i));
-		}
-
-		/*
-		Tidy tidy = new Tidy();
-
-
-
-		Document do = new Document();
-
-		BufferedReader br = new BufferedReader(new FileReader(input));
-		      while(true) {
-		         String line = br.readLine();
-		         if(line==null) break;
-		         do.addDocument(line);
-		      }
-	    br.close();
-		  */
-
-
+     
 	}
 
 
