@@ -9,7 +9,7 @@ public class Node implements MDElement {
  	public int htype=0;
     public String[][] syntax;
 	public int number;
-
+	public int listLevel = 0;
 
 	public void accept(MDElementVisitor v){
 	}

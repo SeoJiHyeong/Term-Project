@@ -97,60 +97,75 @@ public class PlainVisitor implements MDElementVisitor{
 	public void visit(ItemList n){
 		System.out.println("itemlist visited");
 		char a,b;
+		int startIndex = 0;
+		int listLevel = 1;
 		if(line.length()>2){ //add a condition for comparing two letters.
-			a = line.charAt(0);
-			b = line.charAt(1);
-			if(pass==0) {
-				if((a==42||a==43||a==45)&&b==32){ //remove the case which is called when previous node is list
-						Node temp = nodeList.get(nodeList.size()-1);
-						ItemList node = new ItemList();
-						node.addContent(line);
-						tokenize(line.substring(2,line.length()), node);
-						nodeList.add(node);
-						pass=1;
-						System.out.println("itemlist : "+pass);
+			for(int i=0;i+1<line.length();i=i+2){ //count the 'space' before list
+				if(line.charAt(i)==32&&line.charAt(i+1)==32){
+					startIndex=i+2;
+					listLevel++;
 				}
-				else ;
+				else if(line.charAt(i)==32)startIndex++;
+
+				else break;
 			}
+			if(nodeList.get(nodeList.size()-1).listLevel+2>listLevel){ //only accepts previous level +2 space
+				a = line.charAt(startIndex);
+				b = line.charAt(startIndex+1);  //parse startindex and startindex+1 and tokenize after them
+				if(pass==0) {
+					if((a==42||a==43||a==45)&&b==32){ //remove the case which is called when previous node is list
+							Node temp = nodeList.get(nodeList.size()-1);
+							ItemList node = new ItemList();
+							node.addContent(line);
+							tokenize(line.substring(startIndex+2,line.length()), node);
+							node.listLevel = listLevel;
+							nodeList.add(node);
+							pass=1;
+							System.out.println("itemlist"+ node.listLevel +" : "+pass);
+					}
+					else ;
+				}
+			}
+
 		}
 	}
 
 	public void visit(OrderedList n){
 		System.out.println("orderedlist visited");
-		int i;
+		int startIndex = 0;
+		int listLevel = 1;
+
 		if(line.length()>2){	//add a condition for comparing two letters.
-			for(i=0;i<line.length();i++){
-				if(line.charAt(i)>=48&&line.charAt(i)<=57){
-					if(line.charAt(i+1)==46){
-						Node temp = nodeList.get(nodeList.size()-1);
-						if(temp.notifyNode().equals("OrderedList")){
-							OrderedList node = new OrderedList();    //Originally, it add content at this case,
-							node.addContent(line);                   //but now it compare the number of previous
-							node.setNumber(temp.number+1);	 //one and add new node and count the number
-							tokenize(line.substring(2,line.length()), node);
-							nodeList.add(node);
-							pass=1;
-							System.out.println("orderedlist : "+pass);
-							break;
-						}
-						else{
-							OrderedList node = new OrderedList();
-							node.addContent(line);
-							node.setNumber(1);
-							tokenize(line.substring(2,line.length()), node);
-							nodeList.add(node);
-							pass=1;
-							System.out.println("orderedlist : "+pass);
-							break;
-						}
-					}
-					else ;
+			for(int i=0;i+1<line.length();i=i+2){ //count the 'space' before list
+				if(line.charAt(i)==32&&line.charAt(i+1)==32){
+					startIndex=i+2;
+					listLevel++;
 				}
+				else if(line.charAt(i)==32)startIndex++;
+
 				else break;
 			}
+			if(nodeList.get(nodeList.size()-1).listLevel+2>listLevel){
+				for(int i=startIndex;i<line.length();i++){
+					if(line.charAt(i)>=48&&line.charAt(i)<=57){
+						if(line.charAt(i+1)==46&&line.charAt(i+2)==32){
+							Node temp = nodeList.get(nodeList.size()-1);
+							OrderedList node = new OrderedList();
+							node.addContent(line);
+							node.listLevel = listLevel;
+							tokenize(line.substring(i+3,line.length()), node);
+							nodeList.add(node);
+							pass=1;
+							System.out.println("orderedlist"+ node.listLevel +" : " + pass);
+							break;
+						}
+						else ;
+					}
+					else break;
+				}//'for'
+			}//check listLevel
 		}
 	}
-
 	public void visit(HorizontalRule n){
 		System.out.println("horizontalRule visited");
 		int i;
@@ -258,10 +273,10 @@ public class PlainVisitor implements MDElementVisitor{
 		            	System.out.println("buffer: "+buffer);
 		            	n.addToken(pt);
 		            	buffer="";
-		               
+
 		            	String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
 		        		String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-		        		
+
 		        		Pattern pattern = Pattern.compile(input);
 		        		Matcher matcher = pattern.matcher(s);
 
@@ -293,7 +308,7 @@ public class PlainVisitor implements MDElementVisitor{
 		        			n.addToken(st3);
 
 		        			buffer="";
-		        			i = matcher1.end(7);		    
+		        			i = matcher1.end(7);
 		        		}
 		        		else
 		       				System.out.println("false");
@@ -303,7 +318,7 @@ public class PlainVisitor implements MDElementVisitor{
 		            	System.out.println("else");
 		            	String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
 		        		String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-		        	
+
 		        		Pattern pattern = Pattern.compile(input);
 		        		Matcher matcher = pattern.matcher(s);
 
@@ -709,21 +724,23 @@ public class PlainVisitor implements MDElementVisitor{
 		// TODO Auto-generated method stub
 		char a;
 		System.out.println("blockquotes visited");
-		if(line.length()>0){
-			a = line.charAt(0);
-			Node temp = nodeList.get(nodeList.size()-1);
-			String forToken;
+		if(pass==0){
+			if(line.length()>0){
+				a = line.charAt(0);
+				Node temp = nodeList.get(nodeList.size()-1);
+				String forToken;
 
-			if(a==62) {
-				System.out.println("BlockQuotes!!!");
-				BlockQuotes node = new BlockQuotes();
-				node.addContent(line);
-				forToken = line.substring(1);
-				tokenize(forToken,node);
-				nodeList.add(node);
-				pass=1;
-				System.out.println("bq : "+pass);
-				System.out.println("BlockQuotes Done!!!");
+				if(a==62) {
+					System.out.println("BlockQuotes!!!");
+					BlockQuotes node = new BlockQuotes();
+					node.addContent(line);
+					forToken = line.substring(1);
+					tokenize(forToken,node);
+					nodeList.add(node);
+					pass=1;
+					System.out.println("bq : "+pass);
+					System.out.println("BlockQuotes Done!!!");
+				}
 			}
 		}
 	}
@@ -733,48 +750,50 @@ public class PlainVisitor implements MDElementVisitor{
 		// TODO Auto-generated method stub
 
 		System.out.println("CodeBlock visited");
-		char a=line.charAt(0);
-		String forToken;
+		if(pass==0){
+			char a=line.charAt(0);
+			String forToken;
 
-		//tab case
-		if(a==9){
-			CodeBlock node = new CodeBlock();
-			node.addContent(line);
-			forToken=line.substring(1);
-			tokenize(forToken,node);
-			nodeList.add(node);
-			pass=1;
-			System.out.println("cb : "+pass);
-			System.out.println("CodeBlockkkkk!!");
-		}
+			//tab case
+			if(a==9){
+				CodeBlock node = new CodeBlock();
+				node.addContent(line);
+				forToken=line.substring(1);
+				tokenize(forToken,node);
+				nodeList.add(node);
+				pass=1;
+				System.out.println("cb : "+pass);
+				System.out.println("CodeBlockkkkk!!");
+			}
 
-		//4 spaces case
-		else if(a==32) {
-			int flag=0;
-			//System.out.println(line.substring(0,3));
-			if(line.length()<=3)
-				;
-			else {
-				for(int i=1;i<4;i++) {
-					if(line.charAt(i)!=32)
-						break;
-					else
-						flag+=1;
-				}
-				if(flag==3) {
-					if(line.length()>4){
-						CodeBlock node = new CodeBlock();
-						node.addContent(line);
-						forToken=line.substring(4);
-						tokenize(forToken,node);
-						//System.out.println(forToken);
-						nodeList.add(node);
-						pass=1;
-						System.out.println("cb : "+pass);
-						System.out.println("CodeBlockkkkk!!");
+			//4 spaces case
+			else if(a==32) {
+				int flag=0;
+				//System.out.println(line.substring(0,3));
+				if(line.length()<=3)
+					;
+				else {
+					for(int i=1;i<4;i++) {
+						if(line.charAt(i)!=32)
+							break;
+						else
+							flag+=1;
 					}
-					else
-						;
+					if(flag==3) {
+						if(line.length()>4){
+							CodeBlock node = new CodeBlock();
+							node.addContent(line);
+							forToken=line.substring(4);
+							tokenize(forToken,node);
+							//System.out.println(forToken);
+							nodeList.add(node);
+							pass=1;
+							System.out.println("cb : "+pass);
+							System.out.println("CodeBlockkkkk!!");
+						}
+						else
+							;
+					}
 				}
 			}
 		}
