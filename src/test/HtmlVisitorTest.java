@@ -150,11 +150,11 @@ public class HtmlVisitorTest
 			ItemList list1 = new ItemList();
 			list1.listLevel = 1;
 			ItemList list2 = new ItemList();
-			list1.listLevel = 2;
+			list2.listLevel = 2;
 			ItemList list3 = new ItemList();
-			list1.listLevel = 3;
+			list3.listLevel = 3;
 			ItemList list4 = new ItemList();
-			list1.listLevel = 4;
+			list4.listLevel = 4;
 
 			PlainText text = new PlainText();
 			text.setContent("hi");
@@ -172,6 +172,7 @@ public class HtmlVisitorTest
 			node.add(list3);
 			node.add(list2);
 			h.setNodelist(node);
+
 			for(int i=1;i<node.size();i++){
 				h.setSequence(i);
 				h.setTempNode();
@@ -190,11 +191,11 @@ public class HtmlVisitorTest
 				ItemList list1 = new ItemList();
 				list1.listLevel = 1;
 				ItemList list2 = new ItemList();
-				list1.listLevel = 2;
+				list2.listLevel = 2;
 				ItemList list3 = new ItemList();
-				list1.listLevel = 3;
+				list3.listLevel = 3;
 				ItemList list4 = new ItemList();
-				list1.listLevel = 4;
+				list4.listLevel = 4;
 
 				PlainText text = new PlainText();
 				text.setContent("hi");
@@ -231,11 +232,11 @@ public class HtmlVisitorTest
 				ItemList list1 = new ItemList();
 				list1.listLevel = 1;
 				ItemList list2 = new ItemList();
-				list1.listLevel = 2;
+				list2.listLevel = 2;
 				ItemList list3 = new ItemList();
-				list1.listLevel = 3;
+				list3.listLevel = 3;
 				ItemList list4 = new ItemList();
-				list1.listLevel = 4;
+				list4.listLevel = 4;
 
 				PlainText text = new PlainText();
 				text.setContent("hi");
@@ -269,11 +270,11 @@ public class HtmlVisitorTest
 				OrderedList list1 = new OrderedList();
 				list1.listLevel = 1;
 				OrderedList list2 = new OrderedList();
-				list1.listLevel = 2;
+				list2.listLevel = 2;
 				OrderedList list3 = new OrderedList();
-				list1.listLevel = 3;
+				list3.listLevel = 3;
 				OrderedList list4 = new OrderedList();
-				list1.listLevel = 4;
+				list4.listLevel = 4;
 
 				PlainText text = new PlainText();
 				text.setContent("hi");
@@ -288,12 +289,18 @@ public class HtmlVisitorTest
 				node.add(list3);
 				node.add(list4);
 				h.setNodelist(node);
-				for(int i=1;i<node.size();i++){
+
+				//h.setSequence(0);
+				//h.setTempNode();
+				//h.visit(dummy);
+				for(int i=1;i<h.getNodeIndex();i++){
 					h.setSequence(i);
 					h.setTempNode();
 					h.visit(list1);
+					System.out.println();
+					System.out.println(i);
 				}
-
+				assertEquals(h.getLine(),"<ol><li></li></ol></ol></ol></ol>");
     }
         @Test
 	    public void testHorizontal() {
