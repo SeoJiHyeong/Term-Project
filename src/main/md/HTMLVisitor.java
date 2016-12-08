@@ -14,6 +14,7 @@ public class HTMLVisitor implements MDElementVisitor {
  	//node
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 
+	private ArrayList<String> listStack = new ArrayList<String>();
 
 	//it will save converted htmlcode
 	private ArrayList<String> HTMLList = new ArrayList<String>();
@@ -43,6 +44,9 @@ public class HTMLVisitor implements MDElementVisitor {
 	 }
 
 	 public void visit(ItemList n){
+		int previousLevel = nodeList.get(sequence-1).listLevel;
+		//int nextLevel = nodeList.get(sequence+1).listLevel;
+
 		if(tempNode.notifyNode().equals("ItemList")){
 			line = "<li>";
 			ArrayList<Token> tokenList = tempNode.getTokenList();
@@ -50,30 +54,57 @@ public class HTMLVisitor implements MDElementVisitor {
 				visit(tokenList.get(i));
 			}
 			line = line + "</li>";
+
+			if(previousLevel==0||previousLevel<tempNode.listLevel){
+				line = "<ul>" + line;
+				listStack.add("</ul>");
+			}
+			else;
+
+			if(sequence==nodeList.size()-1)
+				while(listStack.size()!=0){
+					line = line + listStack.get(listStack.size()-1);
+					listStack.remove(listStack.size()-1);
+				}
+			else if(nodeList.get(sequence+1).listLevel<tempNode.listLevel)
+				for(int i=0;i<tempNode.listLevel-nodeList.get(sequence+1).listLevel;i++){
+									line = line + listStack.get(listStack.size()-1);
+									listStack.remove(listStack.size()-1);
+				}
+			else;
 		}
+
 	 }
 
 	 public void visit(OrderedList n){
-		if(tempNode.notifyNode().equals("OrderedList")){
-			if(!(nodeList.get(sequence-1).notifyNode().equals("OrderedList")))
-				line = "<ol>";
-			else line = "";
+		int previousLevel = nodeList.get(sequence-1).listLevel;
 
-			line = line + "<li>";
+		if(tempNode.notifyNode().equals("OrderedList")){
+			line = "<li>";
 			ArrayList<Token> tokenList = tempNode.getTokenList();
 			for(int i=0;i<tempNode.getTokenListSize();i++){
 				visit(tokenList.get(i));
 			}
 			line = line + "</li>";
 
-			if(sequence==nodeList.size()-1)
-				line = line + "</ol>";
-			else if(!(nodeList.get(sequence+1).notifyNode().equals("OrderedList")))
-				line = line + "</ol>";
+			if(previousLevel==0||previousLevel<tempNode.listLevel){
+				line = "<ol>" + line;
+				listStack.add("</ol>");
+			}
 			else;
 
+			if(sequence==nodeList.size()-1)
+				while(listStack.size()!=0){
+					line = line + listStack.get(listStack.size()-1);
+					listStack.remove(listStack.size()-1);
+				}
+			else if(nodeList.get(sequence+1).listLevel<tempNode.listLevel)
+				for(int i=0;i<tempNode.listLevel-nodeList.get(sequence+1).listLevel;i++){
+									line = line + listStack.get(listStack.size()-1);
+									listStack.remove(listStack.size()-1);
+				}
+			else;
 		}
-
 	 }
 
 	 public void visit(HorizontalRule n){
