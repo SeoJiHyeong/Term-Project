@@ -37,11 +37,12 @@ public class PlainVisitor implements MDElementVisitor{
 	public void visit(LineFeed n){
 		if(pass==0){
 			if(line.equals("~")){
-				LineFeed node = new LineFeed();
+				
 				if(nodeList.get(nodeList.size()-1).notifyNode().equals("LineFeed")){
 				   pass = 1;
 			 	}
 			 	else{
+                   LineFeed node = new LineFeed();
 				   nodeList.add(node);
 				   pass = 1;
 				}

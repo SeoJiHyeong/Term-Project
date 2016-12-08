@@ -951,9 +951,23 @@ public class PlainVisitorTest
         v.visit(t);
         nodeList = v.getNode();
         assertEquals(2,nodeList.size());
-        
-        
     }
     
+    @Test
+    public void testLineFeed(){
+        LineFeed l = new LineFeed();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        
+        v.setLine("~");
+        v.addNode();
+        v.visit(l);
+        v.visit(t);
+        v.visit(l);
+        
+        assertEquals("LineFeed",v.getNode().get(1).notifyNode());
+    }
     
 }
