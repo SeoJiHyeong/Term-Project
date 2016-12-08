@@ -3,41 +3,40 @@ package md;
 public class StyleText extends Token{
 	String content;
 	public StyleText(String s){
-		switch(s) {
-		case "em":
-			notice = "<em>";
-			break;
-		case "/em":
-			notice = "</em>";
-			break;
-		case "strong":
-			notice = "<strong>";
-			break;
-		case "/strong":
-			notice = "</strong>";    //add '< >' on all components
-			break;
-      	case "image":
-         	notice = "image";
-         	break;
-      	case "/image":
-         	notice = "/image";
-         	break;
-    	case "title":
-         	notice = "title";
-         	break;
-    	case "link":
-         	notice = "link";
-         	break;
-      	case "/link":
-         	notice = "/link";
-         	break;
-      	case "br":
-         	notice = "<br>";
-         	break;
-		default:
-			notice = s;
-			break;
-		}
+        if(s.equals("em")){
+            notice = "<em>";
+        }
+        else if(s.equals("/em")){
+            notice = "</em>";
+        }
+        else if(s.equals("strong")){
+            notice = "<strong>";
+        }
+        else if(s.equals("/strong")){
+            notice = "</strong>";
+        }
+        else if(s.equals("image")){
+            notice = "image";
+        }
+        else if(s.equals("/image")){
+            notice = "/image";
+        }
+        else if(s.equals("title")){
+            notice = "title";
+        }
+        else if(s.equals("link")){
+            notice = "link";
+        }
+        else if(s.equals("/link")){
+            notice = "/link";
+        }
+        else if(s.equals("br")){
+            notice = "<br>";
+        }
+        else{
+            notice = s;
+        }
+        
 	}
 
 

@@ -306,101 +306,101 @@ public class PlainVisitor implements MDElementVisitor{
 		        		 buffer+=a;
 				break;
 		         //daeun
-	         case '!' :
-		            if(buffer != null && !buffer.isEmpty())
-		            {
-
-		            	System.out.println("if");
-		            	PlainText pt = new PlainText();
-		            	pt.content = buffer;
-		            	System.out.println("buffer: "+buffer);
-		            	n.addToken(pt);
-		            	buffer="";
-
-		            	String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
-		        		String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-
-		        		Pattern pattern = Pattern.compile(input);
-		        		Matcher matcher = pattern.matcher(s);
-
-		        		Pattern pattern1 = Pattern.compile(input1);
-		        		Matcher matcher1 = pattern1.matcher(s);
-		        		if(matcher.matches()){
-		        			System.out.println("if");
-		        			StyleText st1 = new StyleText("image");
-		        			st1.setContent(matcher.group(4));
-		        			StyleText st2 = new StyleText("/image");
-		        			st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
-		        			n.addToken(st1);
-		        			n.addToken(st2);
-
-		        			buffer="";
-		        			i = matcher.end(4);
-
-		        		}
-		        		else if(matcher1.matches()) {
-		        			System.out.println("else if");
-		        			StyleText st1 = new StyleText("image");
-		        			st1.setContent(matcher1.group(4));
-		        			StyleText st2 = new StyleText("/image");
-		        			st2.setContent(matcher1.group(2));              //if there is no alt text, show address instead of alt text
-		        			StyleText st3 = new StyleText("title");
-		        			st3.setContent(matcher1.group(6));              //if there is no alt text, show address instead of alt text
-		        			n.addToken(st1);
-		        			n.addToken(st2);
-		        			n.addToken(st3);
-
-		        			buffer="";
-		        			i = matcher1.end(7);
-		        		}
-		        		else
-		       				System.out.println("false");
-		       	  	}
-		            else
-		            {
-		            	System.out.println("else");
-		            	String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
-		        		String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-
-		        		Pattern pattern = Pattern.compile(input);
-		        		Matcher matcher = pattern.matcher(s);
-
-		        		Pattern pattern1 = Pattern.compile(input1);
-		        		Matcher matcher1 = pattern1.matcher(s);
-		        		if(matcher.matches()){
-		        			System.out.println("if");
-		        			StyleText st1 = new StyleText("image");
-		        			st1.setContent(matcher.group(4));
-		        			StyleText st2 = new StyleText("/image");
-		        			st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
-		        			n.addToken(st1);
-		        			n.addToken(st2);
-
-		        			buffer="";
-		        			i = matcher.end(4);
-		        		}
-		        		else if(matcher1.matches()) {
-		        			System.out.println("else if");
-		        			StyleText st1 = new StyleText("image");
-		        			st1.setContent(matcher1.group(4));
-		        			StyleText st2 = new StyleText("/image");
-		        			st2.setContent(matcher1.group(2));              //if there is no alt text, show address instead of alt text
-		        			StyleText st3 = new StyleText("title");
-		        			st3.setContent(matcher1.group(6));              //if there is no alt text, show address instead of alt text
-		        			n.addToken(st1);
-		        			n.addToken(st2);
-		        			n.addToken(st3);
-
-		        			buffer="";
-		        			i = matcher1.end(7);
-		        		}
-		        		else
-		        			System.out.println("false");
-		            }
-		            break;
+                     case '!' :
+                         if(buffer != null && !buffer.isEmpty())
+                         {
+                             
+                             System.out.println("if");
+                             PlainText pt = new PlainText();
+                             pt.content = buffer;
+                             System.out.println("buffer: "+buffer);
+                             n.addToken(pt);
+                             buffer="";
+                             
+                             String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
+                             String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
+                             
+                             Pattern pattern = Pattern.compile(input);
+                             Matcher matcher = pattern.matcher(s);
+                             
+                             Pattern pattern1 = Pattern.compile(input1);
+                             Matcher matcher1 = pattern1.matcher(s);
+                             if(matcher.matches()){
+                                 System.out.println("if");
+                                 StyleText st1 = new StyleText("image");
+                                 st1.setContent(matcher.group(4));
+                                 StyleText st2 = new StyleText("/image");
+                                 st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 
+                                 buffer="";
+                                 i = matcher.end(4);
+                                 
+                             }
+                             else if(matcher1.matches()) {
+                                 System.out.println("else if");
+                                 StyleText st1 = new StyleText("image");
+                                 st1.setContent(matcher1.group(4));
+                                 StyleText st2 = new StyleText("/image");
+                                 st2.setContent(matcher1.group(2));              //if there is no alt text, show address instead of alt text
+                                 StyleText st3 = new StyleText("title");
+                                 st3.setContent(matcher1.group(6));              //if there is no alt text, show address instead of alt text
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 n.addToken(st3);
+                                 
+                                 buffer="";
+                                 i = matcher1.end(7);
+                             }
+                             else
+                                 System.out.println("false");
+                         }
+                         else
+                         {
+                             System.out.println("else");
+                             String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
+                             String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
+                             
+                             Pattern pattern = Pattern.compile(input);
+                             Matcher matcher = pattern.matcher(s);
+                             
+                             Pattern pattern1 = Pattern.compile(input1);
+                             Matcher matcher1 = pattern1.matcher(s);
+                             if(matcher.matches()){
+                                 System.out.println("if");
+                                 StyleText st1 = new StyleText("image");
+                                 st1.setContent(matcher.group(4));
+                                 StyleText st2 = new StyleText("/image");
+                                 st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 
+                                 buffer="";
+                                 i = matcher.end(4);
+                             }
+                             else if(matcher1.matches()) {
+                                 System.out.println("else if");
+                                 StyleText st1 = new StyleText("image");
+                                 st1.setContent(matcher1.group(4));
+                                 StyleText st2 = new StyleText("/image");
+                                 st2.setContent(matcher1.group(2));              //if there is no alt text, show address instead of alt text
+                                 StyleText st3 = new StyleText("title");
+                                 st3.setContent(matcher1.group(6));              //if there is no alt text, show address instead of alt text
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 n.addToken(st3);
+                                 
+                                 buffer="";
+                                 i = matcher1.end(7);
+                             }
+                             else
+                                 System.out.println("false");
+                         }
+                         break;
 		         //1) click : [](http://www.naver.com)
 		         case '[' :
-		            if(buffer != null && !buffer.isEmpty())
+		            if(!buffer.isEmpty())
 		            {
 		               PlainText pt = new PlainText();
 		               pt.content = buffer;
@@ -462,7 +462,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 		         //2) <http://www.naver.com>
 		         case '<' :
-		            if(buffer != null && !buffer.isEmpty())
+		            if(!buffer.isEmpty())
 		            {
 		               PlainText pt = new PlainText();
 		               pt.content = buffer;
@@ -599,7 +599,7 @@ public class PlainVisitor implements MDElementVisitor{
 				}
 				else if(i+1<s.length() && s.charAt(i+1)=='_'){
 					ustCheck=1;
-					if(buffer != null && !buffer.isEmpty())
+					if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -615,7 +615,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 				else {
 					uemCheck=1;
-					if(buffer != null && !buffer.isEmpty())
+					if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -707,7 +707,7 @@ public class PlainVisitor implements MDElementVisitor{
 				}
 				else if(i+1<s.length() && s.charAt(i+1)=='*'){
 					stCheck=1;
-					if(buffer != null && !buffer.isEmpty())
+					if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -723,7 +723,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 				else {
 					emCheck=1;
-					if(buffer != null && !buffer.isEmpty())
+					if(!buffer.isEmpty())
 					{
 						PlainText pt = new PlainText();
 						pt.content=buffer;
@@ -741,7 +741,7 @@ public class PlainVisitor implements MDElementVisitor{
 				break;
 			}
 		}
-		if(buffer != null && !buffer.isEmpty()) {
+		if(!buffer.isEmpty()) {
 					PlainText pt = new PlainText();
 					pt.content=buffer;
 					//System.out.println(buffer);
