@@ -55,6 +55,7 @@
             </manifest>
         </jar>
         <delete file="deps.jar"/>
+        <delete file="result.html"/>
     </target>
     <target name="test" description="o Test the class" depends="compile">
         <junit showoutput="ture" printsummary="on" enabletestlistenerevents="true" fork="true">
@@ -77,6 +78,7 @@
                 <classpath path="${test.dir}"/>
                 <classpath path="${lib.dir}/junit-4.12.jar"/>
                 <classpath path="${lib.dir}/hamcrest-core-1.3.jar"/>
+                <classpath path="${lib.dir}/jtidy-r938.jar"/>
                 <formatter type="plain" usefile="false" />
                 
                 <batchtest>
@@ -112,6 +114,7 @@
         <delete dir="${test.dir}"/>
         <delete dir="${report.dir}"/>
         <delete file="jacoco.exec"/>
+        <delete file="result.html"/>
     </target>
     
 </project>

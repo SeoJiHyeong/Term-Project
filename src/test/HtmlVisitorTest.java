@@ -83,7 +83,7 @@ public class HtmlVisitorTest
         StyleText t = new StyleText("hello");
         
         h.visit(t);
-        
+        assertNull(h.getLine());
     }
     @Test
     public void testTokenParser8() {
@@ -92,6 +92,7 @@ public class HtmlVisitorTest
         StyleText t = new StyleText("wrong");
         
         h.visit(t);
+        assertEquals("hellonull",h.getLine());
         
     }
     
@@ -134,7 +135,8 @@ public class HtmlVisitorTest
         h.setSequence(2);
         h.setTempNode();
         h.visit(header2);
-        assertEquals(h.getLine(),"<h1>hi</h1>");
+        
+        assertEquals(h.getLine(),"<h0><h1></h1>hi</h0>");
     }
     @Test
     public void testLineFeed() {
@@ -363,7 +365,8 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(dummy);
         }
-        assertEquals(h.getLine(),"<p>"+"hi"+"</p>");
+        
+        assertEquals(h.getLine(),"<p><p>hihi</p>hi</p>");
     }
     @Test
     public void testCodeBlock() {
@@ -385,7 +388,35 @@ public class HtmlVisitorTest
         h.setSequence(1);
         h.setTempNode();
         h.visit(cb);
+        assertEquals("<pre><code>hi</pre></code>",h.getLine());
+        
+        
     }
+    @Test
+    public void testCodeBlock2() {
+        HTMLVisitor h = new HTMLVisitor();
+        Text dummy = new Text();
+        CodeBlock cb = new CodeBlock();
+        
+        ArrayList<Node> node = new ArrayList<Node>();
+        PlainText text = new PlainText();
+        text.setContent("");
+        
+        
+        node.add(dummy);
+        node.add(cb);
+        h.setNodelist(node);
+        h.setSequence(0);
+        h.setTempNode();
+        h.visit(cb);
+        h.setSequence(1);
+        h.setTempNode();
+        h.visit(cb);
+        assertEquals("<pre><code></pre></code>",h.getLine());
+        
+        
+    }
+
     @Test
     public void testBlockQuotes1() {
         
@@ -408,6 +439,7 @@ public class HtmlVisitorTest
         h.setSequence(1);
         h.setTempNode();
         h.visit(bq);
+        assertEquals("<blockquote>hi</blockquote>",h.getLine());
     }
     @Test
     public void testBlockQuotes2() {
@@ -427,6 +459,8 @@ public class HtmlVisitorTest
         h.setSequence(1);
         h.setTempNode();
         h.visit(bq);
+        assertEquals("<blockquote></blockquote>",h.getLine());
+        
     }
     @Test
     public void testMethod(){
