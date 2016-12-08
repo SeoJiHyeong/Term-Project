@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import org.w3c.tidy.Tidy;
+//import org.w3c.tidy.Tidy;
 
 public class converter {
 	static String input = "";
@@ -29,6 +30,7 @@ public class converter {
 		PlainVisitor plainvisitor = new PlainVisitor();
 		HTMLVisitor htmlvisitor = new HTMLVisitor();
 		plainvisitor.addNode();
+
         BufferedReader br;
         try{
             br = new BufferedReader(new FileReader(input));
@@ -55,13 +57,17 @@ public class converter {
             }
             dd.addDocument("</html>");
             
-            ArrayList<String> html = dd.getDocument();
+                ArrayList<String> html = dd.getDocument();
+            FileWriter fw = new FileWriter(output);
             
             for(int i=0;i<html.size();i++){
                 System.out.println(html.get(i));
+                fw.write(html.get(i));
             }
+            fw.close();
+      
 
-            Tidy tidy = new Tidy();
+            //Tidy tidy = new Tidy();
             
         }catch(IOException e){
             System.out.println("File not found");
