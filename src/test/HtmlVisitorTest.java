@@ -2,7 +2,7 @@ import org.junit.Test ;
 import static org.junit.Assert.* ;
 import md.*;
 import java.util.ArrayList;
-public class HtmlVisitorTest
+public class HTMLVisitorTest
 {
 	@Test
 	public void testTokenParser1() {

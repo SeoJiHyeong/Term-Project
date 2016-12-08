@@ -272,35 +272,35 @@ public class PlainVisitor implements MDElementVisitor{
 							 n.addToken(pt);
 								buffer="";
 								i=i+1;
-		
+
 								break;
-		        			 
-		        		 
-		        
+
+
+
 		        		 }
-		        		 
+
 		        	 }
-		        	 else 
+		        	 else
 		        		 buffer+=a;
 				break;
 		         //daeun
                      case '!' :
                          if(!buffer.isEmpty())
                          {
-                             
+
                              System.out.println("if");
                              PlainText pt = new PlainText();
                              pt.content = buffer;
                              System.out.println("buffer: "+buffer);
                              n.addToken(pt);
                              buffer="";
-                             
+
                              String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
                              String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-                             
+
                              Pattern pattern = Pattern.compile(input);
                              Matcher matcher = pattern.matcher(s);
-                             
+
                              Pattern pattern1 = Pattern.compile(input1);
                              Matcher matcher1 = pattern1.matcher(s);
                              if(matcher.matches()){
@@ -311,10 +311,12 @@ public class PlainVisitor implements MDElementVisitor{
                                  st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
                                  n.addToken(st1);
                                  n.addToken(st2);
-                                 
+                                 PlainText pt1 = new PlainText();
+                                 pt1.setContent("/>");
+                                 n.addToken(pt1);
                                  buffer="";
                                  i = matcher.end(4);
-                                 
+
                              }
                              else if(matcher1.matches()) {
                                  System.out.println("else if");
@@ -327,7 +329,7 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(st1);
                                  n.addToken(st2);
                                  n.addToken(st3);
-                                 
+
                                  buffer="";
                                  i = matcher1.end(7);
                              }
@@ -339,10 +341,10 @@ public class PlainVisitor implements MDElementVisitor{
                              System.out.println("else");
                              String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
                              String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-                             
+
                              Pattern pattern = Pattern.compile(input);
                              Matcher matcher = pattern.matcher(s);
-                             
+
                              Pattern pattern1 = Pattern.compile(input1);
                              Matcher matcher1 = pattern1.matcher(s);
                              if(matcher.matches()){
@@ -353,7 +355,9 @@ public class PlainVisitor implements MDElementVisitor{
                                  st2.setContent(matcher.group(2));              //if there is no alt text, show address instead of alt text
                                  n.addToken(st1);
                                  n.addToken(st2);
-                                 
+                                 PlainText pt1 = new PlainText();
+                                 pt1.setContent("/>");
+                                 n.addToken(pt1);
                                  buffer="";
                                  i = matcher.end(4);
                              }
@@ -368,7 +372,7 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(st1);
                                  n.addToken(st2);
                                  n.addToken(st3);
-                                 
+
                                  buffer="";
                                  i = matcher1.end(7);
                              }
