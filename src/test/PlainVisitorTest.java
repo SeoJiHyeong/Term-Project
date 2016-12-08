@@ -181,6 +181,49 @@ public class PlainVisitorTest
     }
     
     @Test
+    public void testLink(){
+        PlainVisitor p = new PlainVisitor();
+        String tmp = "<http://www.naver.com>";
+        Node nod = new Node();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("http://www.naver.com",tokenList.get(0).getContent());
+    
+        
+        p = new PlainVisitor();
+        tmp = "dfjlakdjfk <http://www.naver.com>";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("http://www.naver.com",tokenList.get(1).getContent());
+        
+        p = new PlainVisitor();
+        tmp = "click : [](http://www.naver.com)";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("http://www.naver.com",tokenList.get(1).getContent());
+        
+        
+        p = new PlainVisitor();
+        tmp = "click : [](http://www.naver.com)";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        tokenList =nod.getTokenList();
+        assertEquals("http://www.naver.com",tokenList.get(0).getContent());
+        
+        
+    }
+    
+    @Test
     public void testVisitItemList1(){
         ItemList h = new ItemList();
         PlainVisitor v = new PlainVisitor();
@@ -312,7 +355,7 @@ public class PlainVisitorTest
         tokenList = nodeList.get(1).getTokenList();
         assertEquals("codeblockkkk",tokenList.get(0).getContent());
         
-        v.setLine("   codeblockkkk");
+        v.setLine("    codeblockkkk");
         v.visit(c);
         nodeList = v.getNode();
         tokenList = nodeList.get(1).getTokenList();
@@ -332,6 +375,86 @@ public class PlainVisitorTest
         assertEquals(1,nodeList.size());
     }
     
+    @Test
+    public void testVisitCodeBlock3(){
+        CodeBlock c = new CodeBlock();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("  ");
+        v.visit(c);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testVisitCodeBlock4(){
+        CodeBlock c = new CodeBlock();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine(" 234 ");
+        v.visit(c);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    @Test
+    public void testVisitCodeBlock5(){
+        CodeBlock c = new CodeBlock();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("    ");
+        v.visit(c);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    
+    
+        
+    @Test
+    public void testBlockQuote1(){
+        BlockQuotes q = new BlockQuotes();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine(">abc");
+        v.visit(q);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("abc",tokenList.get(0).getContent());
+    }
+    
+    @Test
+    public void testBlockQuote2(){
+        BlockQuotes q = new BlockQuotes();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("");
+        v.visit(q);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+    @Test
+    public void testBlockQuote3(){
+        BlockQuotes q = new BlockQuotes();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("!123");
+        v.visit(q);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+    }
+
     @Test
     public void testHorizontalRule1(){
         HorizontalRule h = new HorizontalRule();
@@ -615,5 +738,8 @@ public class PlainVisitorTest
         
         assertEquals("Text",nodeList.get(1).notifyNode());
     }
+    
+    
+    
     
 }
