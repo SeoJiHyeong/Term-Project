@@ -274,52 +274,6 @@ public class PlainVisitor implements MDElementVisitor{
 
 		    for(int i=0;i<s.length();i++){
 		        char a = s.charAt(i);
-<<<<<<< Updated upstream
-		         switch(a) {
-		         case '\\':
-
-		 			if(!buffer.isEmpty())
-					{
-						PlainText pt = new PlainText();
-						pt.content=buffer;
-						//System.out.println(buffer);
-						n.addToken(pt);
-						buffer="";
-						//buffer+=a;
-					}
-		        	 if(i+1<s.length()){
-		        		 char b=s.charAt(i+1);
-		        		 switch(b){
-		        		 case '*' :
-		        		 case '\\' :
-		        		 case '\'' :
-		        		 case '_':
-		        		 case '{' :
-		        		 case '}':
-		        		 case '[':
-		        		 case ']':
-		        		 case '(':
-		        		 case ')':
-		        		 case '#':
-		        		 case '.':
-		        		 case '!':
-		        			 PlainText pt = new PlainText();
-							 pt.content=Character.toString(b);
-							 n.addToken(pt);
-								buffer="";
-								i=i+1;
-
-								break;
-
-
-
-		        		 }
-
-		        	 }
-		        	 else
-		        		 buffer+=a;
-=======
-
 		         switch(a) {
 		         case '\\':
 		 			if(buffer != null && !buffer.isEmpty())
@@ -362,8 +316,7 @@ public class PlainVisitor implements MDElementVisitor{
 		        	 }
 		        	 else 
 		        		 buffer+=a;
->>>>>>> Stashed changes
-				break;
+                        break;
 		         //daeun
                      case '!' :
                          if(!buffer.isEmpty())
