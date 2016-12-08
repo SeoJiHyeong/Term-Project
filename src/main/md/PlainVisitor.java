@@ -68,15 +68,29 @@ public class PlainVisitor implements MDElementVisitor{
 					break;
 				}
 			}
-			if(count!=0 && line.charAt(position)==32){
-				Header node = new Header();
-				node.htype=count;
-				forToken=line.substring(position+1);
-				tokenize(forToken,node);
+	      if(count!=0 && line.charAt(position)==32){
+         Header node = new Header();
+         node.htype=count;
+         int j=0;
+         for(int i=line.length()-1;i>position;i--) { //test ## hi ##, ## hi ######, ## hi##########
+        	if(line.charAt(i)=='#')
+        		j++;
+        	else 
+        		break;
+         }
+         if(j==0)
+         {
+         forToken=line.substring(position+1);
+         }
+         else if(line.charAt(line.length()-j-1)==' ')
+        	 forToken=line.substring(position+1,line.length()-j-1);
+         else
+        	 forToken=line.substring(position+1);
+         tokenize(forToken,node);
 
-				nodeList.add(node);
-				pass=1;
-			}
+         nodeList.add(node);
+         pass=1;
+      }
 			//make a case that 2 lines header
 			else if(temp.notifyNode().equals("Text")&&(line.charAt(0)==45||line.charAt(0)==61)){
 				boolean isHeader = true;
@@ -109,8 +123,8 @@ public class PlainVisitor implements MDElementVisitor{
 			}
 		}
 	}
-
 	public void visit(ItemList n){
+		
 		System.out.println("itemlist visited");
 		char a,b;
 		int startIndex = 0;
@@ -144,9 +158,12 @@ public class PlainVisitor implements MDElementVisitor{
 			}
 
 		}
+		
 	}
 
 	public void visit(OrderedList n){
+		
+		
 		System.out.println("orderedlist visited");
 		int startIndex = 0;
 		int listLevel = 1;
@@ -181,6 +198,7 @@ public class PlainVisitor implements MDElementVisitor{
 				}//'for'
 			}//check listLevel
 		}
+		
 	}
 	public void visit(HorizontalRule n){
 		System.out.println("horizontalRule visited");
@@ -255,6 +273,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 		    for(int i=0;i<s.length();i++){
 		        char a = s.charAt(i);
+<<<<<<< Updated upstream
 		         switch(a) {
 		         case '\\':
 
@@ -298,6 +317,51 @@ public class PlainVisitor implements MDElementVisitor{
 		        	 }
 		        	 else
 		        		 buffer+=a;
+=======
+
+		         switch(a) {
+		         case '\\':
+		 			if(buffer != null && !buffer.isEmpty())
+					{
+						PlainText pt = new PlainText();
+						pt.content=buffer;
+						//System.out.println(buffer);
+						n.addToken(pt);
+						buffer="";
+						//buffer+=a;
+					}
+		        	 if(i+1<s.length()){
+		        		 char b=s.charAt(i+1);
+		        		 switch(b){
+		        		 case '*' :
+		        		 case '\\' :
+		        		 case '\'' :
+		        		 case '_':
+		        		 case '{' :
+		        		 case '}':
+		        		 case '[':
+		        		 case ']':
+		        		 case '(':
+		        		 case ')':
+		        		 case '#':
+		        		 case '.':
+		        		 case '!':
+		        			 PlainText pt = new PlainText();
+							 pt.content=Character.toString(b);
+							 n.addToken(pt);
+								buffer="";
+								i=i+1;
+		
+								break;
+		        			 
+		        		 
+		        
+		        		 }
+		        		 
+		        	 }
+		        	 else 
+		        		 buffer+=a;
+>>>>>>> Stashed changes
 				break;
 		         //daeun
                      case '!' :
