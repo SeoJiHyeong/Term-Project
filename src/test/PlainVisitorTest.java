@@ -938,6 +938,34 @@ public class PlainVisitorTest
     }
     
     @Test
+    public void testHeader8(){
+        Header h = new Header();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("## h2 ##");
+        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("h2",tokenList.get(0).getContent());
+    }
+    
+    @Test
+    public void testHeader9(){
+        Header h = new Header();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("## h2 #####");
+        v.visit(h);
+        nodeList = v.getNode();
+        tokenList = nodeList.get(1).getTokenList();
+        assertEquals("h2",tokenList.get(0).getContent());
+    }
+    
+    @Test
     public void testText(){
         Header h = new Header();
         Text t = new Text();
@@ -963,6 +991,7 @@ public class PlainVisitorTest
         
         v.setLine("~");
         v.addNode();
+        v.visit(l);
         v.visit(l);
         v.visit(t);
         v.visit(l);
