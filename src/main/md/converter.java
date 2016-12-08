@@ -67,7 +67,21 @@ public class converter {
             }
             dd.addDocument("</html>");
 
-                ArrayList<String> html = dd.getDocument();
+            ArrayList<String> html = dd.getDocument();
+          
+            String string  = new String();
+                
+            for(int i=0;i<html.size();i++){
+              //      System.out.println(html.get(i));
+                    string += html.get(i);
+            }
+               
+            jtidy Jtidy = new jtidy();
+            Jtidy.check(string);
+                
+            System.out.println("====================jtidy check ok"); 
+
+
             FileWriter fw = new FileWriter(output);
 
             for(int i=0;i<html.size();i++){
