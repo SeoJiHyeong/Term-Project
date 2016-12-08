@@ -6,7 +6,7 @@ public class CodeBlockTest
 	@Test
 	public void testCodeBlockInstance() {
         CodeBlock b = new CodeBlock();
-        assertEquals(b.notifyNode(),"BlockQuotes");
+        assertEquals(b.notifyNode(),"CodeBlock");
 	}
 
 
