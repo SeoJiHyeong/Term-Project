@@ -135,103 +135,164 @@ public class HtmlVisitorTest
 			h.setTempNode();
 			h.visit(header);
 
-	       
+
 	        assertEquals(h.getLine(),"<h1>hi</h1>");
     }
 
-        @Test
+     @Test
 	    public void testItemList() {
 	        HTMLVisitor h = new HTMLVisitor();
 	        ArrayList<Node> node = new ArrayList<Node>();
 
-			ItemList list = new ItemList();
+			PlainText plaintext = new PlainText();
+			plaintext.setContent("hi");
+
+			ItemList list1 = new ItemList();
+			list1.listLevel = 1;
+			ItemList list2 = new ItemList();
+			list1.listLevel = 2;
+			ItemList list3 = new ItemList();
+			list1.listLevel = 3;
+			ItemList list4 = new ItemList();
+			list1.listLevel = 4;
 
 			PlainText text = new PlainText();
 			text.setContent("hi");
-			list.addToken(text);
-
 			Text dummy = new Text();
+			list1.addToken(plaintext);
 			node.add(dummy);
+			node.add(list1);
+			node.add(list1);
+			node.add(list2);
+			node.add(list2);
+			node.add(list3);
+			node.add(list3);
+			node.add(list1);
+			node.add(list2);
+			node.add(list3);
+			node.add(list2);
 			h.setNodelist(node);
-			h.setSequence(0);
-			h.setTempNode();
-			h.visit(list);
+			for(int i=1;i<node.size();i++){
+				h.setSequence(i);
+				h.setTempNode();
+				h.visit(list1);
+			}
+			//assertEquals(h.getLine(),"<li>hi</li>");
+    }
+         @Test
+		    public void testItemList1() {
+		        HTMLVisitor h = new HTMLVisitor();
+		        ArrayList<Node> node = new ArrayList<Node>();
 
-			node.add(list);
-			h.setNodelist(node);
-			h.setSequence(1);
-			h.setTempNode();
-			h.visit(list);
-			assertEquals(h.getLine(),"<li>hi</li>");
+				PlainText plaintext = new PlainText();
+				plaintext.setContent("hi");
+
+				ItemList list1 = new ItemList();
+				list1.listLevel = 1;
+				ItemList list2 = new ItemList();
+				list1.listLevel = 2;
+				ItemList list3 = new ItemList();
+				list1.listLevel = 3;
+				ItemList list4 = new ItemList();
+				list1.listLevel = 4;
+
+				PlainText text = new PlainText();
+				text.setContent("hi");
+				Text dummy = new Text();
+				list1.addToken(plaintext);
+				node.add(dummy);
+				node.add(list1);
+				node.add(list1);
+				node.add(list2);
+				node.add(list2);
+				node.add(list3);
+				node.add(list3);
+				node.add(list1);
+				node.add(list2);
+				node.add(list3);
+				node.add(list2);
+				h.setNodelist(node);
+				for(int i=1;i<node.size();i++){
+					h.setSequence(i);
+					h.setTempNode();
+					h.visit(list1);
+				}
+				//assertEquals(h.getLine(),"<li>hi</li>");
     }
 
-    @Test
-		public void testOrederedList1() {
-			HTMLVisitor h = new HTMLVisitor();
-			OrderedList list = new OrderedList();
-			ArrayList<Node> node = new ArrayList<Node>();
+         @Test
+		    public void testItemList2() {
+		        HTMLVisitor h = new HTMLVisitor();
+		        ArrayList<Node> node = new ArrayList<Node>();
 
-			Text dummy = new Text();
-			node.add(dummy);
-			h.setNodelist(node);
-			h.setSequence(0);
-			h.setTempNode();
-			h.visit(list);
+				PlainText plaintext = new PlainText();
+				plaintext.setContent("hi");
 
-			node.add(list);
-			h.setNodelist(node);
-			h.setSequence(1);
-			h.setTempNode();
-			h.visit(list);
+				ItemList list1 = new ItemList();
+				list1.listLevel = 1;
+				ItemList list2 = new ItemList();
+				list1.listLevel = 2;
+				ItemList list3 = new ItemList();
+				list1.listLevel = 3;
+				ItemList list4 = new ItemList();
+				list1.listLevel = 4;
 
-			PlainText text = new PlainText();
-			text.setContent("hi");
-			list.addToken(text);
-
-			node.add(list);
-			h.setNodelist(node);
-			h.setSequence(2);
-			h.setTempNode();
-			h.visit(list);
-
-			node.add(list);
-			h.setNodelist(node);
-			h.setSequence(3);
-			h.setTempNode();
-			h.visit(list);
-
-			assertEquals(h.getLine(),"<li>hi</li>");
+				PlainText text = new PlainText();
+				text.setContent("hi");
+				Text dummy = new Text();
+				list1.addToken(plaintext);
+				node.add(dummy);
+				node.add(list1);
+				node.add(list1);
+				node.add(list2);
+				node.add(list2);
+				node.add(list3);
+				node.add(list3);
+				node.add(list4);
+				h.setNodelist(node);
+				for(int i=1;i<node.size();i++){
+					h.setSequence(i);
+					h.setTempNode();
+					h.visit(list1);
+				}
+				//assertEquals(h.getLine(),"<li>hi</li>");
     }
 
     @Test
 		public void testOrederedList2() {
-			HTMLVisitor h = new HTMLVisitor();
-			OrderedList list = new OrderedList();
-			ArrayList<Node> node = new ArrayList<Node>();
+		        HTMLVisitor h = new HTMLVisitor();
+		        ArrayList<Node> node = new ArrayList<Node>();
 
-			Text dummy = new Text();
-			node.add(dummy);
-			node.add(list);
-			node.add(list);
-			node.add(list);
-			node.add(dummy);
-			h.setNodelist(node);
+				PlainText plaintext = new PlainText();
+				plaintext.setContent("hi");
 
-			h.setSequence(0);
-			h.setTempNode();
-			h.visit(list);
+				OrderedList list1 = new OrderedList();
+				list1.listLevel = 1;
+				OrderedList list2 = new OrderedList();
+				list1.listLevel = 2;
+				OrderedList list3 = new OrderedList();
+				list1.listLevel = 3;
+				OrderedList list4 = new OrderedList();
+				list1.listLevel = 4;
 
-			h.setSequence(1);
-			h.setTempNode();
-			h.visit(list);
-
-			h.setSequence(2);
-			h.setTempNode();
-			h.visit(list);
-
-			h.setSequence(3);
-			h.setTempNode();
-			h.visit(list);
+				PlainText text = new PlainText();
+				text.setContent("hi");
+				Text dummy = new Text();
+				list1.addToken(plaintext);
+				node.add(dummy);
+				node.add(list1);
+				node.add(list1);
+				node.add(list2);
+				node.add(list2);
+				node.add(list3);
+				node.add(list3);
+				node.add(list4);
+				h.setNodelist(node);
+				for(int i=1;i<node.size();i++){
+					h.setSequence(i);
+					h.setTempNode();
+					h.visit(list1);
+				}
 
     }
         @Test
