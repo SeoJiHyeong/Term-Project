@@ -73,13 +73,9 @@ public class converter {
           
                 String string  = new String();
                 
-<<<<<<< HEAD
-                for(int i=0;i<html.size();i++){
-              //      System.out.println(html.get(i));
-=======
             for(int i=0;i<html.size();i++){
               
->>>>>>> origin/master
+
                     string += html.get(i);
                 }
                
@@ -96,12 +92,6 @@ public class converter {
             }
             fw.close();
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> origin/master
         }catch(IOException e){
             System.out.println("File not found");
         }
