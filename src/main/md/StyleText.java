@@ -22,7 +22,10 @@ public class StyleText extends Token{
       	case "/image":
          	notice = "/image";
          	break;
-      	case "link":
+    	case "title":
+         	notice = "title";
+         	break;
+    	case "link":
          	notice = "link";
          	break;
       	case "/link":
