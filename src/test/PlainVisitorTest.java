@@ -316,7 +316,15 @@ public class PlainVisitorTest
         assertEquals("/path/to/img.jpg ",tokenList.get(0).getContent());
 
         
+        p = new PlainVisitor();
+        tmp = "!!!!";
+        nod = new Node();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
         
+        assertEquals(0,nod.getTokenList().size());
+
     }
     
     @Test
