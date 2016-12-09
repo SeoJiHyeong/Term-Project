@@ -271,7 +271,10 @@ public class PlainVisitor implements MDElementVisitor{
 
 		int hCheck=0; // header
 		int position = 0;
-
+        
+        int imcheck = 0;
+        int linkcheck1 = 0;
+        int linkcheck2 = 0;
 
 		    for(int i=0;i<s.length();i++){
 		        char a = s.charAt(i);
@@ -319,27 +322,38 @@ public class PlainVisitor implements MDElementVisitor{
 		        		 buffer+=a;
                         break;
 		         //daeun
+                     
                      case '!' :
                          if(!buffer.isEmpty())
                          {
-
-
                              PlainText pt = new PlainText();
                              pt.content = buffer;
-
+                             
                              n.addToken(pt);
                              buffer="";
-
+                             
                              String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
                              String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-
+                             
                              Pattern pattern = Pattern.compile(input);
-                             Matcher matcher = pattern.matcher(s);
-
                              Pattern pattern1 = Pattern.compile(input1);
-                             Matcher matcher1 = pattern1.matcher(s);
+                             Matcher matcher;
+                             Matcher matcher1;
+                             
+                             if(imcheck == 1)
+                             {
+                                 
+                                 matcher = pattern.matcher(s.substring(i,s.length()));
+                                 matcher1 = pattern1.matcher(s.substring(i,s.length()));
+                                 System.out.println(s.substring(i,s.length()));
+                             }
+                             else
+                             {
+                                 matcher = pattern.matcher(s);
+                                 matcher1 = pattern1.matcher(s);
+                             }
+                             
                              if(matcher.matches()){
-
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -351,10 +365,11 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(pt1);
                                  buffer="";
                                  i = matcher.end(4);
-
+                                 imcheck = 1;
+                                 
+                                 
                              }
                              else if(matcher1.matches()) {
-
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher1.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -364,26 +379,39 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(st1);
                                  n.addToken(st2);
                                  n.addToken(st3);
-
+                                 
                                  buffer="";
                                  i = matcher1.end(7);
+                                 imcheck = 1;
+                                 
                              }
-                             else;
-
+                             else      buffer+=a;
+                             
                          }
                          else
                          {
-
-                             String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
-                             String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-
+                             
+                             String input = ".*(\\!\\[)(.+)(\\]\\()(.[^\\\"]+[^\\\"])\\).*";
+                             String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.[^\\\"]+)(\")\\).*";
+                             
                              Pattern pattern = Pattern.compile(input);
-                             Matcher matcher = pattern.matcher(s);
-
                              Pattern pattern1 = Pattern.compile(input1);
-                             Matcher matcher1 = pattern1.matcher(s);
+                             Matcher matcher;
+                             Matcher matcher1;
+                             
+                             if(imcheck == 1)
+                             {
+                                 matcher = pattern.matcher(s.substring(i,s.length()));
+                                 matcher1 = pattern1.matcher(s.substring(i,s.length()));
+                                 System.out.println(s.substring(i,s.length()));
+                             }
+                             else
+                             {
+                                 matcher = pattern.matcher(s);
+                                 matcher1 = pattern1.matcher(s);
+                             }
+                             
                              if(matcher.matches()){
-
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -395,9 +423,10 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(pt1);
                                  buffer="";
                                  i = matcher.end(4);
+                                 imcheck = 1;
+                                 
                              }
                              else if(matcher1.matches()) {
-
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher1.group(4));
                                  StyleText st2 = new StyleText("/image");
@@ -407,139 +436,155 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(st1);
                                  n.addToken(st2);
                                  n.addToken(st3);
-
+                                 
                                  buffer="";
                                  i = matcher1.end(7);
+                                 imcheck = 1;
                              }
-                             else
-                                 ;
+                             else      buffer+=a;
+                             
                          }
                          break;
-		         //1) click : [](http://www.naver.com)
-		         case '[' :
-		            if(!buffer.isEmpty())
-		            {
-		               PlainText pt = new PlainText();
-		               pt.content = buffer;
-
-		               n.addToken(pt);
-		               buffer="";
-		         //      buffer+=a;
-
-		               String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
-		               String input_string = s;
-
-
-		               Pattern pattern = Pattern.compile(input_pattern);
-		               Matcher matcher =  pattern.matcher(s);
-
-		               if(matcher.matches()){
-
-		                  StyleText st1 = new StyleText("link");
-		                  st1.setContent(matcher.group(4));
-		                  StyleText st2 = new StyleText("/link");
-		                  st2.setContent(matcher.group(2));
-		                  n.addToken(st1);
-		                  n.addToken(st2);
-		                  buffer="";
-
-		                  i = matcher.end(4);
-		               }
-		               else {
-		                  ;
-		               }
-
-		            }
-		            else
-		            {
-
-		               String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
-		               String input_string = s;
-
-
-		               Pattern pattern = Pattern.compile(input_pattern);
-		               Matcher matcher =  pattern.matcher(s);
-
-		               if(matcher.matches()){
-
-						  StyleText st1 = new StyleText("link");
-		                  st1.setContent(matcher.group(4));
-		                  StyleText st2 = new StyleText("/link");
-		                  st2.setContent(matcher.group(2));
-		                  n.addToken(st1);
-		                  n.addToken(st2);
-
-		                  buffer="";
-
-		                  i = matcher.end(4);
-		            }
-		         }
-		         break;
-
-
-		         //2) <http://www.naver.com>
-		         case '<' :
-		            if(!buffer.isEmpty())
-		            {
-		               PlainText pt = new PlainText();
-		               pt.content = buffer;
-
-		               n.addToken(pt);
-		               buffer="";
-
-		               String input_pattern = ".*(\\<)(http:\\/\\/.+)(\\>).*";//pattern
-		               String input_string = s;
-
-
-		               Pattern pattern = Pattern.compile(input_pattern);
-		               Matcher matcher =  pattern.matcher(s);
-
-		               if(matcher.matches()){
-
-
-					 	  StyleText st1 = new StyleText("link");
-		                  st1.setContent(matcher.group(2));
-		                  StyleText st2 = new StyleText("/link");
-		                  st2.setContent(matcher.group(2));
-		                  n.addToken(st1);
-		                  n.addToken(st2);
-
-		                  buffer="";
-
-		                  i = matcher.end(3);
-		               }
-		               else {
-		                  ;
-		               }
-
-		            }
-		            else
-		            {
-
-		               String input_pattern = ".*(\\<)(http:\\/\\/.+)(\\>).*";//pattern
-		               String input_string = s;
-
-		               Pattern pattern = Pattern.compile(input_pattern);
-		               Matcher matcher =  pattern.matcher(s);
-
-		               if(matcher.matches()){
-
-
-					 	  StyleText st1 = new StyleText("link");
-		                  st1.setContent(matcher.group(2));
-		                  StyleText st2 = new StyleText("/link");
-		                  st2.setContent(matcher.group(2));
-		                  n.addToken(st1);
-		                  n.addToken(st2);
-		                  buffer="";
-
-		                  i = matcher.end(3);
-
-		            }
-		         }
-         break;
-
-			case '_' :
+                         //1) click : [](http://www.naver.com)
+                     case '[' :
+                         if(!buffer.isEmpty())
+                         {
+                             PlainText pt = new PlainText();
+                             pt.content = buffer;
+                             
+                             n.addToken(pt);
+                             buffer="";
+                             String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
+                             String input_string = s;
+                             
+                             Pattern pattern = Pattern.compile(input_pattern);
+                             Matcher matcher;
+                             
+                             if(linkcheck1 == 1)
+                                 matcher = pattern.matcher(s.substring(i,s.length()));
+                             else
+                                 matcher = pattern.matcher(s);
+                             
+                             if(matcher.matches()){
+                                 
+                                 StyleText st1 = new StyleText("link");
+                                 st1.setContent(matcher.group(4));
+                                 StyleText st2 = new StyleText("/link");
+                                 st2.setContent(matcher.group(2));
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 
+                                 buffer="";
+                                 linkcheck1 = 1;
+                                 i = matcher.end(4);
+                                 
+                             }
+                             else    buffer+=a;
+                             
+                         }
+                         else
+                         {
+                             
+                             String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
+                             String input_string = s;
+                             
+                             
+                             Pattern pattern = Pattern.compile(input_pattern);
+                             Matcher matcher;
+                             
+                             if(linkcheck1 == 1)
+                                 matcher = pattern.matcher(s.substring(i,s.length()));
+                             else
+                                 matcher = pattern.matcher(s);
+                             
+                             if(matcher.matches()){
+                                 
+                                 StyleText st1 = new StyleText("link");
+                                 st1.setContent(matcher.group(4));
+                                 StyleText st2 = new StyleText("/link");
+                                 st2.setContent(matcher.group(2));
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 
+                                 buffer="";
+                                 linkcheck1 = 1;
+                                 i = matcher.end(4);
+                             }
+                             else buffer += a;
+                         }
+                         break;
+                         
+                         
+                         //2) <http://www.naver.com>
+                     case '<' :
+                         if(!buffer.isEmpty())
+                         {
+                             PlainText pt = new PlainText();
+                             pt.content = buffer;
+                             
+                             n.addToken(pt);
+                             buffer="";
+                             
+                             String input_pattern = ".*(\\<)(http:\\/\\/.[^\\<\\>]+)(\\>)(.*)";//pattern
+                             String input_string = s;
+                             
+                             
+                             Pattern pattern = Pattern.compile(input_pattern);
+                             Matcher matcher;
+                             
+                             if(linkcheck2 == 1)
+                             {
+                                 System.out.println("===="+s.substring(i,s.length()));
+                                 matcher = pattern.matcher(s.substring(i,s.length()));
+                                 System.out.println(matcher.matches());
+                             }
+                             else
+                                 matcher = pattern.matcher(s);
+                             
+                             if(matcher.matches()){
+                                 StyleText st1 = new StyleText("link");
+                                 st1.setContent(matcher.group(2));
+                                 StyleText st2 = new StyleText("/link");
+                                 st2.setContent(matcher.group(2));
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 
+                                 buffer="";
+                                 linkcheck2 = 1;
+                                 i = matcher.end(3);
+                             }
+                             else { buffer += a;}
+                             
+                         }
+                         else
+                         {
+                             
+                             String input_pattern = ".*(\\<)(http:\\/\\/.[^\\<\\>]+)(\\>).*";//pattern
+                             String input_string = s;
+                             
+                             Pattern pattern = Pattern.compile(input_pattern);
+                             Matcher matcher;
+                             if(linkcheck2 == 1) 
+                                 matcher = pattern.matcher(s.substring(i,s.length()));  
+                             else
+                                 matcher = pattern.matcher(s);
+                             
+                             if(matcher.matches()){
+                                 StyleText st1 = new StyleText("link");
+                                 st1.setContent(matcher.group(2));
+                                 StyleText st2 = new StyleText("/link");
+                                 st2.setContent(matcher.group(2));
+                                 n.addToken(st1);
+                                 n.addToken(st2);
+                                 buffer="";
+                                 linkcheck2 = 1;
+                                 i = matcher.end(3);
+                                 
+                             }else{ buffer += a;}
+                         }
+                         break;
+                         
+                     case '_' :
 
 				//buffer+=a;
 				if(uTotal==1) {
