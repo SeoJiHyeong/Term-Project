@@ -36,6 +36,16 @@ public class StyleText extends Token{
         else if(s.equals("br")){
             notice = "<br>";
         }
+        else if(s.equals("code")) {
+        	notice="<code>";
+        }
+        else if(s.equals("/code")){
+        	notice="</code>";
+        }
+				else if(t.notifyToken().equals("<code>"))
+					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("</code>"))
+					t.setContent(t.notifyToken());		
         else{
             notice = s;
         }

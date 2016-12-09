@@ -210,6 +210,10 @@ public class HTMLVisitor implements MDElementVisitor {
 					t.setContent(" alt=\"" + t.getContent() + "\"") ;
 				else if(t.notifyToken().equals("<br>"))
 					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("<code>"))
+					t.setContent(t.notifyToken());
+				else if(t.notifyToken().equals("</code>"))
+					t.setContent(t.notifyToken());		
 				else;
 
 
