@@ -3,19 +3,19 @@
 
 1. Default build
 
-build.xml이 있는 디렉터리에서 ant 명령어 입력한다. 그러면 jar 파일이 만들어 지는데 이 파일이 만들어질 동안 junit test가 이루어진다. 그리고 이 test가 이루어질동안 jacoco도 같이 이루어진다.
+    build.xml이 있는 디렉터리에서 ant 명령어 입력한다. 그러면 jar 파일이 만들어 지는데 이 파일이 만들어질 동안 junit test가 이루어진다. 그리고 이 test가 이루어질동안 jacoco도 같이 이루어진다.
 
 2. build 초기화.
 
-ant clean
+    ant clean
 
 3. Test (coverage test는 이루어 지지 않는다.)
 
-ant test
+    ant test
 
 4. coverage 검사 (test도 같이 이루어 진다.)
 
-ant coverage-report
+    ant coverage-report
 
 
 
