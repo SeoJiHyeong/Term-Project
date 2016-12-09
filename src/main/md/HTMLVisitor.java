@@ -57,8 +57,8 @@ public class HTMLVisitor implements MDElementVisitor {
 
 			if(previousLevel==0||previousLevel<tempNode.listLevel
 										||listStack.size()==0){
-				line = "<ul>" + line;
-				listStack.add("</ul>");
+				line = "<ul>\r\n" + line;
+				listStack.add("\r\n</ul>");
 			}
 			else;
 
@@ -91,8 +91,8 @@ public class HTMLVisitor implements MDElementVisitor {
 			line = line + "</li>";
 
 			if(previousLevel==0||previousLevel<tempNode.listLevel||listStack.size()==0){
-				line = "<ol>" + line;
-				listStack.add("</ol>");
+				line = "<ol>\r\n" + line;
+				listStack.add("\r\n</ol>");
 			}
 			else;
 

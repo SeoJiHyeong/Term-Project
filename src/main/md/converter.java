@@ -70,25 +70,24 @@ public class converter {
             dd.addDocument("</html>");
 
                 ArrayList<String> html = dd.getDocument();
-          
+
                 String string  = new String();
-                
+
             for(int i=0;i<html.size();i++){
-              
+
 
                     string += html.get(i);
                 }
-               
+
           //      jtidy Jtidy = new jtidy();
            //     Jtidy.check(string);
-                
+
                 jtidy_check(string);
-            
+
                 FileWriter fw = new FileWriter(output);
 
             for(int i=0;i<html.size();i++){
-                
-                fw.write(html.get(i));
+                fw.write(html.get(i)+"\r\n");
             }
             fw.close();
 
@@ -233,10 +232,10 @@ public class converter {
 
 		mGroupList.add(mChildList);
 		for(int i = 0 ; i < mGroupList.size();i++){
-			
+
 			int aa = mGroupList.get(i).size();
 			for(int j = 0; j < aa;j++){
-				
+
 				if(j==0){
 					input = mGroupList.get(i).get(j);
 				}
@@ -245,7 +244,7 @@ public class converter {
                 }
 
 			}
-		
+
 		}
 		return true;
 	}
