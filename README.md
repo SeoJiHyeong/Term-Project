@@ -70,9 +70,8 @@ directory|- bin
          |- lib
          |- report
          |- src |- main |- md
-                |- test
+                |- test |- testData
          |- test
-         |- testData
          |- build.xml
          |- READ.md
          |- Markdown_converter.jar
