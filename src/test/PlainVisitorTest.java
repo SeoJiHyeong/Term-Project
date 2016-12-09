@@ -509,6 +509,11 @@ public class PlainVisitorTest
         v.visit(h);
         nodeList = v.getNode();
         assertEquals(1,nodeList.size());
+        
+        v.setLine("    ");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
     }
 
     @Test
@@ -580,6 +585,11 @@ public class PlainVisitorTest
         assertEquals(1,nodeList.size());
         
         v.setLine(" pppppp");
+        v.visit(h);
+        nodeList = v.getNode();
+        assertEquals(1,nodeList.size());
+        
+        v.setLine("   ");
         v.visit(h);
         nodeList = v.getNode();
         assertEquals(1,nodeList.size());
@@ -1122,6 +1132,23 @@ public class PlainVisitorTest
         
         assertEquals("Text",nodeList.get(1).notifyNode());
     }
+    
+    @Test
+    public void testHeader13(){
+        Header h = new Header();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("###");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals(1,nodeList.size());
+        
+        
+    }
+    
     @Test
     public void testText(){
         Header h = new Header();
