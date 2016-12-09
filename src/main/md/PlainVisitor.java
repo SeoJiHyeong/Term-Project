@@ -224,12 +224,11 @@ public class PlainVisitor implements MDElementVisitor{
 								if(line.charAt(i)==32||line.charAt(i)==42)ruleCase = 1;
 								else ruleCase = 3;
 								break;
-							case 2:
+							default:
 								if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;
 								else ruleCase = 3;
 								break;
-							default: ruleCase = 3;
-							break;
+							
 							}
 						}
 
