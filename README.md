@@ -2,17 +2,17 @@
 
 1. Default build
 
-    build.xml이 있는 디렉터리에서 ant 명령어 입력한다. 그러면 jar 파일이 만들어 지는데 이 파일이 만들어질 동안 junit test가 이루어진다. 그리고 이 test가 이루어질동안 jacoco도 같이 이루어진다.
+    Type ‘ant’ in cmd inside directory where build.xml file is located. jar file is created. junit test and jacoco are conducted while creating jar file.   
 
-2. build 초기화.
+2. Build Reset.
 
     ant clean
 
-3. Test (coverage test는 이루어 지지 않는다.)
+3. Test (coverage test is not conducted here)
 
     ant test
 
-4. coverage 검사 (test도 같이 이루어 진다.)
+4. Coverage Test (Testing is conducted at the same time)
 
     ant coverage-report
 
@@ -40,7 +40,7 @@
 
 	|- Markdown_converter.jar
 
-bin : build된 class
+bin : built class
 
 doc : javadoc
 
@@ -59,7 +59,7 @@ testData : test에 필요한 test file
 
 ## [JACOCO]
 
-report 폴더 안에 index.html로 패키지의 coverage 정보를 볼 수 있다.
+Coverage information of package can be checked from index.html inside JACOCO file.  
 
 
 [Kind of option]
