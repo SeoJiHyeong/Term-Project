@@ -54,7 +54,7 @@ src/test : testcase java file
 
 test : testcase classes
 
-testData : test에 필요한 test file
+testData : test file needed for testing
 
 
 ## [JACOCO]
