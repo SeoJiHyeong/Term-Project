@@ -12,7 +12,7 @@ public class converterTest
         converter c = new converter();
         String[] a = {"./src/test/testData/test.md"};
         assertTrue(c.new_check_grammar(a));
-        
+
         String[] b = {"./src/test/testData/test.md","-f","-o","tt"};
         assertTrue(c.new_check_grammar(b));
         String[] b1 = {"./src/test/testData/test.md","-o","tt","-f"};
@@ -36,7 +36,7 @@ public class converterTest
         String[] f1 = {};
         assertTrue(c.new_check_grammar(f1));
 	}
-    
+
     @Test
     public void testNew_check_grammar2() {
         converter c = new converter();
@@ -52,40 +52,40 @@ public class converterTest
         assertTrue(!c.new_check_grammar(c2));
         String[] c1 = {"./src/test/testData/test.md","-q","tt","-p"};
         assertTrue(!c.new_check_grammar(c1));
-        
+
         String[] d = {"./src/test/testData/test.md","-s","-o","tt","qwe"};
         assertTrue(!c.new_check_grammar(d));
-        
+
         String[] d1 = {"./src/test/testData/test.md","-o","-s","tt"};
         assertTrue(!c.new_check_grammar(d1));
-        
+
         String[] d2 = {"./src/test/testData/test.md","-o","-s"};
         assertTrue(!c.new_check_grammar(d2));
-        
+
         String[] d3 = {"./src/test/testData/test.md","-s","-f","-q","-q"};
         assertTrue(!c.new_check_grammar(d3));
-        
+
         String[] d4 = {"./src/test/testData/test.md","222"};
         assertTrue(!c.new_check_grammar(d4));
-        
+
     }
-    
+
     @Test
     public void testJtidy1(){
         converter c = new converter();
         String tmp = "<html><head></head><body></body></html>";
         assertTrue(c.jtidy_check(tmp));
-        
-        
+
+
     }
-    
+
     @Test
     public void testJtidy2(){
         converter c = new converter();
         String tmp = "<12html><4head></h5ead><b6ody></html>";
         assertTrue(!c.jtidy_check(tmp));
     }
-    
+
     @Test
     public void testMain1(){
         try{
@@ -93,12 +93,12 @@ public class converterTest
             String[] ss = {"./src/test/testData/test.md"};
             c.main(ss);
             BufferedReader br = new BufferedReader(new FileReader("result.html"));
-            assertEquals("<html><h1>An h1 header</h1></html>",br.readLine());
+            assertEquals("<html>",br.readLine());
         }catch(IOException e){
             System.out.println("File not found");
         }
-      
-        
+
+
     }
     @Test
     public void testMain2(){
@@ -107,12 +107,12 @@ public class converterTest
             String[] ss = {"./src/test/testData/test4.md"};
             c.main(ss);
             BufferedReader br = new BufferedReader(new FileReader("result.html"));
-            assertEquals("<html><p>1</p></html>",br.readLine());
+            assertEquals("<html>",br.readLine());
         }catch(IOException e){
             System.out.println("File not found");
         }
-        
-        
+
+
     }
     @Test
     public void testMain3(){
@@ -122,5 +122,5 @@ public class converterTest
     }
 
 
-	
+
 }
