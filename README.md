@@ -1,4 +1,3 @@
-
 ## [BUILD]
 
 1. Default build
@@ -20,26 +19,26 @@
 
 
 
+## [DIRECTORY]
+	|- bin 
 
-directory|- bin 
+	|- doc
 
-         |- doc
+	|- lib
 
-         |- lib
+	|- report
 
-         |- report
+	|- src |- main |- md
 
-         |- src |- main |- md
+ 	      |- test |- testData
 
-                |- test |- testData
+	|- test
 
-         |- test
+	|- build.xml
 
-         |- build.xml
+	|- READ.md
 
-         |- READ.md
-
-         |- Markdown_converter.jar
+	|- Markdown_converter.jar
 
 bin : build된 class
 
@@ -58,7 +57,7 @@ test : testcase classes
 testData : test에 필요한 test file
 
 
-[JACOCO]
+## [JACOCO]
 
 report 폴더 안에 index.html로 패키지의 coverage 정보를 볼 수 있다.
 
@@ -77,7 +76,7 @@ report 폴더 안에 index.html로 패키지의 coverage 정보를 볼 수 있�
 
 
 
-[Command line usage]
+## [Command line usage]
 
 
 Usage: java -jar Markdown_converter.jar md_File1 [-options] [md_File2] [-options]
