@@ -110,19 +110,19 @@ public class HtmlVisitorTest
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("code");
         h.tokenParser(t);
-        
+
         assertEquals(t.getContent(),"<code>");
     }
-    
+
     @Test
     public void testTokenParser11() {
         HTMLVisitor h = new HTMLVisitor();
         StyleText t = new StyleText("/code");
         h.tokenParser(t);
-        
+
         assertEquals(t.getContent(),"</code>");
     }
-    
+
     @Test
     public void testHeader() {
 
@@ -217,7 +217,7 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(list1);
         }
-        assertEquals(h.getLine(),"<li></li></ul></ul>");
+        assertEquals(h.getLine(),"<li></li>\r\n</ul>\r\n</ul>");
     }
 
     @Test
@@ -255,7 +255,7 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(list1);
         }
-        assertEquals(h.getLine(),"<ul><li></li></ul></ul></ul></ul>");
+        assertEquals(h.getLine(),"<ul>\r\n<li></li>\r\n</ul>\r\n</ul>\r\n</ul>\r\n</ul>");
     }
 
     @Test
@@ -291,7 +291,7 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(list1);
         }
-        assertEquals(h.getLine(),"<ul><li>hi</li></ul>");
+        assertEquals(h.getLine(),"<ul>\r\n<li>hi</li>\r\n</ul>");
     }
 
     @Test
@@ -330,7 +330,7 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(list1);
         }
-        assertEquals(h.getLine(),"<li>hi</li></ol>");
+        assertEquals(h.getLine(),"<li>hi</li>\r\n</ol>");
     }
 
     @Test
@@ -369,7 +369,7 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(list1);
         }
-        assertEquals(h.getLine(),"<ol><li></li></ol></ol></ol></ol>");
+        assertEquals(h.getLine(),"<ol>\r\n<li></li>\r\n</ol>\r\n</ol>\r\n</ol>\r\n</ol>");
     }
 
     @Test
@@ -405,7 +405,7 @@ public class HtmlVisitorTest
             h.setTempNode();
             h.visit(list1);
         }
-        assertEquals(h.getLine(),"<ol><li></li></ol></ol>");
+        assertEquals(h.getLine(),"<ol>\r\n<li></li>\r\n</ol>\r\n</ol>");
     }
 
     @Test
