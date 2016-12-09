@@ -228,7 +228,7 @@ public class PlainVisitor implements MDElementVisitor{
 								if(line.charAt(i)==32||line.charAt(i)==45)ruleCase = 2;
 								else ruleCase = 3;
 								break;
-							
+
 							}
 						}
 
@@ -270,7 +270,7 @@ public class PlainVisitor implements MDElementVisitor{
 
 		int hCheck=0; // header
 		int position = 0;
-        
+
         int imcheck = 0;
         int linkcheck1 = 0;
         int linkcheck2 = 0;
@@ -280,18 +280,16 @@ public class PlainVisitor implements MDElementVisitor{
 		        char a = s.charAt(i);
 		         switch(a) {
                      case 39 :
-                         System.out.println("code check");
                          if(codeCheck==1) {
-                             System.out.println("code check visited");
                              StyleText st = new StyleText("code");
                              st.content="\'";
                              n.addToken(st);
-                             
+
                              PlainText pt = new PlainText();
                              pt.content=buffer.substring(1, buffer.length());
                              n.addToken(pt);
-                             
-                             
+
+
                              StyleText st2 = new StyleText("/code");
                              n.addContent("\'");
                              n.addToken(st2);
@@ -300,7 +298,6 @@ public class PlainVisitor implements MDElementVisitor{
                              break;
                          }// *hihi*
                          else {
-                             System.out.println("1");
                              codeCheck=1;
                              if(!buffer.isEmpty())
                              {
@@ -358,37 +355,36 @@ public class PlainVisitor implements MDElementVisitor{
 		        		 buffer+=a;
                         break;
 		         //daeun
-                     
+
                      case '!' :
                          if(!buffer.isEmpty())
                          {
                              PlainText pt = new PlainText();
                              pt.content = buffer;
-                             
+
                              n.addToken(pt);
                              buffer="";
-                             
+
                              String input = ".*(\\!\\[)(.+)(\\]\\()(.+[^\\\"])\\).*";
                              String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.+)(\")\\).*";
-                             
+
                              Pattern pattern = Pattern.compile(input);
                              Pattern pattern1 = Pattern.compile(input1);
                              Matcher matcher;
                              Matcher matcher1;
-                             
+
                              if(imcheck == 1)
                              {
-                                 
+
                                  matcher = pattern.matcher(s.substring(i,s.length()));
                                  matcher1 = pattern1.matcher(s.substring(i,s.length()));
-                                 System.out.println(s.substring(i,s.length()));
                              }
                              else
                              {
                                  matcher = pattern.matcher(s);
                                  matcher1 = pattern1.matcher(s);
                              }
-                             
+
                              if(matcher.matches()){
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher.group(4));
@@ -402,8 +398,8 @@ public class PlainVisitor implements MDElementVisitor{
                                  buffer="";
                                  i = matcher.end(4);
                                  imcheck = 1;
-                                 
-                                 
+
+
                              }
                              else if(matcher1.matches()) {
                                  StyleText st1 = new StyleText("image");
@@ -415,38 +411,37 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(st1);
                                  n.addToken(st2);
                                  n.addToken(st3);
-                                 
+
                                  buffer="";
                                  i = matcher1.end(7);
                                  imcheck = 1;
-                                 
+
                              }
                              else      buffer+=a;
-                             
+
                          }
                          else
                          {
-                             
+
                              String input = ".*(\\!\\[)(.+)(\\]\\()(.[^\\\"]+[^\\\"])\\).*";
                              String input1 = ".*(\\!\\[)(.+)(\\]\\()(.+)(\")(.[^\\\"]+)(\")\\).*";
-                             
+
                              Pattern pattern = Pattern.compile(input);
                              Pattern pattern1 = Pattern.compile(input1);
                              Matcher matcher;
                              Matcher matcher1;
-                             
+
                              if(imcheck == 1)
                              {
                                  matcher = pattern.matcher(s.substring(i,s.length()));
                                  matcher1 = pattern1.matcher(s.substring(i,s.length()));
-                                 System.out.println(s.substring(i,s.length()));
                              }
                              else
                              {
                                  matcher = pattern.matcher(s);
                                  matcher1 = pattern1.matcher(s);
                              }
-                             
+
                              if(matcher.matches()){
                                  StyleText st1 = new StyleText("image");
                                  st1.setContent(matcher.group(4));
@@ -460,7 +455,7 @@ public class PlainVisitor implements MDElementVisitor{
                                  buffer="";
                                  i = matcher.end(4);
                                  imcheck = 1;
-                                 
+
                              }
                              else if(matcher1.matches()) {
                                  StyleText st1 = new StyleText("image");
@@ -472,13 +467,13 @@ public class PlainVisitor implements MDElementVisitor{
                                  n.addToken(st1);
                                  n.addToken(st2);
                                  n.addToken(st3);
-                                 
+
                                  buffer="";
                                  i = matcher1.end(7);
                                  imcheck = 1;
                              }
                              else      buffer+=a;
-                             
+
                          }
                          break;
                          //1) click : [](http://www.naver.com)
@@ -487,61 +482,61 @@ public class PlainVisitor implements MDElementVisitor{
                          {
                              PlainText pt = new PlainText();
                              pt.content = buffer;
-                             
+
                              n.addToken(pt);
                              buffer="";
                              String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
                              String input_string = s;
-                             
+
                              Pattern pattern = Pattern.compile(input_pattern);
                              Matcher matcher;
-                             
+
                              if(linkcheck1 == 1)
                                  matcher = pattern.matcher(s.substring(i,s.length()));
                              else
                                  matcher = pattern.matcher(s);
-                             
+
                              if(matcher.matches()){
-                                 
+
                                  StyleText st1 = new StyleText("link");
                                  st1.setContent(matcher.group(4));
                                  StyleText st2 = new StyleText("/link");
                                  st2.setContent(matcher.group(2));
                                  n.addToken(st1);
                                  n.addToken(st2);
-                                 
+
                                  buffer="";
                                  linkcheck1 = 1;
                                  i = matcher.end(4);
-                                 
+
                              }
                              else    buffer+=a;
-                             
+
                          }
                          else
                          {
-                             
+
                              String input_pattern = ".*(\\[)(.+)(\\]\\()(http:\\/\\/.+)\\).*";//pattern
                              String input_string = s;
-                             
-                             
+
+
                              Pattern pattern = Pattern.compile(input_pattern);
                              Matcher matcher;
-                             
+
                              if(linkcheck1 == 1)
                                  matcher = pattern.matcher(s.substring(i,s.length()));
                              else
                                  matcher = pattern.matcher(s);
-                             
+
                              if(matcher.matches()){
-                                 
+
                                  StyleText st1 = new StyleText("link");
                                  st1.setContent(matcher.group(4));
                                  StyleText st2 = new StyleText("/link");
                                  st2.setContent(matcher.group(2));
                                  n.addToken(st1);
                                  n.addToken(st2);
-                                 
+
                                  buffer="";
                                  linkcheck1 = 1;
                                  i = matcher.end(4);
@@ -549,34 +544,32 @@ public class PlainVisitor implements MDElementVisitor{
                              else buffer += a;
                          }
                          break;
-                         
-                         
+
+
                          //2) <http://www.naver.com>
                      case '<' :
                          if(!buffer.isEmpty())
                          {
                              PlainText pt = new PlainText();
                              pt.content = buffer;
-                             
+
                              n.addToken(pt);
                              buffer="";
-                             
+
                              String input_pattern = ".*(\\<)(http:\\/\\/.[^\\<\\>]+)(\\>)(.*)";//pattern
                              String input_string = s;
-                             
-                             
+
+
                              Pattern pattern = Pattern.compile(input_pattern);
                              Matcher matcher;
-                             
+
                              if(linkcheck2 == 1)
                              {
-                                 System.out.println("===="+s.substring(i,s.length()));
                                  matcher = pattern.matcher(s.substring(i,s.length()));
-                                 System.out.println(matcher.matches());
                              }
                              else
                                  matcher = pattern.matcher(s);
-                             
+
                              if(matcher.matches()){
                                  StyleText st1 = new StyleText("link");
                                  st1.setContent(matcher.group(2));
@@ -584,27 +577,27 @@ public class PlainVisitor implements MDElementVisitor{
                                  st2.setContent(matcher.group(2));
                                  n.addToken(st1);
                                  n.addToken(st2);
-                                 
+
                                  buffer="";
                                  linkcheck2 = 1;
                                  i = matcher.end(3);
                              }
                              else { buffer += a;}
-                             
+
                          }
                          else
                          {
-                             
+
                              String input_pattern = ".*(\\<)(http:\\/\\/.[^\\<\\>]+)(\\>).*";//pattern
                              String input_string = s;
-                             
+
                              Pattern pattern = Pattern.compile(input_pattern);
                              Matcher matcher;
-                             if(linkcheck2 == 1) 
-                                 matcher = pattern.matcher(s.substring(i,s.length()));  
+                             if(linkcheck2 == 1)
+                                 matcher = pattern.matcher(s.substring(i,s.length()));
                              else
                                  matcher = pattern.matcher(s);
-                             
+
                              if(matcher.matches()){
                                  StyleText st1 = new StyleText("link");
                                  st1.setContent(matcher.group(2));
@@ -615,11 +608,11 @@ public class PlainVisitor implements MDElementVisitor{
                                  buffer="";
                                  linkcheck2 = 1;
                                  i = matcher.end(3);
-                                 
+
                              }else{ buffer += a;}
                          }
                          break;
-                         
+
                      case '_' :
 
 				//buffer+=a;
