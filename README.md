@@ -23,22 +23,22 @@
 
 directory|- bin 
 
-|- doc
+         |- doc
 
-|- lib
+         |- lib
 
-|- report
+         |- report
 
-|- src |- main |- md
+         |- src |- main |- md
 
-|- test |- testData
-|- test
+                |- test |- testData
+         |- test
 
-|- build.xml
+         |- build.xml
 
-|- READ.md
+         |- READ.md
 
-|- Markdown_converter.jar
+         |- Markdown_converter.jar
 
 bin : build된 class
 
