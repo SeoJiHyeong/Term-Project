@@ -29,7 +29,7 @@ public class converter {
 	private static ArrayList<String> mChildList = null;
 	public static void main(String args[]) {
 
-		if(!new_check_grammar(args)) return;
+		if(!new_check_grammar(args)) return ;
 		Document document = new Document();
 		PlainVisitor plainvisitor = new PlainVisitor();
 		HTMLVisitor htmlvisitor = new HTMLVisitor();

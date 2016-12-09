@@ -87,7 +87,7 @@ public class converterTest
     }
     
     @Test
-    public void testMain(){
+    public void testMain1(){
         try{
             converter c = new converter();
             String[] ss = {"./src/test/testData/test.md"};
@@ -100,7 +100,27 @@ public class converterTest
       
         
     }
-    
+    @Test
+    public void testMain2(){
+        try{
+            converter c = new converter();
+            String[] ss = {"./src/test/testData/test4.md"};
+            c.main(ss);
+            BufferedReader br = new BufferedReader(new FileReader("result.html"));
+            assertEquals("<html><p>1</p></html>",br.readLine());
+        }catch(IOException e){
+            System.out.println("File not found");
+        }
+        
+        
+    }
+    @Test
+    public void testMain3(){
+            converter c = new converter();
+            String[] ss = {"./src/test/testData/test4.md sssss"};
+            c.main(ss);
+    }
+
 
 	
 }

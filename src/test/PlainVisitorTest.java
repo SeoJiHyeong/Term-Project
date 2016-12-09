@@ -178,6 +178,15 @@ public class PlainVisitorTest
         nodeList = p.getNode();
         tokenList = nod.getTokenList();
         assertEquals("h",tokenList.get(0).getContent());
+        p = new PlainVisitor();
+        tmp = "h*hhh";
+        nod = new Text();
+        nodeList = new ArrayList<Node>();
+        tokenList = new ArrayList<Token>();
+        p.tokenize(tmp,nod);
+        nodeList = p.getNode();
+        tokenList = nod.getTokenList();
+        assertEquals("h",tokenList.get(0).getContent());
     }
     
   
@@ -834,6 +843,7 @@ public class PlainVisitorTest
         assertEquals(2,nodeList.size());
     }
     
+    
     @Test
     public void testHeader1(){
         Header h = new Header();
@@ -1006,7 +1016,22 @@ public class PlainVisitorTest
         
         
     }
-    
+    @Test
+    public void testHeader12(){
+        Header h = new Header();
+        Text t = new Text();
+        PlainVisitor v = new PlainVisitor();
+        ArrayList<Node> nodeList = new ArrayList<Node>();
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        v.addNode();
+        v.setLine("adsfadsf");
+        v.visit(t);
+        v.setLine("ssss");
+        v.visit(h);
+        nodeList = v.getNode();
+        
+        assertEquals("Text",nodeList.get(1).notifyNode());
+    }
     @Test
     public void testText(){
         Header h = new Header();
