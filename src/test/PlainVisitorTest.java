@@ -1198,4 +1198,51 @@ public class PlainVisitorTest
         assertEquals(1,v.getNode().size());
     }
     
+    @Test
+    public void testCodeCheck1(){
+        PlainVisitor v = new PlainVisitor();
+        String tmp = "'hi";
+        Node n = new Node();
+        v.addNode();
+        v.tokenize(tmp,n);
+        assertEquals(1,v.getNode().size());
+    }
+    
+    @Test
+    public void testCodeCheck2(){
+        PlainVisitor v = new PlainVisitor();
+        String tmp = "aaa'hi'";
+        Node n = new Node();
+        v.addNode();
+        v.tokenize(tmp,n);
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        tokenList = n.getTokenList();
+        
+        assertEquals("aaa",tokenList.get(0).getContent());
+        
+        
+    }
+    
+    @Test
+    public void testCodeCheck3(){
+        PlainVisitor v = new PlainVisitor();
+        String tmp = "aaa'hi";
+        Node n = new Node();
+        v.addNode();
+        v.tokenize(tmp,n);
+        assertEquals(1,v.getNode().size());
+    }
+    
+    @Test
+    public void testCodeCheck4(){
+        PlainVisitor v = new PlainVisitor();
+        String tmp = "'hi'";
+        Node n = new Node();
+        v.addNode();
+        v.tokenize(tmp,n);
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+        tokenList = n.getTokenList();
+        
+        assertEquals("hi",tokenList.get(1).getContent());
+    }
 }

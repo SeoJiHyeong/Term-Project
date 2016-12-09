@@ -79,6 +79,6 @@ public class StyleTextTest
     @Test
     public void testNotice13() {
         StyleText s = new StyleText("/code");
-        assertEquals(s.notifyToken(),"</title>");
+        assertEquals(s.notifyToken(),"</code>");
     }
 }

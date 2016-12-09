@@ -274,44 +274,47 @@ public class PlainVisitor implements MDElementVisitor{
         int imcheck = 0;
         int linkcheck1 = 0;
         int linkcheck2 = 0;
-int codeCheck=0;
+        int codeCheck=0;
 
 		    for(int i=0;i<s.length();i++){
 		        char a = s.charAt(i);
 		         switch(a) {
-		        case 8216:
-		        	codeCheck=1;
-					if(!buffer.isEmpty())
-					{
-						PlainText pt = new PlainText();
-						pt.content=buffer;
-						//System.out.println(buffer);
-						n.addToken(pt);
-						buffer="";
-						buffer+=a;
-					}
-					else
-						buffer+=a;
-					break;
-		        case 8217:
-		     		if(codeCheck==1) {
-		     			System.out.println("code check visited");
-						StyleText st = new StyleText("code");
-						st.content="\'";
-						n.addToken(st);
-
-						PlainText pt = new PlainText();
-						pt.content=buffer.substring(1, buffer.length());
-						n.addToken(pt);
-
-
-						StyleText st2 = new StyleText("/code");
-						n.addContent("\'");
-						n.addToken(st2);
-						buffer="";
-						codeCheck=0;
-						break;
-					}
+                     case 39 :
+                         System.out.println("code check");
+                         if(codeCheck==1) {
+                             System.out.println("code check visited");
+                             StyleText st = new StyleText("code");
+                             st.content="\'";
+                             n.addToken(st);
+                             
+                             PlainText pt = new PlainText();
+                             pt.content=buffer.substring(1, buffer.length());
+                             n.addToken(pt);
+                             
+                             
+                             StyleText st2 = new StyleText("/code");
+                             n.addContent("\'");
+                             n.addToken(st2);
+                             buffer="";
+                             codeCheck=0;
+                             break;
+                         }// *hihi*
+                         else {
+                             System.out.println("1");
+                             codeCheck=1;
+                             if(!buffer.isEmpty())
+                             {
+                                 PlainText pt = new PlainText();
+                                 pt.content=buffer;
+                                 //System.out.println(buffer);
+                                 n.addToken(pt);
+                                 buffer="";
+                                 buffer+=a;
+                             }
+                             else
+                                 buffer+=a;
+                         }
+                         break;
 		         case '\\':
 		 			if(!buffer.isEmpty())
 					{
