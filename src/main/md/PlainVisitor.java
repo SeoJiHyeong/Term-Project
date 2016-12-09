@@ -543,6 +543,8 @@ public class PlainVisitor implements MDElementVisitor{
 
 				//buffer+=a;
 				if(uTotal==1) {
+					if(i+1<s.length()&&s.charAt(i+1)!=‘_’)
+						aTotal=0;
 					buffer+=a;
 					break;
 				}
@@ -649,6 +651,8 @@ public class PlainVisitor implements MDElementVisitor{
 
 				//buffer+=a;
 				if(aTotal==1) {
+						if(i+1<s.length()&&s.charAt(i+1)!='*')
+						aTotal=0;
 					buffer+=a;
 					break;
 				}
