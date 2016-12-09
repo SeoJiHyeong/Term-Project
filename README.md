@@ -66,37 +66,57 @@ If not mentioned above or there is no such file, error is occurred.
 [Folder]
 
 directory|- bin 
+
          |- doc
+
          |- lib
+
          |- report
+
          |- src |- main |- md
+
                 |- test |- testData
          |- test
+
          |- build.xml
+
          |- READ.md
+
          |- Markdown_converter.jar
 
 bin : build된 class
+
 doc : javadoc
+
 lib : external library
+
 report : jacoco report
+
 src/main : original java file
+
 src/test : testcase java file
+
 test : testcase classes
+
 testData : test에 필요한 test file
+
 
 [BUILD]
 
 1. Default build
+
    build.xml이 있는 디렉터리에서 ant 명령어 입력한다. 그러면 jar 파일이 만들어 지는데 이 파일이 만들어질 동안 junit test가 이루어진다. 그리고 이 test가 이루어질동안 jacoco도 같이 이루어진다.
 
 2. build 초기화.
+
    ant clean
 
 3. Test (coverage test는 이루어 지지 않는다.)
+
    ant test
 
 4. coverage 검사 (test도 같이 이루어 진다.)
+
    ant coverage-report
 
 [JACOCO]
