@@ -83,11 +83,11 @@ public class converter {
            //     Jtidy.check(string);
                 
                 jtidy_check(string);
-                System.out.println("====================jtidy check ok"); 
+            
                 FileWriter fw = new FileWriter(output);
 
             for(int i=0;i<html.size();i++){
-                System.out.println(html.get(i));
+                
                 fw.write(html.get(i));
             }
             fw.close();
