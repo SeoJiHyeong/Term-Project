@@ -32,6 +32,7 @@ directory|- bin
          |- src |- main |- md
 
                 |- test |- testData
+
          |- test
 
          |- build.xml
