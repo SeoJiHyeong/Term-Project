@@ -32,7 +32,7 @@ public class converter {
 		if(!new_check_grammar(args)) return ;
 		Document document = new Document();
 		PlainVisitor plainvisitor = new PlainVisitor();
-		HTMLVisitor htmlvisitor = new HTMLVisitor();
+		FancyVisitor fancyvisitor = new FancyVisitor();
 		plainvisitor.addNode();
 
         BufferedReader br;
@@ -55,17 +55,17 @@ public class converter {
             br.close();
 
 
-            htmlvisitor.setNodelist(plainvisitor.getNode());
+            fancyvisitor.setNodelist(plainvisitor.getNode());
 
 
             Document dd = new Document();
 
             dd.addDocument("<html>");
-            for(int i=1;i<htmlvisitor.getNodeIndex();i++){
-                htmlvisitor.setLine("");
-                htmlvisitor.setSequence(i);
-                htmlvisitor.setTempNode();
-                dd.accept(htmlvisitor);
+            for(int i=1;i<fancyvisitor.getNodeIndex();i++){
+                fancyvisitor.setLine("");
+                fancyvisitor.setSequence(i);
+                fancyvisitor.setTempNode();
+                dd.accept(fancyvisitor);
             }
             dd.addDocument("</html>");
 

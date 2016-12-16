@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Document implements MDElement{
 
 	ArrayList<String> document = new ArrayList<String>();
-
+	Font font = new Font();
    	Header header = new Header();
     ItemList ilist = new ItemList();
     OrderedList olist = new OrderedList();
@@ -21,7 +21,8 @@ public class Document implements MDElement{
 
     }
     public void accept(MDElementVisitor v){
-    	header.accept(v);
+    	//header.accept(v);
+    	font.accept(v);
     	LF.accept(v);
     	HR.accept(v);
     	ilist.accept(v);

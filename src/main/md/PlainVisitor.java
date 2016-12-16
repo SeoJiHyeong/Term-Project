@@ -51,10 +51,7 @@ public class PlainVisitor implements MDElementVisitor{
 		 }
 	 }
 
-	public void visit(Header n){
-
-
-
+	public void visit(Font n){
 		String forToken = "";
 		int count=0;
 		int position = 0;
@@ -70,7 +67,7 @@ public class PlainVisitor implements MDElementVisitor{
 				}
 			}
 	      if(count!=0 && line.charAt(position)==32){
-         Header node = new Header();
+         Font node = new Font();
          node.htype=count;
          int j=0;
          for(int i=line.length()-1;i>position;i--) { //test ## hi ##, ## hi ######, ## hi##########
@@ -104,7 +101,7 @@ public class PlainVisitor implements MDElementVisitor{
 				}
 
 				if(isHeader){
-						Header node = new Header();
+						Font node = new Font();
 						if(line.charAt(0)==61)
 						node.htype=1;
 						else
@@ -118,11 +115,81 @@ public class PlainVisitor implements MDElementVisitor{
 						nodeList.remove(nodeList.size()-1);				//remove and add
 						nodeList.add(node);
 						pass=1;
-
 				}
 				else;
 			}
 		}
+	}
+
+	public void visit(Header n){
+			String forToken = "";
+			int count=0;
+			int position = 0;
+			Node temp = nodeList.get(nodeList.size()-1);
+			if(line.length()>0){
+				for(int i=0;i<line.length();i++) {
+					char a=line.charAt(i);
+					if(i<6 && a=='#')
+						count++;
+					else {
+						position=i;
+						break;
+					}
+				}
+		      if(count!=0 && line.charAt(position)==32){
+	         Header node = new Header();
+	         node.htype=count;
+	         int j=0;
+	         for(int i=line.length()-1;i>position;i--) { //test ## hi ##, ## hi ######, ## hi##########
+	        	if(line.charAt(i)=='#')
+	        		j++;
+	        	else
+	        		break;
+	         }
+	         if(j==0)
+	         {
+	         forToken=line.substring(position+1);
+	         }
+	         else if(line.charAt(line.length()-j-1)==' ')
+	        	 forToken=line.substring(position+1,line.length()-j-1);
+	         else
+	        	 forToken=line.substring(position+1);
+	         tokenize(forToken,node);
+
+	         nodeList.add(node);
+	         pass=1;
+	      }
+				//make a case that 2 lines header
+				else if(temp.notifyNode().equals("Text")&&(line.charAt(0)==45||line.charAt(0)==61)){
+					boolean isHeader = true;
+					for(int i=1;i<line.length();i++){
+						if((line.charAt(i)==line.charAt(i-1)));
+						else {
+							isHeader = false;
+							break;
+						}
+					}
+
+					if(isHeader){
+							Header node = new Header();
+							if(line.charAt(0)==61)
+							node.htype=1;
+							else
+							node.htype=2;
+
+							ArrayList<Token> tokenList = temp.getTokenList();
+							for(int i=0;i<temp.getTokenListSize();i++){
+								node.addToken(tokenList.get(i));
+							}
+							//have to add previus node's plain text and h1
+							nodeList.remove(nodeList.size()-1);				//remove and add
+							nodeList.add(node);
+							pass=1;
+
+					}
+					else;
+				}
+			}
 	}
 	public void visit(ItemList n){
 

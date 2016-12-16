@@ -1,8 +1,8 @@
 package md;
 public interface MDElementVisitor {
 	void visit(Document v);
-
-	void visit(Header v);
+	void visit(Font v);
+	//void visit(Header v);
 	void visit(ItemList v);
 	void visit(OrderedList v);
 	void visit(HorizontalRule v);

@@ -43,6 +43,10 @@ public class HTMLVisitor implements MDElementVisitor {
 		}
 	 }
 
+	public void visit(Font n){
+
+	}
+
 	 public void visit(ItemList n){
 		int previousLevel = nodeList.get(sequence-1).listLevel;
 		//int nextLevel = nodeList.get(sequence+1).listLevel;
@@ -213,7 +217,7 @@ public class HTMLVisitor implements MDElementVisitor {
 				else if(t.notifyToken().equals("<code>"))
 					t.setContent(t.notifyToken());
 				else if(t.notifyToken().equals("</code>"))
-					t.setContent(t.notifyToken());		
+					t.setContent(t.notifyToken());
 				else;
 
 
